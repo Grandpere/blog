@@ -29,8 +29,7 @@ class Tag
      *      min = 3,
      *      max = 255,
      *      minMessage = "Your title must be at least {{ limit }} characters long",
-     *      maxMessage = "Your title cannot be longer than {{ limit }} characters",
-     *      allowEmptyString = false
+     *      maxMessage = "Your title cannot be longer than {{ limit }} characters"
      * )
      */
     private $title;
