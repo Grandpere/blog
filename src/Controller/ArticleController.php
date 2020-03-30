@@ -21,10 +21,6 @@ class ArticleController extends AbstractController
 {
     /**
      * @Route("/", name="read", methods={"GET"})
-     *
-     * @param ArticleRepository $articleRepository
-     * @param SerializerInterface $serializer
-     * @return void
      */
     public function read(ArticleRepository $articleRepository, SerializerInterface $serializer)
     {
@@ -35,10 +31,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="readOne", methods={"GET"})
-     *
-     * @param ArticleRepository $articleRepository
-     * @return void
+     * @Route("/{id}", name="readOne", methods={"GET"}, requirements = {"id"="\d+"})
      */
     public function readOne($id, ArticleRepository $articleRepository, SerializerInterface $serializer)
     {
@@ -57,10 +50,6 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/", name="create", methods={"POST"})
-     *
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @return void
      */
     public function create(Request $request, SerializerInterface $serializer)
     {
@@ -97,12 +86,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update", methods={"PUT", "PATCH"})
-     *
-     * @param int $id
-     * @param ArticleRepository $articleRepository
-     * @param Request $request
-     * @return void
+     * @Route("/{id}", name="update", methods={"PUT", "PATCH"}, requirements = {"id"="\d+"})
      */
     public function update($id, ArticleRepository $articleRepository, Request $request)
     {
@@ -140,11 +124,7 @@ class ArticleController extends AbstractController
     }
 
         /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
-     *
-     * @param App\Entity\Article $article
-     * @param SerializerInterface $serializer
-     * @return void
+     * @Route("/{id}", name="delete", methods={"DELETE"}, requirements = {"id"="\d+"})
      */
     public function delete(Article $article = null, SerializerInterface $serializer)
     {
@@ -163,11 +143,4 @@ class ArticleController extends AbstractController
             'message' => 'Article supprimé'
         ], $status = 200);
     }
-
-    // https://www.restapitutorial.com/lessons/httpmethods.html
-    // POST => create
-    // GET => read
-    // PUT => update/replace
-    // PATCH => update/modify
-    // DELETE => delete
 }

@@ -20,10 +20,6 @@ class TagController extends AbstractController
 {
     /**
      * @Route("/", name="read", methods={"GET"})
-     *
-     * @param TagRepository $tagRepository
-     * @param SerializerInterface $serializer
-     * @return void
      */
     public function read(TagRepository $tagRepository, SerializerInterface $serializer)
     {
@@ -34,12 +30,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="readOne", methods={"GET"})
-     *
-     * @param int $id
-     * @param TagRepository $tagRepository
-     * @param SerializerInterface $serializer
-     * @return void
+     * @Route("/{id}", name="readOne", methods={"GET"}, requirements = {"id"="\d+"})
      */
     public function readOne($id, TagRepository $tagRepository, SerializerInterface $serializer)
     {
@@ -58,13 +49,9 @@ class TagController extends AbstractController
 
     /**
      * @Route("/", name="create", methods={"POST"})
-     *
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @return void
      */
     public function create(Request $request)
-    {
+    {    
         // TODO: validations des informations (comme injections de script, etc...)    
         $content = $request->getContent(); 
         $data = json_decode($content, true);
@@ -98,12 +85,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update", methods={"PUT", "PATCH"})
-     *
-     * @param int $id
-     * @param TagRepository $tagRepository
-     * @param Request $request
-     * @return void
+     * @Route("/{id}", name="update", methods={"PUT", "PATCH"}, requirements = {"id"="\d+"})
      */
     public function update($id, TagRepository $tagRepository, Request $request)
     {
@@ -136,16 +118,10 @@ class TagController extends AbstractController
             'status' => 400,
             'message' => (string) $form->getErrors(true, false)
         ], $status = 400);
-
-        // 204 No Content
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
-     *
-     * @param App\Entity\Tag $tag
-     * @param SerializerInterface $serializer
-     * @return void
+     * @Route("/{id}", name="delete", methods={"DELETE"}, requirements = {"id"="\d+"})
      */
     public function delete(Tag $tag = null, SerializerInterface $serializer)
     {
