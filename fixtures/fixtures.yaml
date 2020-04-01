@@ -1,3 +1,8 @@
+App\Entity\User:
+    User_1:
+        email: 'lorenzo@gmail.com'
+        password: 'lorenzo'
+
 App\Entity\Tag:
     Tag_{php, symfony, javascript, mysql, postgresql, twig, react, nodejs, angular, vuejs, html, css}:
         title (unique): '<current()>'
