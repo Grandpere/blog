@@ -17,13 +17,13 @@ class Article
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"article_read", "article_readOne"})
+     * @Groups({"article_read", "article_readOne", "tag_read", "tag_readOne"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"article_read", "article_readOne"})
+     * @Groups({"article_read", "article_readOne", "tag_read", "tag_readOne"})
      * @Assert\NotBlank
      * @Assert\Length(
      *      min = 3,
