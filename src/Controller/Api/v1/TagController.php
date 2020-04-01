@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api\v1;
 
+use App\Entity\Tag;
+use App\Form\TagType;
 use App\Utils\Slugger;
-use App\Entity\Article;
-use App\Utils\Excerpter;
-use App\Form\ArticleType;
-use App\Repository\ArticleRepository;
+use App\Repository\TagRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,64 +14,64 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/api/articles", name="api_articles_")
+ * @Route("/api/tags", name="api_tags_")
  */
-class ArticleController extends AbstractController
+class TagController extends AbstractController
 {
     /**
      * @Route("/", name="read", methods={"GET"})
      */
-    public function read(ArticleRepository $articleRepository, SerializerInterface $serializer)
+    public function read(TagRepository $tagRepository, SerializerInterface $serializer)
     {
-        $articles = $articleRepository->findByIsActive(1);
-        $articlesJson = $serializer->serialize($articles, 'json', ['groups' => 'article_read']);
+        $tags = $tagRepository->findByIsActive(1);
+        $tagsJson = $serializer->serialize($tags, 'json', ['groups' => 'tag_read']);
 
-        return JsonResponse::fromJsonString($articlesJson);
+        return JsonResponse::fromJsonString($tagsJson);
     }
 
     /**
      * @Route("/{id}", name="readOne", methods={"GET"}, requirements = {"id"="\d+"})
      */
-    public function readOne($id, ArticleRepository $articleRepository, SerializerInterface $serializer)
+    public function readOne($id, TagRepository $tagRepository, SerializerInterface $serializer)
     {
-        $article = $articleRepository->find($id);
-        if(!$article) {
+        $tag = $tagRepository->find($id);
+        if(!$tag) {
             return $this->json($data = [
                 'status' => 404,
-                'message' => 'Article non trouvé'
+                'message' => 'Tag non trouvé'
             ], $status = 404);
         }
 
-        $articleJson = $serializer->serialize($article, 'json', ['groups' => 'article_readOne']);
+        $tagJson = $serializer->serialize($tag, 'json', ['groups' => 'tag_readOne']);
 
-        return JsonResponse::fromJsonString($articleJson);
+        return JsonResponse::fromJsonString($tagJson);
     }
 
     /**
      * @Route("/", name="create", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer)
-    {
-        // TODO: gestion des erreurs et validations des informations
-        $content = $request->getContent();
-        $data = json_decode($content, true); // 2nd paramètre à true pour avoir un tableau associatif
-        //$article = $serializer->deserialize($content, 'App\Entity\Article', 'json');
-        $article = new Article();
-        $form = $this->createForm(ArticleType::class, $article);
-        $form->submit($data);
+    public function create(Request $request)
+    {    
+        // TODO: validations des informations (comme injections de script, etc...)    
+        $content = $request->getContent(); 
+        $data = json_decode($content, true);
 
+        $tag = new Tag();
+        $form = $this->createForm(TagType::class, $tag);
+        $form->submit($data);
+        
         if($form->isSubmitted() && $form->isValid()) {
-            $article->setSlug(Slugger::slugify($article->getTitle()));
-            $article->setExcerpt(Excerpter::excerptify($article->getContent()));
+            $tag->setSlug(Slugger::slugify($tag->getTitle()));
             $em = $this->getDoctrine()->getManager();
-            $em->persist($article);
+            $em->persist($tag);
             $em->flush();
 
             $responseData = [
                 'status' => 201,
-                'message' => 'Article crée',
-                'link' => $this->generateUrl('api_articles_readOne', array('id' => $article->getId()), UrlGeneratorInterface::ABSOLUTE_URL)
+                'message' => 'Tag crée',
+                'link' => $this->generateUrl('api_tags_readOne', array('id' => $tag->getId()), UrlGeneratorInterface::ABSOLUTE_URL)
             ];
+
             $response = new JsonResponse($responseData);
             $response->headers->set('Location', $responseData['link']);
             $response->setStatusCode($responseData['status'], $responseData['message']);
@@ -88,25 +87,25 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}", name="update", methods={"PUT", "PATCH"}, requirements = {"id"="\d+"})
      */
-    public function update($id, ArticleRepository $articleRepository, Request $request)
+    public function update($id, TagRepository $tagRepository, Request $request)
     {
-        $article = $articleRepository->find($id);
-        if(!$article) {
+        $tag = $tagRepository->find($id);
+        if(!$tag) {
             return $this->json($data = [
                 'status' => 404,
-                'message' => 'Article non trouvé'
+                'message' => 'Tag non trouvé'
             ], $status = 404);
         }
         $content = $request->getContent(); 
         $data = json_decode($content, true);
 
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(TagType::class, $tag);
         $clearMissing=  $request->getMethod() != 'PATCH'; //if patch, $clearMissing = false else $clearMissing = true
         $form->submit($data, $clearMissing);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $article->setSlug(Slugger::slugify($article->getTitle()));
-            $article->setUpdatedAt(new \Datetime());
+            $tag->setSlug(Slugger::slugify($tag->getTitle()));
+            $tag->setUpdatedAt(new \Datetime());
             $em = $this->getDoctrine()->getManager();
             $em->flush();
     
@@ -119,28 +118,26 @@ class ArticleController extends AbstractController
             'status' => 400,
             'message' => (string) $form->getErrors(true, false)
         ], $status = 400);
-
-        // 204 No Content
     }
 
-        /**
+    /**
      * @Route("/{id}", name="delete", methods={"DELETE"}, requirements = {"id"="\d+"})
      */
-    public function delete(Article $article = null, SerializerInterface $serializer)
+    public function delete(Tag $tag = null, SerializerInterface $serializer)
     {
-        if(!$article) {
+        if(!$tag) {
             return $this->json($data = [
                 'status' => 404,
-                'message' => 'Article non trouvé'
+                'message' => 'Tag non trouvé'
             ], $status = 404);
         }
         $em = $this->getDoctrine()->getManager();
-        $em->remove($article);
+        $em->remove($tag);
         $em->flush();
 
         return $this->json($data = [
             'status' => 200,
-            'message' => 'Article supprimé'
+            'message' => 'Tag supprimé'
         ], $status = 200);
     }
 }
