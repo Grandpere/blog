@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArticleController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ '/var/www/html/blog-api/src/Controller/Web/ArticleController.php'|file_link(0) }}">src/Controller/Web/ArticleController.php</a></code></li>
+        <li>Your template at <code><a href="{{ '/var/www/html/blog-api/templates/web/article/index.html.twig'|file_link(0) }}">templates/web/article/index.html.twig</a></code></li>
+    </ul>
+</div>
+
+{% for article in articles %}
+<article>
+    {% if article.coverImage is defined and article.coverImage is not null %}
+    <img src="{{ article.coverImage }}" alt="Image de l'article">
+    {% endif %}
+    <h2>{{ article.title }}</h2>
+    <div class="content">{{ article.excerpt }}</div>
+    <a href="">Lire la suite</a>
+</article>
+{% endfor %}
+{% endblock %}

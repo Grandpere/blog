@@ -12,7 +12,7 @@ App\Entity\Article:
         slug (unique): 'slug-<current()>'
         content: '<realText(500)>'
         excerpt: '<realText(100)>'
-        coverImage: 'null'
+        coverImage: null
         createdAt: '<dateTimeBetween("-200 days", "now")>'
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         isActive:  '<boolean(75)>'
