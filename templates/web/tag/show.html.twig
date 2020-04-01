@@ -3,12 +3,8 @@
 {% block title %}Hello tagController!{% endblock %}
 
 {% block body %}
-{% for tag in tags %}
 <article>
     <h2>{{ tag.title }}</h2>
-    <a href="{{ path('web_tags_show', {'slug': tag.slug}) }}">Lire la suite</a>
+    <a href="{{ path('web_tags_index') }}">Retour à la liste</a>
 </article>
-{% else %}
-    No records found
-{% endfor %}
 {% endblock %}

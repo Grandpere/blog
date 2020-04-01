@@ -3,16 +3,12 @@
 {% block title %}Hello ArticleController!{% endblock %}
 
 {% block body %}
-{% for article in articles %}
 <article>
     {% if article.coverImage is defined and article.coverImage is not null %}
     <img src="{{ article.coverImage }}" alt="Image de l'article">
     {% endif %}
     <h2>{{ article.title }}</h2>
-    <div class="content">{{ article.excerpt }}</div>
-    <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Lire la suite</a>
+    <div class="content">{{ article.content }}</div>
+    <a href="{{ path('web_articles_index') }}">Revenir à la liste</a>
 </article>
-{% else %}
-    No records found
-{% endfor %}
 {% endblock %}
