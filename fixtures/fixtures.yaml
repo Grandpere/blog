@@ -10,6 +10,14 @@ App\Entity\User:
         email (unique): 'user<current()>\@user.com'
         password: 'user<current()>'
 
+App\Entity\ApiToken:
+    ApiToken_1:
+        __construct:
+            user: '@User_1'
+    ApiToken_{2..5}:
+        __construct:
+            user: '@User_*'
+
 App\Entity\Tag:
     Tag_{php, symfony, javascript, mysql, postgresql, twig, react, nodejs, angular, vuejs, html, css}:
         title (unique): '<current()>'
