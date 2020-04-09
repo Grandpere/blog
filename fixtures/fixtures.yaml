@@ -1,11 +1,14 @@
 App\Entity\User:
     User_1:
-        email: 'lorenzo@gmail.com'
+        email: 'lorenzo@admin.com'
         password: 'lorenzo'
         roles: '[ROLE_ADMIN]'
     User_2:
-        email: 'user@gmail.com'
-        password: 'user'
+        email: 'lorenzo@user.com'
+        password: 'lorenzo'
+    User_{3..10}:
+        email (unique): 'user<current()>\@user.com'
+        password: 'user<current()>'
 
 App\Entity\Tag:
     Tag_{php, symfony, javascript, mysql, postgresql, twig, react, nodejs, angular, vuejs, html, css}:
