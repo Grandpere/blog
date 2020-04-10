@@ -2,13 +2,19 @@ App\Entity\User:
     User_1:
         email: 'lorenzo@admin.com'
         password: 'lorenzo'
+        firstname: 'Lorenzo'
+        lastname: 'Admin'
         roles: '[ROLE_ADMIN]'
     User_2:
         email: 'lorenzo@user.com'
         password: 'lorenzo'
+        firstname: 'Lorenzo'
+        lastname: 'User'
     User_{3..10}:
         email (unique): 'user<current()>\@user.com'
         password: 'user<current()>'
+        firstname: '<firstname()>'
+        lastname: '<lastname()>'
 
 App\Entity\ApiToken:
     ApiToken_1:
