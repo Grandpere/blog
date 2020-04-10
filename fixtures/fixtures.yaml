@@ -37,3 +37,4 @@ App\Entity\Article:
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         isActive:  '<boolean(75)>'
         tags: '<numberBetween(1,3)>x @Tag_*'
+        author: '@User_<numberBetween(2,10)>'
