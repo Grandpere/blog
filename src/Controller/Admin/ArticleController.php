@@ -35,12 +35,17 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit")
+     * @IsGranted("MANAGE", subject="article")
      */
     public function edit(Article $article)
     {
-        if($article->getAuthor() != $this->getUser() && !$this->isGranted('ROLE_ADMIN_ARTICLE')) {
-            throw $this->createAccessDeniedException('No access!');
-        }
-        return $this->json(['ok']);
+        // if Article $article are argument, IsGranted annotation with subject don't works
+        // this only works because we used the feature that automatically queries for the Article object and passes it as an argument
+        // Without this use : $this->denyAccessUnlessGranted('MANAGE', $article);
+        // $this->denyAccessUnlessGranted('MANAGE', $article);
+
+        dd($article);
+
+        //return $this->json(['ok']);
     }
 }
