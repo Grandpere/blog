@@ -49,18 +49,21 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
             throw new CustomUserMessageAuthenticationException('Invalid API Token');
         }
 
+        if($token->isExpired()) {
+            throw new CustomUserMessageAuthenticationException('Expired Token');
+        }
+
         return $token->getUser();
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        // todo
-        dd('check credentials');
+        // no password in api
+        return true;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        // todo
         return new JsonResponse([
            'message' => $exception->getMessageKey(),
         ], 401);
@@ -68,16 +71,18 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // todo
+        // do nothing in API so allow the authentication to continue
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        // todo
+        // never called because entry_point are LoginFormAuthenticator not this authenticator
+        throw new \Exception('Not used: entry_point from other authentication is used');
     }
 
     public function supportsRememberMe()
     {
-        // todo
+        // no remember me in API because it's stateless
+        return false;
     }
 }
