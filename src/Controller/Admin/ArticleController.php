@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use App\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +31,11 @@ class ArticleController extends AbstractController
      */
     public function new()
     {
+        $form = $this->createForm(ArticleType::class);
 
+        return $this->render('admin/article/new.html.twig', [
+            'articleForm' => $form->createView(),
+        ]);
     }
 
     /**
