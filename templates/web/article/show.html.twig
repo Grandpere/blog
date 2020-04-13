@@ -9,6 +9,14 @@
     {% endif %}
     <h2>{{ article.title }}</h2>
     <div class="content">{{ article.content }}</div>
+    <span> {{ article.author.firstname ~ ' ' ~ article.author.lastname }} </span>
+    <div class="tags">
+        {% for tag in article.tags %}
+            <small>
+                <span class="badge badge-light">{{ tag.title }}</span>
+            </small>
+        {% endfor %}
+    </div>
     <a href="{{ path('web_articles_index') }}">Revenir à la liste</a>
 </article>
 {% endblock %}

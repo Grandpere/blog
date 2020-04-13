@@ -22,6 +22,8 @@ class ArticleType extends AbstractType
                 'choice_label' => 'title',
                 'expanded' => true,
             ])
+            // TODO: voir si bug dans API avec champ tag ajouté
+            // TODO BUG: lors de l'ajout via API pas d'author_id
         ;
     }
 
