@@ -11,6 +11,13 @@
     <h2>{{ article.title }}</h2>
     <div class="content">{{ article.excerpt }}</div>
     <span> {{ article.author.firstname ~ ' ' ~ article.author.lastname }} </span>
+    <div class="tags">
+        {% for tag in article.tags %}
+            <small>
+                <span class="badge badge-light">{{ tag.title }}</span>
+            </small>
+        {% endfor %}
+    </div>
     <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Lire la suite</a>
 </article>
 {% else %}
