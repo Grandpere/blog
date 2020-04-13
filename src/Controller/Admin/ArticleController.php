@@ -3,8 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
-use App\Form\Article1Type;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Utils\Excerpter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,11 +34,13 @@ class ArticleController extends AbstractController
     public function new(Request $request): Response
     {
         $article = new Article();
-        $form = $this->createForm(Article1Type::class, $article);
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $article->setExcerpt(Excerpter::excerptify($article->getContent()));
+            $article->setAuthor($this->getUser());
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -71,7 +74,7 @@ class ArticleController extends AbstractController
         // Without this use : $this->denyAccessUnlessGranted('MANAGE', $article);
         // $this->denyAccessUnlessGranted('MANAGE', $article);
 
-        $form = $this->createForm(Article1Type::class, $article);
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
