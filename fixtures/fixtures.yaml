@@ -44,3 +44,10 @@ App\Entity\Article:
         isActive:  '<boolean(75)>'
         tags: '<numberBetween(1,3)>x @Tag_*'
         author: '@User_<numberBetween(2,10)>'
+
+App\Entity\Comment:
+    Comment_{1..200}:
+        content: '<realText(100)>'
+        isActive:  '<boolean(75)>'
+        author: '@User_<numberBetween(2,10)>'
+        article: '@Article_<numberBetween(1,50)>'
