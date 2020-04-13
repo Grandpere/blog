@@ -100,6 +100,7 @@ class Article
     {
         $this->tags = new ArrayCollection();
         $this->createdAt = new \Datetime();
+        $this->isActive = false;
         $this->comments = new ArrayCollection();
     }
 

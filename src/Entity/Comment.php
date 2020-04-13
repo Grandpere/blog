@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -18,6 +19,13 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 255,
+     *      minMessage = "Your title must be at least {{ limit }} characters long",
+     *      maxMessage = "Your title cannot be longer than {{ limit }} characters"
+     * )
      */
     private $content;
 
@@ -47,6 +55,12 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
+
+    public function __construct()
+    {
+        $this->createdAt = new \Datetime();
+        $this->isActive = false;
+    }
 
     public function getId(): ?int
     {
