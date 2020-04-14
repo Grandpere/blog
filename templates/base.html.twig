@@ -26,6 +26,19 @@
                 {% endif %}
             </ul>
         </nav>
+        <nav class="navbar navbar-expand-lg">
+            <ul class="navbar-nav">
+                <li><a href="{{ path('web_articles_index') }}">Articles</a></li>
+                <li><a href="{{ path('web_tags_index') }}">Catégories</a></li>
+            </ul>
+        </nav>
+        <nav class="navbar navbar-expand-lg">
+            <ul class="navbar-nav">
+                <li><a href="{{ path('admin_article_index') }}">Articles</a></li>
+                <li><a href="{{ path('admin_comment_index') }}">Commentaires</a></li>
+                <li><a href="{{ path('admin_tag_index') }}">Catégories</a></li>
+            </ul>
+        </nav>
 
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}

@@ -17,7 +17,7 @@ class ArticleController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository)
     {
-        $articles = $articleRepository->findAll();
+        $articles = $articleRepository->findAllOrderedByNewest();
         return $this->render('web/article/index.html.twig', [
             'articles' => $articles,
         ]);

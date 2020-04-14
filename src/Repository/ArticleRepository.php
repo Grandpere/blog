@@ -47,4 +47,18 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllOrderedByNewest()
+    {
+        $query = $this->createQueryBuilder('a')
+            ->innerJoin('a.author', 'u')
+            ->addSelect('u')
+            ->innerJoin('a.tags', 't')
+            ->addSelect('t')
+            ->orderBy('a.createdAt', 'DESC')
+            ;
+
+        return $query->getQuery()->getResult();
+        // TODO : criteria with isActive for reusing this or andWhere
+    }
 }
