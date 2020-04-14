@@ -1,22 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}
+    {{ article.title }}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-<article>
-    {% if article.coverImage is defined and article.coverImage is not null %}
-    <img src="{{ article.coverImage }}" alt="Image de l'article">
-    {% endif %}
-    <h2>{{ article.title }}</h2>
-    <div class="content">{{ article.content }}</div>
-    <span> {{ article.author.firstname ~ ' ' ~ article.author.lastname }} </span>
-    <div class="tags">
-        {% for tag in article.tags %}
-            <small>
-                <span class="badge badge-light">{{ tag.title }}</span>
-            </small>
-        {% endfor %}
+    {% include 'web/article/article_template.html.twig' %}
+    <a href="">{{ article.comments|length }} comments</a>
+    {#
+    <div class="row">
+    <div class="col-sm-12">
+    <h3><i class="pr-3 fa fa-comment"></i>{{ article.comments|length }} Comments</h3>
+    <hr>
+
+    <div class="row mb-5">
+        <div class="col-sm-12">
+            <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
+            <div class="comment-container d-inline-block pl-3 align-top">
+                <span class="commenter-name">{{ app.user.firstname }}</span>
+                <div class="form-group">
+                    <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
+                </div>
+                <button type="submit" class="btn btn-info">Comment</button>
+            </div>
+        </div>
     </div>
-    <a href="{{ path('web_articles_index') }}">Revenir à la liste</a>
-</article>
+    {% for comment in article.comments %}
+        <div class="row">
+            <div class="col-sm-12">
+                <img class="comment-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">
+                <div class="comment-container d-inline-block pl-3 align-top">
+                    <span class="commenter-name">{{ comment.author}}</span>
+                    <small>about {{ comment.createdAt }}</small>
+                    {% if comment.isDeleted %}
+                        <span class="fa fa-close"></span> deleted
+                    {% endif %}
+                    <br>
+                    <span class="comment">{{ comment.content }}.</span>
+                    <p><a href="#">Reply</a></p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    #}
+        </div>
+    </div>
 {% endblock %}
+
+{#
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/article_show.js') }}"></script>
+{% endblock %}
+#}

@@ -1,25 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}
+    Liste des articles
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
     {% for article in articles %}
-    <article>
-        {% if article.coverImage is defined and article.coverImage is not null %}
-        <img src="{{ article.coverImage }}" alt="Image de l'article">
-        {% endif %}
-        <h2>{{ article.title }}</h2>
-        <div class="content">{{ article.excerpt }}</div>
-        <span> {{ article.author.firstname ~ ' ' ~ article.author.lastname }} </span>
-        <div class="tags">
-            {% for tag in article.tags %}
-                <small>
-                    <span class="badge badge-light">{{ tag.title }}</span>
-                </small>
-            {% endfor %}
-        </div>
-        <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Lire la suite</a>
-    </article>
+        {% include 'web/article/article_template.html.twig' %}
     {% else %}
         No records found
     {% endfor %}
