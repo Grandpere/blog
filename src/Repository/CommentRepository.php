@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use http\Exception\InvalidArgumentException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +50,32 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllCommentsByArticleOrderedByNewest($article, $page = 1, $maxResults = 10)
+    {
+        if(!is_numeric($page)) {
+            throw new InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
+        }
+
+        if($page < 1) {
+            throw new NotFoundHttpException('This page doesn\'t exist');
+        }
+
+        if(!is_numeric($maxResults)) {
+            throw new InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
+        }
+
+        $query = $this->createQueryBuilder('c')
+            ->innerJoin('c.article', 'a')
+            ->addSelect('a')
+            ->innerJoin('c.author', 'u')
+            ->addSelect('u')
+            ->andWhere('c.article = :article')
+            ->setParameter('article', $article)
+            ->orderBy('c.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $maxResults)
+            ->setMaxResults($maxResults)
+        ;
+        return new Paginator($query);
+    }
 }

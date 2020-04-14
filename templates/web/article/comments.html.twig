@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Commentaires de l'article {{ article.title }}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Commentaires de l'article "{{ article.title }}"</h1>
+    <div class="row">
+        <div class="col-sm-12">
+            {#<h3><i class="pr-3 fa fa-comment"></i>{{ article.comments|length }} Comments</h3>#}
+            <hr>
+
+            {# form submit comments #}
+            <div class="row mb-5">
+                <div class="col-sm-12">
+                    <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
+                    <div class="comment-container d-inline-block pl-3 align-top">
+                        <span class="commenter-name">{{ app.user.firstname }}</span>
+                        <div class="form-group">
+                            <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info">Comment</button>
+                    </div>
+                </div>
+            </div>
+            {# listing all comments #}
+            {% for comment in comments %}
+                {% include 'web/article/comment_template.html.twig' %}
+            {% else %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="comment-container">
+                            No records found
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% include 'pagination.html.twig' %}
+        </div>
+    </div>
+    <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Revenir à l'article</a>
+{% endblock %}
+
+{#
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/article_show.js') }}"></script>
+{% endblock %}
+#}
+

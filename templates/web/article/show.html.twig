@@ -7,51 +7,5 @@
 
 {% block body %}
     {% include 'web/article/article_template.html.twig' %}
-    <a href="">{{ article.comments|length }} comments</a>
-    {#
-    <div class="row">
-    <div class="col-sm-12">
-    <h3><i class="pr-3 fa fa-comment"></i>{{ article.comments|length }} Comments</h3>
-    <hr>
-
-    <div class="row mb-5">
-        <div class="col-sm-12">
-            <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
-            <div class="comment-container d-inline-block pl-3 align-top">
-                <span class="commenter-name">{{ app.user.firstname }}</span>
-                <div class="form-group">
-                    <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
-                </div>
-                <button type="submit" class="btn btn-info">Comment</button>
-            </div>
-        </div>
-    </div>
-    {% for comment in article.comments %}
-        <div class="row">
-            <div class="col-sm-12">
-                <img class="comment-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">
-                <div class="comment-container d-inline-block pl-3 align-top">
-                    <span class="commenter-name">{{ comment.author}}</span>
-                    <small>about {{ comment.createdAt }}</small>
-                    {% if comment.isDeleted %}
-                        <span class="fa fa-close"></span> deleted
-                    {% endif %}
-                    <br>
-                    <span class="comment">{{ comment.content }}.</span>
-                    <p><a href="#">Reply</a></p>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-    #}
-        </div>
-    </div>
+    <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}">{{ article.comments|length }} comments</a>
 {% endblock %}
-
-{#
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('js/article_show.js') }}"></script>
-{% endblock %}
-#}

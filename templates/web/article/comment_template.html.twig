@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-sm-12">
+        <img class="comment-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">
+        <div class="comment-container d-inline-block pl-3 align-top">
+            <span class="commenter-name">{{ comment.author.firstname }}</span>
+            <small>about {{ comment.createdAt|date("d/m/Y") }}</small>
+            {#
+            {% if comment.isDeleted %}
+                <span class="fa fa-close"></span> deleted
+            {% endif %}
+            #}
+            <br>
+            <span class="comment">{{ comment.content }}.</span>
+            <p><a href="#">Reply</a></p>
+        </div>
+    </div>
+</div>

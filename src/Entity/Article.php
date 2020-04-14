@@ -80,7 +80,7 @@ class Article
     private $isActive;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", fetch="EXTRA_LAZY")
      * @Groups({"article_read", "article_readOne"})
      */
     private $tags;
