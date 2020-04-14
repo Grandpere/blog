@@ -48,6 +48,8 @@ App\Entity\Article:
 App\Entity\Comment:
     Comment_{1..200}:
         content: '<realText(100)>'
+        createdAt: '<dateTimeBetween("-199 days", "now")>'
+        updatedAt: '<dateTimeBetween($createdAt, "now")>'
         isActive:  '<boolean(75)>'
         author: '@User_<numberBetween(2,10)>'
         article: '@Article_<numberBetween(1,50)>'
