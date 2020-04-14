@@ -4,7 +4,12 @@
 
 {% block body %}
 <article>
-    <h2>{{ tag.title }}</h2>
+    <h2>{{ tag.title }} ({{ tag.articles|length }} article(s))</h2>
+    <ul>
+    {% for article in tag.articles %}
+        <li><a href="{{ path('web_articles_show', {'slug': article.slug}) }}">{{ article.title }}</a></li>
+    {% endfor %}
+    </ul>
     <a href="{{ path('web_tags_index') }}">Retour à la liste</a>
 </article>
 {% endblock %}

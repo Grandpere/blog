@@ -61,7 +61,7 @@ class Tag
     private $isActive;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Article", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Article", mappedBy="tags", fetch="EXTRA_LAZY")
      * @Groups({"tag_read", "tag_readOne"})
      */
     private $articles;

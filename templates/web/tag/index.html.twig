@@ -5,7 +5,7 @@
 {% block body %}
 {% for tag in tags %}
 <article>
-    <h2>{{ tag.title }}</h2>
+    <h2>{{ tag.title }} ({{ tag.articles|length }} article(s))</h2>
     <a href="{{ path('web_tags_show', {'slug': tag.slug}) }}">Lire la suite</a>
 </article>
 {% else %}
