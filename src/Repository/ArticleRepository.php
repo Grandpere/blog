@@ -71,12 +71,20 @@ class ArticleRepository extends ServiceEntityRepository
             ->innerJoin('a.tags', 't')
             ->addSelect('t')
             ->orderBy('a.createdAt', 'DESC')
-            ->setFirstResult(($page - 1) * $maxResults)
+        ;
+
+        // TODO : criteria with isActive for reusing this or andWhere
+
+        $paginator = new Paginator($query);
+        $firstResults = ($page - 1) * $maxResults;
+        $query
+            ->setFirstResult($firstResults)
             ->setMaxResults($maxResults)
         ;
-        return new Paginator($query);
+        if (($paginator->count() <= $firstResults) && $page != 1) {
+            throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
+        }
 
-        //return $query->getQuery()->getResult();
-        // TODO : criteria with isActive for reusing this or andWhere
+        return $paginator;
     }
 }
