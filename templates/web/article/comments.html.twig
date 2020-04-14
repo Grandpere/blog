@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Commentaires de l'article {{ article.title }}
+    Commentaires de l'article "{{ article.title }}"
     {{ parent() }}
 {% endblock %}
 
@@ -9,7 +9,7 @@
     <h1>Commentaires de l'article "{{ article.title }}"</h1>
     <div class="row">
         <div class="col-sm-12">
-            {#<h3><i class="pr-3 fa fa-comment"></i>{{ article.comments|length }} Comments</h3>#}
+            <h3><i class="pr-3 fa fa-comment"></i>{{ comments|length }} Comments</h3>
             <hr>
 
             {# form submit comments #}
