@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use http\Exception\InvalidArgumentException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -48,17 +51,32 @@ class ArticleRepository extends ServiceEntityRepository
     }
     */
 
-    public function findAllOrderedByNewest()
+    public function findAllOrderedByNewest($page = 1, $maxResults = 10)
     {
+        if(!is_numeric($page)) {
+            throw new InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
+        }
+
+        if($page < 1) {
+            throw new NotFoundHttpException('This page doesn\'t exist');
+        }
+
+        if(!is_numeric($maxResults)) {
+            throw new InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
+        }
+
         $query = $this->createQueryBuilder('a')
             ->innerJoin('a.author', 'u')
             ->addSelect('u')
             ->innerJoin('a.tags', 't')
             ->addSelect('t')
             ->orderBy('a.createdAt', 'DESC')
-            ;
+            ->setFirstResult(($page - 1) * $maxResults)
+            ->setMaxResults($maxResults)
+        ;
+        return new Paginator($query);
 
-        return $query->getQuery()->getResult();
+        //return $query->getQuery()->getResult();
         // TODO : criteria with isActive for reusing this or andWhere
     }
 }

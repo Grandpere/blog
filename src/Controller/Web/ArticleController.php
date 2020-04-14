@@ -13,13 +13,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("/{page}", name="index", methods={"GET"}, requirements={"page"="\d+"})
      */
-    public function index(ArticleRepository $articleRepository)
+    public function index(ArticleRepository $articleRepository, $page = 1)
     {
-        $articles = $articleRepository->findAllOrderedByNewest();
+        $articles = $articleRepository->findAllOrderedByNewest($page);
+        $pagination = array(
+            'page' => $page,
+            'route' => 'web_articles_index',
+            'pages_count' => ceil(count($articles) / 10), // TODO: mettre ce paramètre dans .ENV
+            'route_params' => array()
+        );
         return $this->render('web/article/index.html.twig', [
             'articles' => $articles,
+            'pagination' => $pagination,
         ]);
     }
 
