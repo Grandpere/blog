@@ -1,0 +1,48 @@
+<article class="post">
+    <header>
+        <div class="title">
+            <h2>
+                <a href="#">{{ article.title }}</a>
+            </h2>
+            <div class="tags">
+                {% for tag in article.tags %}
+                    <small>
+                        <span class="badge badge-light">{{ tag.title }}</span>
+                    </small>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="meta">
+            <p>{{ article.createdAt|date("F d, Y", "Europe/Paris") }}</p>
+            {#<p>{{ article.createdAt|date("d/m/Y") }} à {{ article.createdAt|date("H:i:s") }}</p>#}
+            {% if article.updatedAt is not null %}
+                <p>{{ article.updatedAt|date("F d, Y", "Europe/Paris") }}</p>
+            {% endif %}
+            <a class="author" href="#"><span class="name">{{ article.author.firstname }}</span>
+                <img src="#" alt="avatar de {{ article.author.firstname }}">
+            </a>
+        </div>
+    </header>
+    <div class="article-main">
+        {% if article.coverImage is defined and article.coverImage is not null %}
+        <a class="image featured" href="{{ path('web_articles_show', {'slug': article.slug}) }}">
+            <img src="#" alt="Illustration de l'article {{ article.title }}">
+        </a>
+        {% endif %}
+        {# determine current route for adapting content #}
+        {% if app.request.get('_route') == 'web_articles_index' %}
+            <p>{{ article.excerpt }}</p>
+        {% elseif app.request.get('_route') == 'web_articles_show' %}
+            <p>{{ article.content }}</p>
+        {% endif %}
+    </div>
+    <footer>
+        <ul class="actions">
+            {% if app.request.get('_route') == 'web_articles_index' %}
+            <li>
+                <a class="button large" href="{{ path('web_articles_show', {'slug': article.slug}) }}" class="button">Continue Reading</a>
+            </li>
+            {% endif %}
+        </ul>
+    </footer>
+</article>

@@ -1,0 +1,54 @@
+/* Basic */
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 3rem;
+    background-color: #f4f4f4;
+    line-height: 1;
+}
+
+/* Header */
+#header {
+    background-color: #fff;
+    border-bottom: solid 1px rgba(160, 160, 160, 0.3);
+    display: flex;
+    justify-content: space-between;
+    height: 3rem;
+    line-height: 3rem;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+}
+
+#header ul {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#header ul li {
+    display: inline-block;
+    padding-left: 0;
+}
+
+/* Article */
+.post {
+    background-color: #fff;
+    border: solid 1px rgba(160, 160, 160, 0.3);
+    padding: 3rem 3rem 1rem 3rem;
+    margin: 0 0 3rem 0;
+}
+
+/* Footer */
+#footer {
+    border-top: solid 1px rgba(160, 160, 160, 0.3);
+    margin: 3rem 0 0 0;
+    padding: 3rem 0 0 0;
+}

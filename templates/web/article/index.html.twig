@@ -7,9 +7,9 @@
 
 {% block body %}
     {% for article in articles %}
-        {% include 'web/article/article_template.html.twig' %}
+        {% include 'web/article/_article_template.html.twig' %}
     {% else %}
         No records found
     {% endfor %}
-    {% include 'pagination.html.twig' %}
+    {% include '_pagination.html.twig' %}
 {% endblock %}

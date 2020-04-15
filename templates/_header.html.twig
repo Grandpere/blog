@@ -1,0 +1,14 @@
+<header id="header">
+    {# impersonate div alert #}
+    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+        <div class="alert alert-warning" style="margin-bottom: 0;">
+            You are currently switched to this user.
+            <a href="{{ path('web_articles_index', {'_switch_user': '_exit'}) }}">Exit Impersonation</a>
+        </div>
+    {% endif %}
+
+    <h1>
+        <a href="{{ path('web_articles_index') }}">Lorenzo Marozzo</a>
+    </h1>
+    {% include('_main_nav.html.twig') %}
+</header>

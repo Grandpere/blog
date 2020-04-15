@@ -1,0 +1,27 @@
+<nav class="links d-none d-sm-block">
+    <ul>
+        <li><a href="">CV</a></li>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li><a href="{{ path('web_account_index')}}">{{ app.user.firstname }}</a></li>
+            <li><a href="{{ path('app_logout') }}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}">Login</a></li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="#">Admin</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<nav class="main">
+    <ul>
+        <li class="search">
+            <a class="fas fa-search" href="#search">Search</a>
+            <form id="search" method="get" action="#">
+                <input type="text" name="query" placeholder="Search">
+            </form>
+        </li>
+        <li class="menu">
+            <a class="fas fa-bars" href="#menu">Menu</a>
+        </li>
+    </ul>
+</nav>

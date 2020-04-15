@@ -27,7 +27,7 @@
             </div>
             {# listing all comments #}
             {% for comment in comments %}
-                {% include 'web/article/comment_template.html.twig' %}
+                {% include 'web/article/_comment_template.html.twig' %}
             {% else %}
                 <div class="row">
                     <div class="col-sm-12">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             {% endfor %}
-            {% include 'pagination.html.twig' %}
+            {% include '_pagination.html.twig' %}
         </div>
     </div>
     <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Revenir à l'article</a>
