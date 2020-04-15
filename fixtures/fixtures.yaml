@@ -33,7 +33,7 @@ App\Entity\Tag:
         isActive:  '<boolean(75)>'
 
 App\Entity\Article:
-    Article_{1..50}:
+    Article_{1..20}:
         title: '<realText(100)>'
         slug (unique): 'slug-<current()>'
         content: '<realText(500)>'
@@ -46,10 +46,10 @@ App\Entity\Article:
         author: '@User_<numberBetween(2,10)>'
 
 App\Entity\Comment:
-    Comment_{1..200}:
+    Comment_{1..300}:
         content: '<realText(100)>'
         createdAt: '<dateTimeBetween("-199 days", "now")>'
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         isActive:  '<boolean(75)>'
         author: '@User_<numberBetween(2,10)>'
-        article: '@Article_<numberBetween(1,50)>'
+        article: '@Article_<numberBetween(1,20)>'

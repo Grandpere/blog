@@ -22,7 +22,7 @@ class ArticleController extends AbstractController
         $pagination = array(
             'page' => $page,
             'route' => 'web_articles_index',
-            'pages_count' => ceil(count($articles) / $maxResults),
+            'pages_count' => max(ceil(count($articles) / $maxResults), 1), // max pour éviter d'avoir une page 0 après la page 1 si count = 0
             'route_params' => array()
         );
         return $this->render('web/article/index.html.twig', [
@@ -56,7 +56,7 @@ class ArticleController extends AbstractController
         $pagination = array(
             'page' => $page,
             'route' => 'web_articles_comments',
-            'pages_count' => ceil(count($comments) / $maxResults),
+            'pages_count' => max(ceil(count($comments) / $maxResults), 1), // max pour éviter d'avoir une page 0 après la page 1 si count = 0
             'route_params' => array(
                 'slug' => $article->getSlug(),
             )
