@@ -15,9 +15,9 @@
             {# form submit comments #}
             <div class="row mb-5">
                 <div class="col-sm-12">
-                    <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
+                    <h3>Laissez un commentaire</h3>
+                    <p><span>Votre adresse de messagerie ne sera pas publiée.</span></p>
                     <div class="comment-container d-inline-block pl-3 align-top">
-                        <span class="commenter-name">{{ app.user.firstname }}</span>
                         {% include 'web/article/_form_comment.html.twig' %}
                     </div>
                 </div>

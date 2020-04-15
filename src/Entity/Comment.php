@@ -23,8 +23,8 @@ class Comment
      * @Assert\Length(
      *      min = 3,
      *      max = 255,
-     *      minMessage = "Your title must be at least {{ limit }} characters long",
-     *      maxMessage = "Your title cannot be longer than {{ limit }} characters"
+     *      minMessage = "Your content must be at least {{ limit }} characters long",
+     *      maxMessage = "Your content cannot be longer than {{ limit }} characters"
      * )
      */
     private $content;
@@ -45,16 +45,36 @@ class Comment
     private $isActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 255,
+     *      minMessage = "Your name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your name cannot be longer than {{ limit }} characters"
+     * )
+     */
+    private $authorName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Email(
+     *      message = "The email '{{ value }}' is not a valid email."
+     * )
+     */
+    private $authorEmail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $authorWebsite;
 
     public function __construct()
     {
@@ -115,18 +135,6 @@ class Comment
         return $this;
     }
 
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?User $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     public function getArticle(): ?Article
     {
         return $this->article;
@@ -135,6 +143,42 @@ class Comment
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getAuthorName(): ?string
+    {
+        return $this->authorName;
+    }
+
+    public function setAuthorName(string $authorName): self
+    {
+        $this->authorName = $authorName;
+
+        return $this;
+    }
+
+    public function getAuthorEmail(): ?string
+    {
+        return $this->authorEmail;
+    }
+
+    public function setAuthorEmail(string $authorEmail): self
+    {
+        $this->authorEmail = $authorEmail;
+
+        return $this;
+    }
+
+    public function getAuthorWebsite(): ?string
+    {
+        return $this->authorWebsite;
+    }
+
+    public function setAuthorWebsite(?string $authorWebsite): self
+    {
+        $this->authorWebsite = $authorWebsite;
 
         return $this;
     }

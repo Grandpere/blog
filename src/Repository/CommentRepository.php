@@ -68,8 +68,6 @@ class CommentRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('c')
             ->innerJoin('c.article', 'a')
             ->addSelect('a')
-            ->innerJoin('c.author', 'u')
-            ->addSelect('u')
             ->andWhere('c.article = :article')
             ->setParameter('article', $article)
             ->orderBy('c.createdAt', 'DESC')

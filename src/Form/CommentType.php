@@ -13,7 +13,16 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('content', null, [
-                'label' => false,
+                'label' => 'Commentaire',
+            ])
+            ->add('authorName', null, [
+                'label' => 'Nom',
+            ])
+            ->add('authorEmail', null, [
+                'label' => 'Adresse de messagerie',
+            ])
+            ->add('authorWebsite', null, [
+                'label' => 'Site Web',
             ])
         ;
     }

@@ -2,7 +2,9 @@
     <div class="col-sm-12">
         <img class="comment-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">
         <div class="comment-container d-inline-block pl-3 align-top">
-            <span class="commenter-name">{{ comment.author.firstname }}</span>
+            <span class="commenter-name">{{ comment.authorName }}</span>
+            <span class="commenter-email">{{  comment.authorEmail }}</span>
+            <span class="commenter-website">{{  comment.authorWebsite }}</span>
             <small>about {{ comment.createdAt|date("d/m/Y") }}</small>
             {#
             {% if comment.isDeleted %}

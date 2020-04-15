@@ -51,5 +51,7 @@ App\Entity\Comment:
         createdAt: '<dateTimeBetween("-199 days", "now")>'
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         isActive:  '<boolean(75)>'
-        author: '@User_<numberBetween(2,10)>'
+        authorName: '<firstName()> <lastname()>'
+        authorEmail: '<email()>'
+        authorWebsite: '<url()>'
         article: '@Article_<numberBetween(1,20)>'

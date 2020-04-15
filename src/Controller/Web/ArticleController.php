@@ -62,7 +62,6 @@ class ArticleController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $comment->setAuthor($this->getUser());
             $comment->setArticle($article);
 
             $em->persist($comment);
