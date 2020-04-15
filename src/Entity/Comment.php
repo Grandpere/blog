@@ -59,7 +59,7 @@ class Comment
     public function __construct()
     {
         $this->createdAt = new \Datetime();
-        $this->isActive = false;
+        $this->isActive = true;
     }
 
     public function getId(): ?int

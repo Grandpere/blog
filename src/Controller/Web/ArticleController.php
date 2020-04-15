@@ -3,8 +3,11 @@
 namespace App\Controller\Web;
 
 use App\Entity\Article;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -45,13 +48,34 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/comments/{page}", name="comments", methods={"GET"}, requirements={"slug"="[a-zA-Z0-9-]+", "page"="\d+"})
+     * @Route("/{slug}/comments/{page}", name="comments", methods={"GET", "POST"}, requirements={"slug"="[a-zA-Z0-9-]+", "page"="\d+"})
      */
-    public function getComments(Article $article = null, $page = 1, $maxResults = 10, CommentRepository $commentRepository)
+    public function getComments(Request $request, Article $article = null, CommentRepository $commentRepository, $page = 1, $maxResults = 10)
     {
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $comment->setAuthor($this->getUser());
+            $comment->setArticle($article);
+
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Enregistrement effectué'
+            );
+
+            return $this->redirectToRoute('web_articles_comments', ['slug' => $article->getSlug(), 'page' => $page, 'maxResults' => $maxResults]);
+        }
+
         $comments = $commentRepository->findAllCommentsByArticleOrderedByNewest($article, $page);
         $pagination = array(
             'page' => $page,
@@ -65,6 +89,7 @@ class ArticleController extends AbstractController
             'article' => $article,
             'comments' => $comments,
             'pagination' => $pagination,
+            'form' => $form->createView(),
         ]);
     }
 }

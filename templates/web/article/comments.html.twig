@@ -18,10 +18,7 @@
                     <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
                     <div class="comment-container d-inline-block pl-3 align-top">
                         <span class="commenter-name">{{ app.user.firstname }}</span>
-                        <div class="form-group">
-                            <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-info">Comment</button>
+                        {% include 'web/article/_form_comment.html.twig' %}
                     </div>
                 </div>
             </div>
