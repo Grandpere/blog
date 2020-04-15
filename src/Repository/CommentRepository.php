@@ -74,12 +74,14 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('article', $article)
             ->orderBy('c.createdAt', 'DESC')
         ;
-        $paginator = new Paginator($query);
         $firstResults = ($page - 1) * $maxResults;
         $query
             ->setFirstResult($firstResults)
             ->setMaxResults($maxResults)
         ;
+
+        $paginator = new Paginator($query);
+
         if (($paginator->count() <= $firstResults) && $page != 1) {
             throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
         }

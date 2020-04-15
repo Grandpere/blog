@@ -75,12 +75,14 @@ class ArticleRepository extends ServiceEntityRepository
 
         // TODO : criteria with isActive for reusing this or andWhere
 
-        $paginator = new Paginator($query);
         $firstResults = ($page - 1) * $maxResults;
         $query
             ->setFirstResult($firstResults)
             ->setMaxResults($maxResults)
         ;
+
+        $paginator = new Paginator($query);
+
         if (($paginator->count() <= $firstResults) && $page != 1) {
             throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
         }

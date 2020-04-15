@@ -73,7 +73,7 @@ class ArticleController extends AbstractController
                 'Enregistrement effectué'
             );
 
-            return $this->redirectToRoute('web_articles_comments', ['slug' => $article->getSlug(), 'page' => $page, 'maxResults' => $maxResults]);
+            return $this->redirectToRoute('web_articles_comments', ['slug' => $article->getSlug(), 'page' => $page]);
         }
 
         $comments = $commentRepository->findAllCommentsByArticleOrderedByNewest($article, $page);
