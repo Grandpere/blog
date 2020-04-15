@@ -1,12 +1,18 @@
 <article class="post">
     {% if app.request.get('_route') == 'web_articles_show' %}
         {% include 'web/article/_breadcrumb.html.twig' %}
-    {% endif %}
+    <header>
+        <div class="title">
+            <h1>
+                {{ article.title }}
+            </h1>
+    {% else %}
     <header>
         <div class="title">
             <h2>
                 <a href="#">{{ article.title }}</a>
             </h2>
+    {% endif %}
             <div class="tags">
                 {% for tag in article.tags %}
                     <small>
