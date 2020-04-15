@@ -89,4 +89,42 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $paginator;
     }
+
+
+    public function findAllByTagOrderedByNewest($tag, $page = 1, $maxResults = 10)
+    {
+        if(!is_numeric($page)) {
+            throw new InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
+        }
+
+        if($page < 1) {
+            throw new NotFoundHttpException('This page doesn\'t exist');
+        }
+
+        if(!is_numeric($maxResults)) {
+            throw new InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
+        }
+
+        $query = $this->createQueryBuilder('a')
+            ->innerJoin('a.tags', 't')
+            ->addSelect('t')
+            ->andWhere('t.id = :tag')
+            ->setParameter('tag', $tag)
+            ->orderBy('a.createdAt', 'DESC')
+        ;
+
+        $firstResults = ($page - 1) * $maxResults;
+        $query
+            ->setFirstResult($firstResults)
+            ->setMaxResults($maxResults)
+        ;
+
+        $paginator = new Paginator($query);
+
+        if (($paginator->count() <= $firstResults) && $page != 1) {
+            throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
+        }
+
+        return $paginator;
+    }
 }

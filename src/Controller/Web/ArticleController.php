@@ -79,7 +79,7 @@ class ArticleController extends AbstractController
 
         $maxCommentPerPage = $this->getParameter('max_comment_per_page');
 
-        $comments = $commentRepository->findAllCommentsByArticleOrderedByNewest($article, $page, $maxCommentPerPage);
+        $comments = $commentRepository->findAllByArticleOrderedByNewest($article, $page, $maxCommentPerPage);
         $pagination = array(
             'page' => $page,
             'route' => 'web_articles_comments',

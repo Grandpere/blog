@@ -51,7 +51,7 @@ class CommentRepository extends ServiceEntityRepository
     }
     */
 
-    public function findAllCommentsByArticleOrderedByNewest($article, $page = 1, $maxResults = 10)
+    public function findAllByArticleOrderedByNewest($article, $page = 1, $maxResults = 10)
     {
         if(!is_numeric($page)) {
             throw new InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
