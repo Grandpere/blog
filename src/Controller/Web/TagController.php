@@ -13,17 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TagController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
-     */
-    public function index(TagRepository $tagRepository)
-    {
-        $tags = $tagRepository->findAll();
-        return $this->render('web/tag/index.html.twig', [
-            'tags' => $tags,
-        ]);
-    }
-
-    /**
      * @Route("/{slug}", name="show", methods={"GET"}, requirements={"slug"="[a-zA-Z0-9-]+"})
      */
     public function show(Tag $tag = null)
