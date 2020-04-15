@@ -1,0 +1,17 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {# home's path#}
+        <li class="breadcrumb-item"><a href="{{ path('web_articles_index') }}">Home</a></li>
+        {# determine if article has tags & add tag's path #}
+        {% if article.tags|length > 0 %}
+            <li class="breadcrumb-item">
+            {% for tag in article.tags %}
+                <a href="{{ path('web_tags_show', {'slug':tag.slug}) }}">{{ tag.title }}</a>
+                <span class="breadcrumb-item-tag" ></span>
+            {% endfor %}
+            </li>
+        {% endif %}
+        {# article's path #}
+        <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+    </ol>
+</nav>

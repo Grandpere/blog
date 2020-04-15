@@ -6,38 +6,41 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Commentaires de l'article "{{ article.title }}"</h1>
-    <div class="row">
-        <div class="col-sm-12">
-            <h3><i class="pr-3 fa fa-comment"></i>{{ comments|length }} Comments</h3>
-            <hr>
+    <article class="post">
+        {% include 'web/article/_breadcrumb.html.twig' %}
+        <h2>Commentaires de l'article "{{ article.title }}"</h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3><i class="pr-3 fa fa-comment"></i>{{ comments|length }} Comments</h3>
+                <hr>
 
-            {# form submit comments #}
-            <div class="row mb-5">
-                <div class="col-sm-12">
-                    <h3>Laissez un commentaire</h3>
-                    <p><span>Votre adresse de messagerie ne sera pas publiée.</span></p>
-                    <div class="comment-container d-inline-block pl-3 align-top">
-                        {% include 'web/article/_form_comment.html.twig' %}
-                    </div>
-                </div>
-            </div>
-            {# listing all comments #}
-            {% for comment in comments %}
-                {% include 'web/article/_comment_template.html.twig' %}
-            {% else %}
-                <div class="row">
+                {# form submit comments #}
+                <div class="row mb-5">
                     <div class="col-sm-12">
-                        <div class="comment-container">
-                            No records found
+                        <h3>Laissez un commentaire</h3>
+                        <p><span>Votre adresse de messagerie ne sera pas publiée.</span></p>
+                        <div class="comment-container d-inline-block pl-3 align-top">
+                            {% include 'web/article/_form_comment.html.twig' %}
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-            {% include '_pagination.html.twig' %}
+                {# listing all comments #}
+                {% for comment in comments %}
+                    {% include 'web/article/_comment_template.html.twig' %}
+                {% else %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="comment-container">
+                                No records found
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% include '_pagination.html.twig' %}
+            </div>
         </div>
-    </div>
-    <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Revenir à l'article</a>
+        <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Revenir à l'article</a>
+    </article>
 {% endblock %}
 
 {#
