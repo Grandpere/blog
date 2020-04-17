@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello tagController!{% endblock %}
+{% block title %}
+    Liste des articles de la catégorie {{ tag.title }}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-<article>
     <h2>{{ tag.title }} ({{ articles|length }} article(s))</h2>
-    <ul>
     {% for article in articles %}
-        <li><a href="{{ path('web_articles_show', {'slug': article.slug}) }}">{{ article.title }}</a></li>
+        {% include 'web/article/_article_template.html.twig' %}
+    {% else %}
+        No records found
     {% endfor %}
-    </ul>
-</article>
     {% include '_pagination.html.twig' %}
 {% endblock %}

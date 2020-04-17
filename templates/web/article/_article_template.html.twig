@@ -1,36 +1,35 @@
 <article class="post">
     {% if app.request.get('_route') == 'web_articles_show' %}
         {% include 'web/article/_breadcrumb.html.twig' %}
-    <header>
-        <div class="title">
-            <h1>
-                {{ article.title }}
-            </h1>
-    {% else %}
-    <header>
-        <div class="title">
-            <h2>
-                <a href="#">{{ article.title }}</a>
-            </h2>
     {% endif %}
-            <div class="tags">
-                {% for tag in article.tags %}
-                    <small>
-                        <span class="badge badge-light">{{ tag.title }}</span>
-                    </small>
-                {% endfor %}
-            </div>
+    <header>
+        <div class="tags">
+            {% for tag in article.tags %}
+                <span class="badge badge-secondary"><a class="text-white" href="{{ path('web_tags_show', {'slug':tag.slug}) }}">{{ tag.title }}</a></span>
+            {% endfor %}
+        </div>
+        <div class="title">
+            {% if app.request.get('_route') == 'web_articles_show' %}
+            <h1>{{ article.title }}</h1>
+            {% else %}
+            <h2><a href="{{ path('web_articles_show', {'slug':article.slug}) }}">{{ article.title }}</a></h2>
+            {% endif %}
         </div>
         <div class="meta">
-            <p>{{ article.createdAt|date("F d, Y", "Europe/Paris") }}</p>
-            {#<p>{{ article.createdAt|date("d/m/Y") }} à {{ article.createdAt|date("H:i:s") }}</p>#}
-            {% if article.updatedAt is not null %}
-                <p>{{ article.updatedAt|date("F d, Y", "Europe/Paris") }}</p>
-            {% endif %}
-            <a class="author" href="#"><span class="name">{{ article.author.firstname }}</span>
-                <img src="#" alt="avatar de {{ article.author.firstname }}">
-            </a>
+            <div class="published-at">
+                <span class="sr-only">Published on</span>
+                <time datetime="{{ article.createdAt|date }}">{{ article.createdAt|date("F d, Y", "Europe/Paris") }}</time>
+            </div>
+            {#
+            <!-- with blog as medium with many author it's useful but with single author it's not usefull -->
+            <div class="author">
+                <a class="author" href="#"><span class="name">{{ article.author.firstname }}</span>
+                    <img src="#" alt="avatar de {{ article.author.firstname }}">
+                </a>
+            </div>
+            #}
         </div>
+        <div id="top"></div>
     </header>
     <div class="article-main">
         {% if article.coverImage is defined and article.coverImage is not null %}
@@ -38,18 +37,33 @@
             <img src="#" alt="Illustration de l'article {{ article.title }}">
         </a>
         {% endif %}
+        {% if article.updatedAt is not null %}
+        <div class="last-update">
+            <span>
+                Last update on
+                <time datetime="{{ article.updatedAt|date }}">{{ article.updatedAt|date("F d, Y", "Europe/Paris") }}</time>
+            </span>
+        </div>
+        {% endif %}
         {# determine current route for adapting content #}
-        {% if app.request.get('_route') == 'web_articles_index' %}
+        {% if app.request.get('_route') == 'web_articles_index' or app.request.get('_route') == 'web_tags_show' %}
             <p>{{ article.excerpt }}</p>
         {% elseif app.request.get('_route') == 'web_articles_show' %}
             <p>{{ article.content }}</p>
+            <div class="post-back-top d-flex justify-content-center">
+                <a href="#top"><i class="pr-2 fas fa-angle-double-up"></i>Début de l'article</a>
+            </div>
         {% endif %}
     </div>
     <footer>
         <ul class="actions">
-            {% if app.request.get('_route') == 'web_articles_index' %}
+            {% if app.request.get('_route') == 'web_articles_index' or app.request.get('_route') == 'web_tags_show' %}
             <li>
-                <a class="button large" href="{{ path('web_articles_show', {'slug': article.slug}) }}" class="button">Continue Reading</a>
+                <a href="{{ path('web_articles_show', {'slug': article.slug}) }}" class="button"><i class="pr-1 fas fa-angle-right"></i>Continue Reading</a>
+            </li>
+            {% elseif app.request.get('_route') == 'web_articles_show' %}
+            <li class="comments">
+                <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}" class="button"><i class="pr-2 fa fa-comment"></i>{{ article.comments|length }} comments</a>
             </li>
             {% endif %}
         </ul>

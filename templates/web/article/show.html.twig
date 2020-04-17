@@ -7,5 +7,4 @@
 
 {% block body %}
     {% include 'web/article/_article_template.html.twig' %}
-    <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}">{{ article.comments|length }} comments</a>
 {% endblock %}

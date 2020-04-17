@@ -8,22 +8,24 @@
 {% block body %}
     <article class="post">
         {% include 'web/article/_breadcrumb.html.twig' %}
-        <h2>Commentaires de l'article "{{ article.title }}"</h2>
-        <div class="row">
+        <header class="title">
+            <h1>Commentaires de l'article "{{ article.title }}"</h1>
+        </header>
+        <div class="comment-container row">
             <div class="col-sm-12">
-                <h3><i class="pr-3 fa fa-comment"></i>{{ comments|length }} Comments</h3>
+                <h3><i class="pr-2 fa fa-comment"></i>{{ comments|length }} Comments</h3>
                 <hr>
-
                 {# form submit comments #}
-                <div class="row mb-5">
+                <div class="comment-form row">
                     <div class="col-sm-12">
                         <h3>Laissez un commentaire</h3>
                         <p><span>Votre adresse de messagerie ne sera pas publiée.</span></p>
-                        <div class="comment-container d-inline-block pl-3 align-top">
+                        <div class="comment-container">
                             {% include 'web/article/_form_comment.html.twig' %}
                         </div>
                     </div>
                 </div>
+                <hr>
                 {# listing all comments #}
                 {% for comment in comments %}
                     {% include 'web/article/_comment_template.html.twig' %}
@@ -39,14 +41,11 @@
                 {% include '_pagination.html.twig' %}
             </div>
         </div>
-        <a href="{{ path('web_articles_show', {'slug': article.slug}) }}">Revenir à l'article</a>
+        <footer>
+            <ul class="actions">
+                <a href="{{ path('web_articles_show', {'slug': article.slug}) }}"><i class="pr-1 fas fa-angle-left"></i>Revenir à l'article</a>
+            </ul>
+        </footer>
     </article>
 {% endblock %}
-
-{#
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('js/article_show.js') }}"></script>
-{% endblock %}
-#}
 

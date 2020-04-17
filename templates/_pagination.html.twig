@@ -1,14 +1,14 @@
-<nav aria-label="pagination">
+<nav class="nav-pagination" aria-label="pagination">
     <ul class="pagination justify-content-center">
         {% if pagination.page > 1 %}
             <li class="page-item">
                 <a class="page-link" href="{{ path(pagination.route, pagination.route_params|merge({'page': 1})) }}">
-                    <span aria-hidden="true">&laquo;</span>
+                    <span aria-hidden="true"><i class="fas fa-angle-double-left"></i></span>
                 </a>
             </li>
             <li class="page-item">
                 <a class="page-link" href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.page-1})) }}">
-                    <span aria-hidden="true">&lt;</span>
+                    <span aria-hidden="true"><i class="fas fa-angle-left"></i></span>
                 </a>
             </li>
         {% endif %}
@@ -23,12 +23,12 @@
         {% if pagination.page < pagination.pages_count %}
             <li class="page-item">
                 <a class="page-link" href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.page+1})) }}">
-                    <span aria-hidden="true">&gt;</span>
+                    <span aria-hidden="true"><i class="fas fa-angle-right"></i></span>
                 </a>
             </li>
             <li class="page-item">
                 <a class="page-link" href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.pages_count})) }}">
-                    <span aria-hidden="true">&raquo;</span>
+                    <span aria-hidden="true"><i class="fas fa-angle-double-right"></i></span>
                 </a>
             </li>
         {% endif %}

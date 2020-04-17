@@ -19,35 +19,24 @@
         {% endblock %}
     </head>
     <body>
-        {% block header %}
-            {% include('_header.html.twig') %}
-        {% endblock %}
+        <div class="site">
+            {% block header %}
+                {% include('_header.html.twig') %}
+            {% endblock %}
 
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg">
-                <ul class="navbar-nav">
-                    <li><a href="{{ path('web_articles_index') }}">Articles frontend</a></li>
-                    <li><a href="{{ path('admin_article_index') }}">Articles backend</a></li>
-                    <li><a href="{{ path('admin_comment_index') }}">Commentaires backend</a></li>
-                    <li><a href="{{ path('admin_tag_index') }}">Catégories backend</a></li>
-                </ul>
-            </nav>
+            <main class="container">
+                {% include '_flash_messages.html.twig' %}
+                {% block body %}{% endblock %}
+            </main>
+
+            {% block footer %}
+                {% include('_footer.html.twig') %}
+            {% endblock %}
         </div>
-
-        <main class="container">
-            {% include '_flash_messages.html.twig' %}
-            {% block body %}{% endblock %}
-        </main>
-
-        {% block footer %}
-            {% include('_footer.html.twig') %}
-        {% endblock %}
         {% block javascripts %}
-            {#
             <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-            #}
         {% endblock %}
     </body>
 </html>
