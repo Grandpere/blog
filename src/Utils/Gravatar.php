@@ -21,9 +21,8 @@ class Gravatar
     public function getGravatar(string $email)
     {
         $hash = $this->getEmailHash($email);
-        $url = $this->getGravatarUrl($hash);
 
-        return $url;
+        return $this->getGravatarUrl($hash);
     }
 
 }

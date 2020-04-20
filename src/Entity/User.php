@@ -82,6 +82,11 @@ class User implements UserInterface
      */
     private $articles;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $accountValidationToken;
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
@@ -294,6 +299,18 @@ class User implements UserInterface
                 $article->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAccountValidationToken(): ?string
+    {
+        return $this->accountValidationToken;
+    }
+
+    public function setAccountValidationToken(?string $accountValidationToken): self
+    {
+        $this->accountValidationToken = $accountValidationToken;
 
         return $this;
     }
