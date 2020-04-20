@@ -5,16 +5,31 @@ App\Entity\User:
         firstname: 'Lorenzo'
         lastname: 'Admin'
         roles: '[ROLE_ADMIN]'
+        avatar: null
+        createdAt: '<dateTimeBetween("-230 days", "now")>'
+        updatedAt: '<dateTimeBetween($createdAt, "now")>'
+        lastLogin: '<dateTimeBetween($updatedAt, "now")>'
+        isActive: '<boolean(100)>'
     User_2:
         email: 'lorenzo@user.com'
         password: 'lorenzo'
         firstname: 'Lorenzo'
         lastname: 'User'
+        avatar: null
+        createdAt: '<dateTimeBetween("-225 days", "now")>'
+        updatedAt: '<dateTimeBetween($createdAt, "now")>'
+        lastLogin: '<dateTimeBetween($updatedAt, "now")>'
+        isActive: '<boolean(100)>'
     User_{3..10}:
         email (unique): 'user<current()>\@user.com'
         password: 'user<current()>'
         firstname: '<firstname()>'
         lastname: '<lastname()>'
+        avatar: null
+        createdAt: '<dateTimeBetween("-200 days", "now")>'
+        updatedAt: '<dateTimeBetween($createdAt, "now")>'
+        lastLogin: '<dateTimeBetween($updatedAt, "now")>'
+        isActive: '<boolean(50)>'
 
 App\Entity\ApiToken:
     ApiToken_1:

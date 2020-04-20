@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/register", name="app_register", methods={"GET", "POST"})
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -35,6 +35,11 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+
+            $this->addFlash(
+                'success',
+                'Compte créé avec succès'
+            );
 
             return $this->redirectToRoute('web_articles_index');
         }
