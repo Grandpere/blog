@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Psr\Log\LoggerInterface;
-use App\Controller\BaseController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  * @Route("/account", name="web_account_")
  * @IsGranted("ROLE_USER")
  */
-class AccountController extends BaseController
+class AccountController extends AbstractController
 {
     /**
      * @Route("/", name="index")

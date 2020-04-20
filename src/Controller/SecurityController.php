@@ -38,32 +38,4 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-
-    /**
-     * @Route("/register", name="app_register")
-     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardAuthenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator)
-    {
-        // TODO: use symfony form & validation
-        if($request->isMethod('POST')) {
-            $user = new User();
-            $user->setEmail($request->request->get('email'));
-            $user->setPassword($passwordEncoder->encodePassword(
-               $user,
-               $request->request->get('password')
-            ));
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return $guardAuthenticatorHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $loginFormAuthenticator,
-                'main'
-            );
-        }
-        return $this->render('security/register.html.twig');
-    }
 }
