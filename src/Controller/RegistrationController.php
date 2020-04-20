@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Form\UserForgottenType;
+use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Utils\DelayTokenVerificator;
 use App\Utils\Gravatar;
@@ -98,5 +100,49 @@ class RegistrationController extends AbstractController
             $loginFormAuthenticator,
             'main'
         );
+    }
+
+    /**
+     * @Route("/account/resend-token", name="app_resend-token", methods={"GET", "POST"})
+     */
+    public function resendToken(Request $request, UserRepository $userRepository, Mailer $mailer) : Response
+    {
+        $form = $this->createForm(UserForgottenType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->get('email')->getData();
+
+            $user = $userRepository->findOneByEmail($email);
+            if(!$user) {
+                $this->addFlash(
+                    'danger',
+                    'Email Inconnu'
+                );
+                return $this->redirectToRoute('app_resend-token');
+            }
+            if($user->getAccountValidationToken()) {
+                $body = 'email/account-activation.html.twig';
+                $context = [
+                    'user' => $user
+                ];
+                $mailer->sendMessage('from@email.com', $user->getEmail(), 'Activation Mail', $body, $context);
+
+                $this->addFlash(
+                    'success',
+                    'Un nouveau mail d\'activation a été envoyé sur votre email '.$user->getEmail()
+                );
+                return $this->redirectToRoute('app_resend-token');
+            }
+            $this->addFlash(
+                'danger',
+                'Votre compte a déja été activé, vous pouvez vous connecter'
+            );
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('registration/resend-token.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

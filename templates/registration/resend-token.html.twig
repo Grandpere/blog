@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Resend email!
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="post">
+        <h1>Resend Email ?</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary mb-4">{{ button_label|default('Resend email') }}</button>
+        {{ form_end(form) }}
+    </div
+{% endblock %}
