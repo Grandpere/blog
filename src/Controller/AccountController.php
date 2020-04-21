@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserForgottenType;
 use App\Form\UserPasswordResetType;
+use App\Form\UserPasswordUpdateType;
+use App\Form\UserUpdateType;
+use App\Model\ChangePassword;
 use App\Repository\UserRepository;
 use App\Utils\DelayTokenVerificator;
 use App\Utils\Mailer;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,11 +25,41 @@ class AccountController extends AbstractController
     /**
      * @Route("/", name="web_account_index")
      */
-    public function index(LoggerInterface $logger)
+    public function index()
     {
-        $logger->debug('Checking account page for '.$this->getUser()->getEmail());
         return $this->render('account/index.html.twig', [
+            'user' => $this->getUser(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="web_account_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
+     */
+    public function edit(Request $request, User $user = null)
+    {
+        if(!$user) {
+            throw $this->createNotFoundException('User introuvable');
+        }
+
+        if($this->getUser() === $user) {
+            $form = $this->createForm(UserUpdateType::class, $user);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+                return $this->redirectToRoute('web_account_index');
+                    //$this->redirectToRoute('user_show', ['slug' => $user->getSlug()]);
+            }
+
+            return $this->render('account/edit.html.twig', [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]);
+        }
+        return $this->redirectToRoute('web_account_index');
+            //$this->redirectToRoute('user_show', ['slug'=>$user->getSlug()]);
     }
 
     /**
@@ -128,5 +160,38 @@ class AccountController extends AbstractController
         return $this->render('account/reset-password.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/edit-password", name="edit-password", methods={"GET","POST"}, requirements={"id"="\d+"})
+     */
+    public function updatePassword(Request $request, User $user = null, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        if(!$user) {
+            throw $this->createNotFoundException('User introuvable');
+        }
+
+        if($this->getUser() == $user) {
+            $changePassword = new ChangePassword();
+            $form = $this->createForm(UserPasswordUpdateType::class, $changePassword);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $newPassword = $form->get('password')['first']->getData();
+                $newEncodedPassword = $passwordEncoder->encodePassword($user, $newPassword);
+
+                $user->setPassword($newEncodedPassword);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+                return $this->redirectToRoute('web_account_index');
+            }
+            return $this->render('user/edit.html.twig', [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]);
+        }
+        return $this->redirectToRoute('web_account_index');
     }
 }

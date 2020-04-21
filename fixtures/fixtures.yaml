@@ -5,7 +5,7 @@ App\Entity\User:
         firstname: 'Lorenzo'
         lastname: 'Admin'
         roles: '[ROLE_ADMIN]'
-        avatar: null
+        avatar: 'https://www.gravatar.com/avatar/'
         createdAt: '<dateTimeBetween("-230 days", "now")>'
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         lastLogin: '<dateTimeBetween($updatedAt, "now")>'
@@ -15,7 +15,7 @@ App\Entity\User:
         password: 'lorenzo'
         firstname: 'Lorenzo'
         lastname: 'User'
-        avatar: null
+        avatar: 'https://www.gravatar.com/avatar/'
         createdAt: '<dateTimeBetween("-225 days", "now")>'
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         lastLogin: '<dateTimeBetween($updatedAt, "now")>'
@@ -25,7 +25,7 @@ App\Entity\User:
         password: 'user<current()>'
         firstname: '<firstname()>'
         lastname: '<lastname()>'
-        avatar: null
+        avatar: 'https://www.gravatar.com/avatar/'
         createdAt: '<dateTimeBetween("-200 days", "now")>'
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         lastLogin: '<dateTimeBetween($updatedAt, "now")>'

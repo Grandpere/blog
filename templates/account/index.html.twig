@@ -1,41 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Manage Account!{% endblock %}
+{% block title %}
+    Manage Account!
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-        <div class="container">
-        <div class="row user-menu-container square">
-            <div class="col-md-12 user-details">
-                <div class="row spacepurplebg white">
-                    <div class="col-md-2 no-pad">
-                        <div class="user-image">
-                            <img src="{{ app.user.avatarUrl }}" class="img-responsive thumbnail">
-                        </div>
-                    </div>
-                    <div class="col-md-10 no-pad">
-                        <div class="user-pad">
-                            <h3>Welcome back, {{ app.user.email }}</h3>
-                            <a class="btn btn-labeled btn-info" href="#">
-                                <span class="btn-label"><i class="fa fa-pencil"></i></span>Update
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row overview">
-                    <div class="col-md-4 user-pad text-center">
-                        <h3>COMMENTS</h3>
-                        <h4>184</h4>
-                    </div>
-                    <div class="col-md-4 user-pad text-center">
-                        <h3>ARTICLES READ</h3>
-                        <h4>1,910</h4>
-                    </div>
-                    <div class="col-md-4 user-pad text-center">
-                        <h3>LIKES</h3>
-                        <h4>3,892</h4>
-                    </div>
-                </div>
-            </div>
+<div class="post">
+    <h1>Welcome back, {{ app.user.email }}</h1>
+    <a class="btn btn-labeled btn-info" href="{{ path('web_account_edit', {'id':user.id}) }}">
+        <span class="btn-label mr-2"><i class="fa fa-pencil"></i></span>Update
+    </a>
+    <img src="{{ user.avatar }}" class="img-responsive thumbnail">
+    <p>{{ user.email }}</p>
+    <p>
+        <span>{{ user.firstname }}</span> <span>{{ user.lastname }}</span>
+    </p>
+    <div class="row overview">
+        <div class="col-md-4 user-pad text-center">
+            <h3>COMMENTS</h3>
+            <h4>184</h4>
+        </div>
+        <div class="col-md-4 user-pad text-center">
+            <h3>ARTICLES READ</h3>
+            <h4>1,910</h4>
+        </div>
+        <div class="col-md-4 user-pad text-center">
+            <h3>LIKES</h3>
+            <h4>3,892</h4>
         </div>
     </div>
+</div>
 {% endblock %}

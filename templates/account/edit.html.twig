@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit Account!
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="post">
+        {% if user is defined and user is not null %}
+            <h1>
+                Edit Account!
+            </h1>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+            <a class="btn" href="{{ path('web_account_index') }}" class="button">Cancel</a>
+            {{ form_end(form) }}
+        {% else %}
+            <p>No record found</p>
+        {% endif %}
+    </div>
+{% endblock %}
