@@ -7,15 +7,45 @@
 
 {% block body %}
     <div class="post">
+        <h1>Edit account!</h1>
         {% if user is defined and user is not null %}
-            <h1>
-                Edit Account!
-            </h1>
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-            <a class="btn" href="{{ path('web_account_index') }}" class="button">Cancel</a>
-            {{ form_end(form) }}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row">
+                        <img src="{{ user.avatar }}" class="img-responsive thumbnail">
+                    </div>
+                    <div class="list-group ">
+                        <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
+                        <a href="#" class="list-group-item list-group-item-action">User Management</a>
+                        <a href="#" class="list-group-item list-group-item-action">Used</a>
+                        <a href="#" class="list-group-item list-group-item-action">Enquiry</a>
+                        <a href="#" class="list-group-item list-group-item-action">Dealer</a>
+                        <a href="#" class="list-group-item list-group-item-action">Media</a>
+                        <a href="#" class="list-group-item list-group-item-action">Post</a>
+                        <a href="#" class="list-group-item list-group-item-action">Category</a>
+                        <a href="#" class="list-group-item list-group-item-action">New</a>
+                        <a href="#" class="list-group-item list-group-item-action">Comments</a>
+                        <a href="#" class="list-group-item list-group-item-action">Appearance</a>
+                        <a href="#" class="list-group-item list-group-item-action">Reports</a>
+                        <a href="#" class="list-group-item list-group-item-action">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form_start(form) }}
+                                    {{ form_widget(form) }}
+                                    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+                                    <a class="btn" href="{{ path('web_account_index') }}" class="button">Cancel</a>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% else %}
             <p>No record found</p>
         {% endif %}

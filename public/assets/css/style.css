@@ -178,3 +178,12 @@ ul.icons li a:hover {
 span.heart {
     color: red;
 }
+
+/* Account page */
+.account-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border: 1px solid black;
+}
