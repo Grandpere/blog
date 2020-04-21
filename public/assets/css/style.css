@@ -187,3 +187,8 @@ span.heart {
     justify-content: flex-start;
     border: 1px solid black;
 }
+
+.account-image img {
+    max-width: 100%;
+    height: auto;
+}

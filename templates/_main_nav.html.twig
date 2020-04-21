@@ -14,7 +14,7 @@
             </li>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('web_account_index')}}">{{ app.user.firstname }}</a>
+                <a class="nav-link" href="{{ path('web_account_index')}}">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
