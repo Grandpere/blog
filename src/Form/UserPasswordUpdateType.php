@@ -16,14 +16,16 @@ class UserPasswordUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('oldPassword', PasswordType::class)
+            ->add('oldPassword', PasswordType::class, [
+                'label' => 'Actual Password',
+            ])
             ->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'first_options' => [
-                        'label' => 'Password'
+                        'label' => 'New Password'
                     ],
                     'second_options' => [
-                        'label' => 'Repeat Password'
+                        'label' => 'Repeat New Password'
                     ],
                     'invalid_message' => 'Les deux mots de passe doivent être identiques',
                     'required' => true,

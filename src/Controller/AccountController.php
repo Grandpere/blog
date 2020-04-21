@@ -25,7 +25,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/", name="web_account_index")
      */
-    public function index()
+    public function show()
     {
         return $this->render('account/index.html.twig', [
             'user' => $this->getUser(),
@@ -60,6 +60,40 @@ class AccountController extends AbstractController
         }
         return $this->redirectToRoute('web_account_index');
             //$this->redirectToRoute('user_show', ['slug'=>$user->getSlug()]);
+    }
+
+    /**
+     * @Route("/{id}/edit-password", name="web_account_edit-password", methods={"GET","POST"}, requirements={"id"="\d+"})
+     */
+    public function updatePassword(Request $request, User $user = null, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        if(!$user) {
+            throw $this->createNotFoundException('User introuvable');
+        }
+
+        if($this->getUser() === $user) {
+            $changePassword = new ChangePassword();
+            $form = $this->createForm(UserPasswordUpdateType::class, $changePassword);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $newPassword = $form->get('password')['first']->getData();
+                $newEncodedPassword = $passwordEncoder->encodePassword($user, $newPassword);
+
+                $user->setPassword($newEncodedPassword);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+                return $this->redirectToRoute('web_account_index');
+            }
+
+            return $this->render('account/edit.html.twig', [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]);
+        }
+        return $this->redirectToRoute('web_account_index');
     }
 
     /**
@@ -160,38 +194,5 @@ class AccountController extends AbstractController
         return $this->render('account/reset-password.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/{id}/edit-password", name="edit-password", methods={"GET","POST"}, requirements={"id"="\d+"})
-     */
-    public function updatePassword(Request $request, User $user = null, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        if(!$user) {
-            throw $this->createNotFoundException('User introuvable');
-        }
-
-        if($this->getUser() == $user) {
-            $changePassword = new ChangePassword();
-            $form = $this->createForm(UserPasswordUpdateType::class, $changePassword);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $newPassword = $form->get('password')['first']->getData();
-                $newEncodedPassword = $passwordEncoder->encodePassword($user, $newPassword);
-
-                $user->setPassword($newEncodedPassword);
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->flush();
-
-                return $this->redirectToRoute('web_account_index');
-            }
-            return $this->render('user/edit.html.twig', [
-                'user' => $user,
-                'form' => $form->createView(),
-            ]);
-        }
-        return $this->redirectToRoute('web_account_index');
     }
 }
