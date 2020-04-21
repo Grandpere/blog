@@ -2,17 +2,17 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Account activation</title>
+    <title>Account recovery</title>
 </head>
 <body>
     <h1>Hello {{ user.username }}!</h1>
     <p>
-        <a href="{{ absolute_url(path('app_account-activate', {'accountValidationToken': user.accountValidationToken})) }}">Click here to activate your account</a>
+        <a href="{{ absolute_url(path('app_reset-password', {'resetPasswordToken': user.resetPasswordToken})) }}">Click here to reset your password</a>
         (this link is valid for 24 hours)
     </p>
     <p>
         Si le lien ne fonctionne pas, copier-coller le lien suivant dans la barre de navigation de votre navigateur internet :
-        <span>{{ absolute_url(path('app_account-activate', {'accountValidationToken': user.accountValidationToken})) }}</span>
+        <span>{{ absolute_url(path('app_reset-password', {'resetPasswordToken': user.resetPasswordToken})) }}</span>
     </p>
 </body>
 </html>

@@ -25,6 +25,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, Gravatar $gravatar, TokenGeneratorInterface $tokenGenerator, Mailer $mailer): Response
     {
+        /** @var User $user */
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -113,7 +114,10 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('email')->getData();
 
-            $user = $userRepository->findOneByEmail($email);
+            $user = $userRepository->findOneBy([
+                'email' => $email,
+            ]);
+
             if(!$user) {
                 $this->addFlash(
                     'danger',

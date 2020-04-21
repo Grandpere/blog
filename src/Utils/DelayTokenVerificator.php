@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class DelayTokenVerificator
 {
-    public function isValidToken(\Datetime $requestedDate = null)
+    public function isValidToken(\DateTimeInterface $requestedDate = null)
     {
         if ($requestedDate === null)
         {
