@@ -1,5 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'account/account-base.html.twig' %}
 
+{% block title %}
+    Edit Account!
+    {{ parent() }}
+{% endblock %}
+
+{% block account_title %}
+    Edit Account!
+{% endblock %}
+
+{% block account_content %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <a class="btn" href="{{ path('web_account_index') }}" class="button">Cancel</a>
+    {{ form_end(form) }}
+{% endblock %}
+{#
 {% block title %}
     Edit Account!
     {{ parent() }}
@@ -41,3 +58,4 @@
         {% endif %}
     </div>
 {% endblock %}
+#}

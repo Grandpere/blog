@@ -1,43 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'account/account-base.html.twig' %}
 
 {% block title %}
-    Manage Account!
+    Your profile!
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
-<div class="post">
-    <div class="d-flex justify-content-between">
-        <h1>Your profile</h1>
-        <span>
-            <a class="btn btn-info" href="{{ path('web_account_edit', {'id':user.id}) }}">
-                <span class="btn-label mr-2"><i class="fa fa-pencil"></i></span>Update
-            </a>
-        </span>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="account-image">
-                <img src="{{ user.avatar }}">
-            </div>
-        </div>
-        <div class="mt-sm-2 mt-md-0 col-md-9">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p>Username : <span>{{ user.username }}</span></p>
-                            <p>Email : <span>{{ user.email }}</span></p>
-                            <p>Firstname : <span>{{ user.firstname }}</span></p>
-                            <p>Lastname : <span>{{ user.lastname }}</span></p>
-                            <p>Avatar : <span>{{ user.avatar }}</span></p>
-                            <p>test</p>
-                            <p>test</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{% block account_title %}
+    Your profile
+{% endblock %}
+
+{% block account_content %}
+    <p>Username : <span>{{ user.username }}</span></p>
+    <p>Email : <span>{{ user.email }}</span></p>
+    <p>Firstname : <span>{{ user.firstname }}</span></p>
+    <p>Lastname : <span>{{ user.lastname }}</span></p>
+    <p>Avatar : <span>{{ user.avatar }}</span></p>
+    <p>test</p>
+    <p>test</p>
 {% endblock %}

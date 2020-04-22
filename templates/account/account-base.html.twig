@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="post">
+        <h1>{% block account_title %}
+
+            {% endblock %}
+        </h1>
+        {% if user is defined and user is not null %}
+        <div class="row">
+            <div class="col-md-3">
+                <div class="account-image">
+                    <img src="{{ user.avatar }}">
+                </div>
+                <div class="list-group my-2">
+                    <a href="{{ path('web_account_edit', {'id':user.id}) }}" class="list-group-item list-group-item-action">Edit Personal Information</a>
+                    <a href="{{ path('web_account_edit-password', {'id':user.id}) }}" class="list-group-item list-group-item-action">Edit Password</a>
+                    <a href="#" class="list-group-item list-group-item-action">Edit Avatar</a>
+                </div>
+            </div>
+            <div class="mt-sm-2 mt-md-0 col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% block account_content %}
+
+                                {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <p>No record found</p>
+        {% endif %}
+    </div>
+{% endblock %}
