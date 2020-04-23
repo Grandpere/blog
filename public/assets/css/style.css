@@ -185,10 +185,10 @@ span.heart {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    border: 1px solid black;
 }
 
 .account-image img {
     max-width: 100%;
     height: auto;
+    border-radius: 50%;
 }
