@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Create new Article
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="post">
+        <h1>Create new Article</h1>
+
+        {{ include('web/article/_form_article.html.twig') }}
+    </div>
+{% endblock %}

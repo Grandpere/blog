@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit Article
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="post">
+        <h1>Edit Article</h1>
+
+        {{ include('web/article/_form_article.html.twig', {'button_label': 'Update'}) }}
+    </div>
+{% endblock %}

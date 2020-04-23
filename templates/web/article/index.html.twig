@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block body %}
+    <div class="d-flex justify-content-end mb-3">
+        <a class="btn btn-info" href="{{ path('web_articles_new') }}">Create New Article</a>
+    </div>
     {% for article in articles %}
         {% include 'web/article/_article_template.html.twig' %}
     {% else %}

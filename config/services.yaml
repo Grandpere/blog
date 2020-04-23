@@ -31,10 +31,6 @@ services:
         arguments:
             - '@security.user_password_encoder.generic'
         tags: [ { name: fidry_alice_data_fixtures.processor } ]
-    App\EventListener\ExcerpterListener:
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: preUpdate }
     App\EventListener\LoginListener:
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }

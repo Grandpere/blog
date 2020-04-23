@@ -4,9 +4,11 @@ namespace App\Controller\Web;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use App\Utils\Excerpter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +35,51 @@ class ArticleController extends AbstractController
         return $this->render('web/article/index.html.twig', [
             'articles' => $articles,
             'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="new", methods={"GET","POST"})
+     */
+    public function new(Request $request)
+    {
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $article->setExcerpt(Excerpter::excerptify($article->getContent()));
+            $article->setAuthor($this->getUser());
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('web_articles_index');
+        }
+
+        return $this->render('web/article/new.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"}, requirements={"slug"="[a-zA-Z0-9-]+"})
+     */
+    public function edit(Request $request, Article $article)
+    {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('web_articles_index');
+        }
+
+        return $this->render('web/article/edit.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
         ]);
     }
 

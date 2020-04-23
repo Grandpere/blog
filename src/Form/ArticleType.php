@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleType extends AbstractType
 {
@@ -15,8 +16,18 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('Excerpt', null, [
+                'label' => 'Resume',
+            ])
             ->add('content')
-            ->add('coverImage')
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'download_label' => false,
+                'download_uri' => false,
+                'image_uri' => false,
+                'asset_helper' => true,
+            ])
             ->add('isActive')
             ->add('tags', null, [
                 'choice_label' => 'title',
