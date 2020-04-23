@@ -62,9 +62,15 @@ class Article
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="article_cover", fileNameProperty="coverImage")
+     * @Assert\File(
+     * maxSize = "1024k",
+     * mimeTypes={ "image/gif", "image/jpeg", "image/png", "image/svg+xml" },
+     * mimeTypesMessage = "Please valid image format : gif, png, jpeg, svg"
+     * )
      *
      * @var File|null
      */
+    // TODO:  assert file constraint
     private $imageFile;
 
     /**
