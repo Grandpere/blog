@@ -49,4 +49,5 @@ security:
         #- { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
 
     role_hierarchy:
+        ROLE_USER: [ROLE_CREATE_ARTICLE] #voir pour tags (et comment non anonyme?)
         ROLE_ADMIN: [ROLE_ADMIN_COMMENT, ROLE_ADMIN_ARTICLE, ROLE_ALLOWED_TO_SWITCH]

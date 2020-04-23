@@ -15,7 +15,6 @@ class CommentType extends AbstractType
             ->add('content', null, [
                 'label' => 'Commentaire',
                 'attr' => [
-                    'class' => 'form-control',
                     'rows' => 5,
                     ],
             ])

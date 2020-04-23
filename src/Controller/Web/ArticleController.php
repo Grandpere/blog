@@ -44,6 +44,9 @@ class ArticleController extends AbstractController
     public function new(Request $request)
     {
         $article = new Article();
+
+        $this->denyAccessUnlessGranted('create', $article);
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -66,8 +69,14 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{slug}/edit", name="edit", methods={"GET","POST"}, requirements={"slug"="[a-zA-Z0-9-]+"})
      */
-    public function edit(Request $request, Article $article)
+    public function edit(Request $request, Article $article = null)
     {
+        if(!$article) {
+            throw $this->createNotFoundException('Article introuvable');
+        }
+
+        $this->denyAccessUnlessGranted('edit', $article);
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 

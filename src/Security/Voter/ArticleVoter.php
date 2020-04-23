@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ArticleVoter extends Voter
 {
+    CONST EDIT = 'edit';
+    CONST CREATE = 'create';
+
     private $security;
 
     public function __construct(Security $security)
@@ -21,45 +24,37 @@ class ArticleVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        /*
-        return in_array($attribute, ['POST_EDIT', 'POST_VIEW'])
-            && $subject instanceof \App\Entity\BlogPost;
-        */
-        return in_array($attribute, ['MANAGE'])
+        return in_array($attribute, [self::EDIT, self::CREATE])
             && $subject instanceof Article;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        /** @var Article $subject */
         $user = $token->getUser();
-        // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
+            // the user must be logged in; if not, deny access
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
+        // you know $subject is a Article object, thanks to `supports()`
+        /** @var Article $article */
+        $article = $subject;
+
         switch ($attribute) {
-            /*
-            case 'POST_EDIT':
-                // logic to determine if the user can EDIT
-                // return true or false
-                break;
-            case 'POST_VIEW':
-                // logic to determine if the user can VIEW
-                // return true or false
-                break;
-            */
-            case 'MANAGE':
+            case self::EDIT:
                 // this is the author!
-                if($subject->getAuthor() == $user) {
+                if($article->getAuthor() == $user) {
                     return true;
                 }
-
                 if ($this->security->isGranted('ROLE_ADMIN_ARTICLE')) {
                     return true;
                 }
+                return false;
 
+            case self::CREATE:
+                if ($this->security->isGranted('ROLE_CREATE_ARTICLE')) {
+                    return true;
+                }
                 return false;
         }
 

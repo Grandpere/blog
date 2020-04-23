@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Tag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -16,10 +17,18 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('Excerpt', null, [
+            ->add('Excerpt', TextareaType::class, [
                 'label' => 'Resume',
+                'attr' => [
+                    'rows' => 2,
+                ],
             ])
-            ->add('content')
+            ->add('content', TextareaType::class, [
+                'label' => 'Content',
+                'attr' => [
+                    'rows' => 5,
+                ],
+            ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => true,
