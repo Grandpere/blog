@@ -15,7 +15,7 @@ class UserUpdateType extends AbstractType
             ->add('email')
             ->add('firstname')
             ->add('lastname')
-            ->add('avatar')
+            //->add('avatar')
         ;
     }
 

@@ -2,18 +2,20 @@
     {% if app.request.get('_route') == 'web_articles_show' %}
         {% include 'web/article/_breadcrumb.html.twig' %}
     {% endif %}
-    <header>
+    <header class="mb-2">
         <div class="tags">
             {% for tag in article.tags %}
-                <span class="badge badge-secondary"><a class="text-white" href="{{ path('web_tags_show', {'slug':tag.slug}) }}">{{ tag.title }}</a></span>
+                <span class="mb-2 mb-md-0 badge badge-secondary"><a class="text-white" href="{{ path('web_tags_show', {'slug':tag.slug}) }}">{{ tag.title }}</a></span>
             {% endfor %}
         </div>
         <div class="title d-flex justify-content-between">
             {% if app.request.get('_route') == 'web_articles_show' %}
             <h1>{{ article.title }}</h1>
-            <div class="actions">
-                <a href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit</a>
-            </div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY')  and app.user is same as (article.author) %}
+                <div class="actions">
+                    <a class="btn btn-info" href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit</a>
+                </div>
+                    {% endif %}
             {% else %}
             <h2><a href="{{ path('web_articles_show', {'slug':article.slug}) }}">{{ article.title }}</a></h2>
             {% endif %}
@@ -34,21 +36,30 @@
         </div>
         <div id="top"></div>
     </header>
-    <div class="article-main">
+    <div class="article-main mt-4 mb-2">
         {% if article.coverImage is defined and article.coverImage is not null %}
-        <a class="image featured" href="{{ path('web_articles_show', {'slug': article.slug}) }}">
-            <img src="{{ app.request.getUriForPath(vich_uploader_asset(article, 'imageFile')) }}" alt="Illustration de l'article {{ article.title }}">
-        </a>
+        <div class="d-none d-md-block mb-4">
+            {% if app.request.get('_route') == 'web_articles_show' %}
+            <span class="image featured">
+                <img src="{{ app.request.getUriForPath(vich_uploader_asset(article, 'imageFile')) }}" alt="Illustration de l'article {{ article.title }}">
+            </span>
+            {% else %}
+            <a class="image featured" href="{{ path('web_articles_show', {'slug': article.slug}) }}">
+                <img src="{{ app.request.getUriForPath(vich_uploader_asset(article, 'imageFile')) }}" alt="Illustration de l'article {{ article.title }}">
+            </a>
+            {% endif %}
+        </div>
         {% endif %}
+        {#
         {% if article.updatedAt is not null %}
-        <div class="last-update">
+        <div class="last-update mb-4">
             <span>
                 Last update on
                 <time datetime="{{ article.updatedAt|date }}">{{ article.updatedAt|date("F d, Y", "Europe/Paris") }}</time>
             </span>
         </div>
         {% endif %}
-        {# determine current route for adapting content #}
+        #}
         {% if app.request.get('_route') == 'web_articles_index' or app.request.get('_route') == 'web_tags_show' %}
             <p>{{ article.excerpt }}</p>
         {% elseif app.request.get('_route') == 'web_articles_show' %}
