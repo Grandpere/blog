@@ -17,13 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
-/**
- * @Route("/account")
- */
+
 class AccountController extends AbstractController
 {
     /**
-     * @Route("/", name="web_account_index")
+     * @Route("/account/", name="web_account_index")
      */
     public function show()
     {
@@ -33,7 +31,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="web_account_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
+     * @Route("/account/{id}/edit", name="web_account_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, User $user = null)
     {
@@ -63,7 +61,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit-password", name="web_account_edit-password", methods={"GET","POST"}, requirements={"id"="\d+"})
+     * @Route("/account/{id}/edit-password", name="web_account_edit-password", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
     public function updatePassword(Request $request, User $user = null, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -94,18 +92,6 @@ class AccountController extends AbstractController
             ]);
         }
         return $this->redirectToRoute('web_account_index');
-    }
-
-    /**
-     * @Route("/api/account", name="api_account")
-     */
-    public function accountApi()
-    {
-        $user = $this->getUser();
-
-        return $this->json($user, 200, [], [
-            'groups' => ['main'],
-        ]);
     }
 
     /**
@@ -193,6 +179,19 @@ class AccountController extends AbstractController
         }
         return $this->render('web/account/reset-password.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/api/account", name="api_account")
+     */
+    public function accountApi()
+    {
+        $user = $this->getUser();
+
+        return $this->json($user, 200, [], [
+            'groups' => ['main'],
         ]);
     }
 }

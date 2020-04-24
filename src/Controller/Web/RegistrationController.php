@@ -72,7 +72,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/account/activate/{accountValidationToken}", name="app_account-activate", methods={"GET"})
+     * @Route("/activate/{accountValidationToken}", name="app_account-activate", methods={"GET"})
      */
     public function activate(Request $request, User $user = null, DelayTokenVerificator $tokenVerificator, GuardAuthenticatorHandler $guardAuthenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator) : Response
     {
@@ -104,7 +104,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/account/resend-token", name="app_resend-token", methods={"GET", "POST"})
+     * @Route("/resend-token", name="app_resend-token", methods={"GET", "POST"})
      */
     public function resendToken(Request $request, UserRepository $userRepository, Mailer $mailer) : Response
     {
@@ -125,6 +125,7 @@ class RegistrationController extends AbstractController
                 );
                 return $this->redirectToRoute('app_resend-token');
             }
+            // TODO : si token expiré, on devrait en générer un nouveau
             if($user->getAccountValidationToken()) {
                 $body = 'email/account-activation.html.twig';
                 $context = [

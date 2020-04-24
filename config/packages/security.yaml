@@ -39,10 +39,17 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/activate/.+, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resend-token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forgotten-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/reset-password/.+, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/articles/.+/edit, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        # but, definitely allow /login to be accessible anonymously
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
         # require the user to fully login to change password
         #- { path: ^/change-password, roles: IS_AUTHENTICATED_FULLY }
         # if you wanted to force EVERY URL to be protected
