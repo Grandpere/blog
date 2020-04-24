@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Web;
 
 use App\Entity\User;
 use App\Form\UserForgottenType;
@@ -27,7 +27,7 @@ class AccountController extends AbstractController
      */
     public function show()
     {
-        return $this->render('account/index.html.twig', [
+        return $this->render('web/account/index.html.twig', [
             'user' => $this->getUser(),
         ]);
     }
@@ -53,7 +53,7 @@ class AccountController extends AbstractController
                     //$this->redirectToRoute('user_show', ['slug' => $user->getSlug()]);
             }
 
-            return $this->render('account/edit.html.twig', [
+            return $this->render('web/account/edit.html.twig', [
                 'user' => $user,
                 'form' => $form->createView(),
             ]);
@@ -88,7 +88,7 @@ class AccountController extends AbstractController
                 return $this->redirectToRoute('web_account_index');
             }
 
-            return $this->render('account/edit.html.twig', [
+            return $this->render('web/account/edit.html.twig', [
                 'user' => $user,
                 'form' => $form->createView(),
             ]);
@@ -156,7 +156,7 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('account/forgotten-password.html.twig', [
+        return $this->render('web/account/forgotten-password.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -191,7 +191,7 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('account/reset-password.html.twig', [
+        return $this->render('web/account/reset-password.html.twig', [
             'form' => $form->createView(),
         ]);
     }

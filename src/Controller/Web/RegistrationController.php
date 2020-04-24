@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Web;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
@@ -66,7 +66,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('web/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -145,7 +145,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('registration/resend-token.html.twig', [
+        return $this->render('web/registration/resend-token.html.twig', [
             'form' => $form->createView(),
         ]);
     }
