@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base_admin.html.twig' %}
 
 {% block title %}Tag index{% endblock %}
 
@@ -27,8 +27,8 @@
                 <td>{{ tag.updatedAt ? tag.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ tag.isActive ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('admin_tag_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('admin_tag_edit', {'id': tag.id}) }}">edit</a>
+                    <a href="{{ path('admin_tags_show', {'id': tag.id}) }}">show</a>
+                    <a href="{{ path('admin_tags_edit', {'id': tag.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_tag_new') }}">Create new</a>
+    <a href="{{ path('admin_tags_new') }}">Create new</a>
 {% endblock %}

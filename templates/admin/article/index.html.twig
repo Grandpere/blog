@@ -1,4 +1,4 @@
-{% extends 'base_admin.html.twig' %}
+{% extends 'admin/base_admin.html.twig' %}
 
 {% block title %}Article index{% endblock %}
 
@@ -33,8 +33,8 @@
                 <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ article.isActive ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('admin_article_show', {'id': article.id}) }}">show</a>
-                    <a href="{{ path('admin_article_edit', {'id': article.id}) }}">edit</a>
+                    <a href="{{ path('admin_articles_show', {'id': article.id}) }}">show</a>
+                    <a href="{{ path('admin_articles_edit', {'id': article.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -45,5 +45,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_article_new') }}">Create new</a>
+    <a href="{{ path('admin_articles_new') }}">Create new</a>
 {% endblock %}

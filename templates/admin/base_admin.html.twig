@@ -4,3 +4,8 @@
     Administration du site
     {{ parent() }}
 {% endblock %}
+
+{% block header %}
+    {{ parent() }}
+    {% include('admin/_admin_main_nav.html.twig') %}
+{% endblock %}
