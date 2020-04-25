@@ -55,6 +55,11 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Article Created'
+            );
+
             return $this->redirectToRoute('web_articles_index');
         }
 
@@ -79,9 +84,15 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
 
-            return $this->redirectToRoute('web_articles_index');
+            $this->addFlash(
+                'success',
+                'Updated Article'
+            );
+
+            return $this->redirectToRoute('web_articles_show', ['slug' => $article->getSlug()]);
         }
 
         return $this->render('web/article/edit.html.twig', [
@@ -117,15 +128,15 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager();
             $comment->setArticle($article);
 
-            $em->persist($comment);
-            $em->flush();
+            $entityManager->persist($comment);
+            $entityManager->flush();
 
             $this->addFlash(
                 'success',
-                'Enregistrement effectué'
+                'Comment Created'
             );
 
             return $this->redirectToRoute('web_articles_comments', ['slug' => $article->getSlug(), 'page' => $page]);

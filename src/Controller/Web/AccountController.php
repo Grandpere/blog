@@ -47,8 +47,12 @@ class AccountController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
 
+                $this->addFlash(
+                    'success',
+                    'Article Updated'
+                );
+
                 return $this->redirectToRoute('web_account_index');
-                    //$this->redirectToRoute('user_show', ['slug' => $user->getSlug()]);
             }
 
             return $this->render('web/account/edit.html.twig', [
@@ -57,7 +61,6 @@ class AccountController extends AbstractController
             ]);
         }
         return $this->redirectToRoute('web_account_index');
-            //$this->redirectToRoute('user_show', ['slug'=>$user->getSlug()]);
     }
 
     /**
@@ -82,6 +85,11 @@ class AccountController extends AbstractController
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Password Updated'
+                );
 
                 return $this->redirectToRoute('web_account_index');
             }
@@ -112,7 +120,7 @@ class AccountController extends AbstractController
             if(!$user) {
                 $this->addFlash(
                     'danger',
-                    'Email Inconnu'
+                    'Unknown Email'
                 );
                 return $this->redirectToRoute('app_forgotten-password');
             }
@@ -172,7 +180,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Mot de passe modifié avec succès'
+                'Updated Password'
             );
 
             return $this->redirectToRoute('app_login');
