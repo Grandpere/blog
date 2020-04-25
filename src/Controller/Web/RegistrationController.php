@@ -38,6 +38,12 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            // be absolutely sure they agree
+            if (true === $form['agreeTerms']->getData()) {
+                $user->agreeTerms();
+            }
+
             $user->setAvatar($gravatar->getGravatar($user->getEmail()));
 
             $token = $tokenGenerator->generateToken();

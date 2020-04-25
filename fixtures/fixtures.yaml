@@ -10,8 +10,9 @@ App\Entity\User:
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         lastLogin: '<dateTimeBetween($updatedAt, "now")>'
         isActive: '<boolean(100)>'
+        agreedTermsAt: '$createdAt'
     User_2:
-        email: 'lorenzo@user.com'
+        email: 'lorenzo.marozzo@gmail.com'
         password: 'lorenzo'
         firstname: 'Lorenzo'
         lastname: 'User'
@@ -20,6 +21,7 @@ App\Entity\User:
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         lastLogin: '<dateTimeBetween($updatedAt, "now")>'
         isActive: '<boolean(100)>'
+        agreedTermsAt: '$createdAt'
     User_{3..10}:
         email (unique): 'user<current()>\@user.com'
         password: 'user<current()>'
@@ -30,6 +32,7 @@ App\Entity\User:
         updatedAt: '<dateTimeBetween($createdAt, "now")>'
         lastLogin: '<dateTimeBetween($updatedAt, "now")>'
         isActive: '<boolean(50)>'
+        agreedTermsAt: '$createdAt'
 
 App\Entity\ApiToken:
     ApiToken_1:

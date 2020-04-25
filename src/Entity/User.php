@@ -97,6 +97,11 @@ class User implements UserInterface
      */
     private $passwordRequestedAt;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $agreedTermsAt;
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
@@ -347,5 +352,15 @@ class User implements UserInterface
         $this->passwordRequestedAt = $passwordRequestedAt;
 
         return $this;
+    }
+
+    public function getAgreedTermsAt(): ?\DateTimeInterface
+    {
+        return $this->agreedTermsAt;
+    }
+
+    public function agreeTerms()
+    {
+        $this->agreedTermsAt = new \DateTime();
     }
 }
