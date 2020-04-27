@@ -24,7 +24,7 @@ class Tag
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"tag_read", "tag_readOne", "article_read", "article_readOne"})
+     * @Groups({"autocomplete", "tag_read", "tag_readOne", "article_read", "article_readOne"})
      * @Assert\NotBlank
      * @Assert\Length(
      *      min = 3,

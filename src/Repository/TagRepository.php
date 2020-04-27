@@ -47,4 +47,14 @@ class TagRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllMatching(string $q, int $limit = 5)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.title LIKE :q')
+            ->setParameter('q', '%'.$q.'%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }
