@@ -42,7 +42,7 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_article_index');
+            return $this->redirectToRoute('admin_articles_index');
         }
 
         return $this->render('admin/article/new.html.twig', [
@@ -78,7 +78,7 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_article_index');
+            return $this->redirectToRoute('admin_articles_index');
         }
 
         return $this->render('admin/article/edit.html.twig', [
@@ -98,6 +98,6 @@ class ArticleController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_article_index');
+        return $this->redirectToRoute('admin_articles_index');
     }
 }

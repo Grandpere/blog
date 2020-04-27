@@ -40,7 +40,7 @@ class CommentController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_comment_index');
+            return $this->redirectToRoute('admin_comments_index');
         }
 
         return $this->render('admin/comment/new.html.twig', [
@@ -70,7 +70,7 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_comment_index');
+            return $this->redirectToRoute('admin_comments_index');
         }
 
         return $this->render('admin/comment/edit.html.twig', [
@@ -90,6 +90,6 @@ class CommentController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_comment_index');
+        return $this->redirectToRoute('admin_comments_index');
     }
 }
