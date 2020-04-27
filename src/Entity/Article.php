@@ -98,7 +98,7 @@ class Article
     private $isActive;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", cascade={"persist"})
      * @Groups({"article_read", "article_readOne"})
      */
     private $tags;

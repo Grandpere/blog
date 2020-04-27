@@ -70,7 +70,7 @@ class Tag
     {
         $this->articles = new ArrayCollection();
         $this->createdAt = new \Datetime();
-        $this->isActive = false;
+        $this->isActive = true;
     }
 
     public function getId(): ?int
@@ -164,5 +164,10 @@ class Tag
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 }

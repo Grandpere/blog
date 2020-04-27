@@ -38,10 +38,12 @@ class ArticleType extends AbstractType
                 'asset_helper' => true,
             ])
             ->add('isActive')
+            /*
             ->add('tags', null, [
                 'choice_label' => 'title',
                 'expanded' => true,
-            ])
+            ])*/
+            ->add('tags', TagsType::class)
             // TODO: voir si bug dans API avec champ tag ajouté
             // TODO BUG: lors de l'ajout via API pas d'author_id
         ;
