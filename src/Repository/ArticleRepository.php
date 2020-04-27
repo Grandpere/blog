@@ -68,7 +68,7 @@ class ArticleRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('a')
             ->innerJoin('a.author', 'u')
             ->addSelect('u')
-            ->innerJoin('a.tags', 't')
+            ->leftJoin('a.tags', 't') // leftJoin instead innerJoin because articles.tags maybe null
             ->addSelect('t')
             ->orderBy('a.createdAt', 'DESC')
         ;
