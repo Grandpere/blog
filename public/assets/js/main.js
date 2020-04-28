@@ -19,3 +19,5 @@ $('.tag-input').tagsinput({
         source: tags
     }]
 });
+
+$('.bootstrap-tagsinput').addClass('form-control bti'); // add form-control class for bootstrap4 class & custom bti class for height:auto

@@ -221,3 +221,14 @@ span.heart {
     height: auto;
     border-radius: 50%;
 }
+
+/* >>> Bootstrap tag input */
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+    color: #ff6b6b;
+}
+
+.bti {
+    min-height: auto;
+    height: auto;
+}
