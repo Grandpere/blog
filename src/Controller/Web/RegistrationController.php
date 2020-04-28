@@ -48,6 +48,7 @@ class RegistrationController extends AbstractController
 
             $token = $tokenGenerator->generateToken();
             $user->setAccountValidationToken($token);
+            $user->setValidationTokenCreatedAt(new \DateTime());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -82,7 +83,7 @@ class RegistrationController extends AbstractController
      */
     public function activate(Request $request, User $user = null, DelayTokenVerificator $tokenVerificator, GuardAuthenticatorHandler $guardAuthenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator) : Response
     {
-        if(!$user || $tokenVerificator->isValidToken($user->getCreatedAt()) === false) {
+        if(!$user || $tokenVerificator->isValidToken($user->getValidationTokenCreatedAt()) === false) {
             $this->addFlash(
                 'danger',
                 'Expired token'
@@ -93,8 +94,10 @@ class RegistrationController extends AbstractController
         }
 
         $user->setAccountValidationToken(null);
+        $user->setValidationTokenCreatedAt(null);
         $user->setIsActive(true);
-        $this->getDoctrine()->getManager()->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
 
         $this->addFlash(
             'success',
@@ -112,7 +115,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/resend-token", name="app_resend-token", methods={"GET", "POST"})
      */
-    public function resendToken(Request $request, UserRepository $userRepository, Mailer $mailer) : Response
+    public function resendToken(Request $request, UserRepository $userRepository, Mailer $mailer, DelayTokenVerificator $tokenVerificator) : Response
     {
         $form = $this->createForm(UserForgottenType::class);
         $form->handleRequest($request);
@@ -131,8 +134,16 @@ class RegistrationController extends AbstractController
                 );
                 return $this->redirectToRoute('app_resend-token');
             }
-            // TODO : si token expiré, on devrait en générer un nouveau
             if($user->getAccountValidationToken()) {
+                // user found & uset have accountValidationToken (token valid or invalid)
+                if($tokenVerificator->isValidToken($user->getValidationTokenCreatedAt()) === false) {
+                    // generate new delay for activation
+                    $user->setValidationTokenCreatedAt(new \DateTime());
+
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->flush();
+                }
+
                 $body = 'email/account-activation.html.twig';
                 $context = [
                     'user' => $user

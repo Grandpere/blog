@@ -70,7 +70,6 @@ class Article
      *
      * @var File|null
      */
-    // TODO:  assert file constraint
     private $imageFile;
 
     /**

@@ -88,6 +88,11 @@ class User implements UserInterface
     private $accountValidationToken;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $validationTokenCreatedAt;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $resetPasswordToken;
@@ -95,7 +100,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $passwordRequestedAt;
+    private $passwordTokenCreatedAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -247,15 +252,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAvatarUrl(string $size = null) : string
-    {
-        $url = 'https://robohash.org/'.$this->getEmail();
-        if ($size) {
-            $url .= sprintf('?size=%dx%d', $size, $size);
-        }
-        return $url;
-    }
-
     /**
      * @return Collection|ApiToken[]
      */
@@ -330,6 +326,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getValidationTokenCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->validationTokenCreatedAt;
+    }
+
+    public function setValidationTokenCreatedAt(?\DateTimeInterface $validationTokenCreatedAt): self
+    {
+        $this->validationTokenCreatedAt = $validationTokenCreatedAt;
+
+        return $this;
+    }
+
     public function getResetPasswordToken(): ?string
     {
         return $this->resetPasswordToken;
@@ -342,14 +350,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPasswordRequestedAt(): ?\DateTimeInterface
+    public function getPasswordTokenCreatedAt(): ?\DateTimeInterface
     {
-        return $this->passwordRequestedAt;
+        return $this->passwordTokenCreatedAt;
     }
 
-    public function setPasswordRequestedAt(?\DateTimeInterface $passwordRequestedAt): self
+    public function setPasswordTokenCreatedAt(?\DateTimeInterface $passwordTokenCreatedAt): self
     {
-        $this->passwordRequestedAt = $passwordRequestedAt;
+        $this->passwordTokenCreatedAt = $passwordTokenCreatedAt;
 
         return $this;
     }
@@ -357,6 +365,13 @@ class User implements UserInterface
     public function getAgreedTermsAt(): ?\DateTimeInterface
     {
         return $this->agreedTermsAt;
+    }
+
+    public function setAgreedTermsAt(?\DateTimeInterface $agreedTermsAt): self
+    {
+        $this->agreedTermsAt = $agreedTermsAt;
+
+        return $this;
     }
 
     public function agreeTerms()

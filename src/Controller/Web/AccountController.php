@@ -127,7 +127,7 @@ class AccountController extends AbstractController
 
             $token = $tokenGenerator->generateToken();
             $user->setResetPasswordToken($token);
-            $user->setPasswordRequestedAt(new \DateTime());
+            $user->setPasswordTokenCreatedAt(new \DateTime());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
@@ -160,7 +160,7 @@ class AccountController extends AbstractController
      */
     public function resetPassword(Request $request, User $user = null, UserPasswordEncoderInterface $passwordEncoder, DelayTokenVerificator $tokenVerificator)
     {
-        if(!$user || $tokenVerificator->isValidToken($user->getPasswordRequestedAt()) === false) {
+        if(!$user || $tokenVerificator->isValidToken($user->getPasswordTokenCreatedAt()) === false) {
             $this->addFlash(
                 'danger',
                 'Expired token'
@@ -175,7 +175,7 @@ class AccountController extends AbstractController
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
             $user->setResetPasswordToken(null);
-            $user->setPasswordRequestedAt(null);
+            $user->setPasswordTokenCreatedAt(null);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash(
