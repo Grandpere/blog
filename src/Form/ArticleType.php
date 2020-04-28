@@ -17,7 +17,7 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('Excerpt', TextareaType::class, [
+            ->add('excerpt', TextareaType::class, [
                 'label' => 'Resume',
                 'attr' => [
                     'rows' => 2,
@@ -31,6 +31,7 @@ class ArticleType extends AbstractType
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
+                'label' => 'Cover Image',
                 'allow_delete' => true,
                 'download_label' => false,
                 'download_uri' => false,
