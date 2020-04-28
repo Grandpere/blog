@@ -12,3 +12,10 @@
         {{ include('web/article/_form_article.html.twig', {'button_label': 'Update'}) }}
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ asset('assets/js/typeahead.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+{% endblock %}

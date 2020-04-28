@@ -43,7 +43,9 @@ class ArticleType extends AbstractType
                 'choice_label' => 'title',
                 'expanded' => true,
             ])*/
-            ->add('tags', TagsType::class)
+            ->add('tags', TagsType::class, [
+                'help' => 'Each tag must br separate by comma ","'
+            ])
             // TODO: voir si bug dans API avec champ tag ajouté
             // TODO BUG: lors de l'ajout via API pas d'author_id
         ;
