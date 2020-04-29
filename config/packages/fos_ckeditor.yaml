@@ -1,0 +1,27 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+fos_ck_editor:
+    input_sync: true
+    configs:
+        main_config:
+            toolbar: "article_toolbar"
+    toolbars:
+        configs:
+            article_toolbar: [ "@document", "@clipboard", "@editing", "@tools", "/", "@basicstyles", "@paragraph", "@links", "@insert", "/", "@styles", "@colors" ]
+        items:
+            document: [ 'Source', '-', 'Preview', '-' ]
+            clipboard: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ]
+            editing: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ]
+            tools: [ 'Maximize', 'ShowBlocks' ]
+            basicstyles: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ]
+            paragraph: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-' ]
+            links: [ 'Link', 'Unlink', 'Anchor' ]
+            insert: [ 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar' ]
+            styles: [ 'Styles', 'Format', 'Font', 'FontSize' ]
+            colors: [ 'TextColor', 'BGColor' ]
+    #filebrowserUploadRoute: "my_route"
+    #extraPlugins:           "wordcount"

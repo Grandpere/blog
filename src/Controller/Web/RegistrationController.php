@@ -89,8 +89,6 @@ class RegistrationController extends AbstractController
                 'Expired token'
             );
             return $this->redirectToRoute('app_login');
-            // TODO: faire méthode pour renvoyer le token par mail pour ne pas se retrouver bloqué
-            // TODO: la méthode actuelle renvoie uniquement le mail au cas ou l'on a perdu le mail mais en cas de token expiré, il en faut un nouveau
         }
 
         $user->setAccountValidationToken(null);

@@ -3,8 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
-use App\Entity\Tag;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +22,7 @@ class ArticleType extends AbstractType
                     'rows' => 2,
                 ],
             ])
-            ->add('content', TextareaType::class, [
+            ->add('content', CKEditorType::class, [
                 'label' => 'Content',
                 'attr' => [
                     'rows' => 5,

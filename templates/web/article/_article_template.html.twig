@@ -13,7 +13,7 @@
                 <div class="row mx-0">
                     <h1>{{ article.title }}</h1>
                     {% if is_granted('IS_AUTHENTICATED_FULLY')  and app.user is same as (article.author) %}
-                        <div class="actions mb-2">
+                        <div class="actions mb-2 ml-md-2">
                             <a class="btn btn-info" href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit</a>
                         </div>
                     {% endif %}
@@ -65,7 +65,7 @@
         {% if app.request.get('_route') == 'web_articles_index' or app.request.get('_route') == 'web_tags_show' %}
             <p>{{ article.excerpt }}</p>
         {% elseif app.request.get('_route') == 'web_articles_show' %}
-            <p>{{ article.content }}</p>
+            <p>{{ article.content|raw }}</p>
             <div class="post-back-top d-flex justify-content-center">
                 <a href="#top"><i class="pr-2 fas fa-angle-double-up"></i>Début de l'article</a>
             </div>
