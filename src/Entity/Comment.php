@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -82,10 +84,27 @@ class Comment
      */
     private $authorWebsite;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $depth;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comment", inversedBy="childrens")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="parent")
+     */
+    private $childrens;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
         $this->isActive = true;
+        $this->depth = 0;
+        $this->childrens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,6 +204,71 @@ class Comment
     public function setAuthorWebsite(?string $authorWebsite): self
     {
         $this->authorWebsite = $authorWebsite;
+
+        return $this;
+    }
+
+    public function getDepth(): ?int
+    {
+        return $this->depth;
+    }
+
+    public function setDepth(int $depth): self
+    {
+        $this->depth = $depth;
+
+        return $this;
+    }
+
+    public function increaseDepth()
+    {
+        $this->depth += 1;
+    }
+
+    public function decreaseDepth()
+    {
+        $this->depth -= 1;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getChildrens(): Collection
+    {
+        return $this->childrens;
+    }
+
+    public function addChildren(self $children): self
+    {
+        if (!$this->childrens->contains($children)) {
+            $this->childrens[] = $children;
+            $children->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChildren(self $children): self
+    {
+        if ($this->childrens->contains($children)) {
+            $this->childrens->removeElement($children);
+            // set the owning side to null (unless already changed)
+            if ($children->getParent() === $this) {
+                $children->setParent(null);
+            }
+        }
 
         return $this;
     }

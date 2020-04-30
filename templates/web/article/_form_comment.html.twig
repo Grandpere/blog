@@ -1,4 +1,5 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
 <button class="btn btn-info">{{ button_label|default('Comment') }}</button>
+<input type="hidden" name="parentId" id="parentId" value="null">
 {{ form_end(form) }}

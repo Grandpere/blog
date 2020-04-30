@@ -131,6 +131,15 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $comment->setArticle($article);
 
+            if($request->request->has('parentId') && "null" !== $request->request->get('parentId')) {
+                $parentId = $request->request->get('parentId');
+                $parent = $commentRepository->find($parentId);
+                if($parent) {
+                    $comment->setParent($parent);
+                    $comment->increaseDepth();
+                }
+            }
+
             $entityManager->persist($comment);
             $entityManager->flush();
 

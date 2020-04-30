@@ -10,10 +10,10 @@
         </div>
         <div class="title d-flex justify-content-between">
             {% if app.request.get('_route') == 'web_articles_show' %}
-                <div class="row mx-0">
-                    <h1>{{ article.title }}</h1>
+                <div class="row mx-0 w-100">
+                    <h1 class="w-100">{{ article.title }}</h1>
                     {% if is_granted('IS_AUTHENTICATED_FULLY')  and app.user is same as (article.author) %}
-                        <div class="actions mb-2 ml-md-2">
+                        <div class="actions mb-2">
                             <a class="btn btn-info" href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit</a>
                         </div>
                     {% endif %}

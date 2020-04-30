@@ -20,7 +20,7 @@
                     <div class="col-sm-12">
                         <h3>Laissez un commentaire</h3>
                         <p><span>Votre adresse de messagerie ne sera pas publiée.</span></p>
-                        <div class="comment-container">
+                        <div class="comment-container" id="comment-form">
                             {% include 'web/article/_form_comment.html.twig' %}
                         </div>
                     </div>
@@ -47,5 +47,10 @@
             </ul>
         </footer>
     </article>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/comment_reply-comment.js') }}"></script>
 {% endblock %}
 
