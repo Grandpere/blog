@@ -4,3 +4,5 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes: ['bootstrap_4_layout.html.twig']
     #form_themes: ['foundation_5_layout.html.twig']
+    globals:
+        gravatar: '@App\Utils\Gravatar'

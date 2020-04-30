@@ -1,6 +1,6 @@
 <div class="comment row px-4 mb-3" id="comment-{{ comment.id }}">
     <div class="comment-content-container col-sm-12">
-        <img class="comment-img rounded-circle" src="{{ asset('uploads/alien-profile.png') }}">
+        <img class="comment-img rounded-circle" src="{{ gravatar.getGravatar(comment.authorEmail) }}" style="max-width: 30px">
         <div class="d-inline-block pl-3 align-top">
             <p class="comment-author mb-1">
                 {% if comment.authorWebsite is not null %}
@@ -26,7 +26,7 @@
                 {{ comment.content }}
             </p>
             <p class="comment-reply">
-                <a class="btn btn-sm btn-outline-secondary" href="#">Reply</a>
+                <a class="btn btn-sm btn-outline-secondary" data-commentid="{{ comment.id }}" data-postid="{{ article.id }}" href="#comment-{{ comment.id }}">Reply</a>
             </p>
         </div>
     </div>
