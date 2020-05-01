@@ -1,3 +1,6 @@
+/*
+ TODO: use css variable
+ */
 /* >>>Basic */
 html, body {
     margin: 0;
@@ -148,6 +151,28 @@ ul.actions {
 
 .comment-content-container {
     border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+}
+
+/* >>>Post comments */
+.comment-size {
+    margin-left: 0;
+}
+
+.comment-size--0 {
+    margin-left: inherit;
+}
+
+.comment-size--1 {
+    margin-left: calc(30px + 10px);
+}
+
+.comment-size--2 {
+    margin-left:  calc(30px + 10px + 30px + 10px);
+}
+
+.comment-img {
+    width: 30px;
+    margin-right: 10px;
 }
 
 /* >>>Footer */

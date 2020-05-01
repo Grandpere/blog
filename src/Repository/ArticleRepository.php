@@ -127,4 +127,17 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $paginator;
     }
+
+    public function findOneBySlugWithTags($slug): ?Article
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.author', 'u')
+            ->addSelect('u')
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
+            ->andWhere('a.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

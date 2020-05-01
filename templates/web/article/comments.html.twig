@@ -26,9 +26,35 @@
                     </div>
                 </div>
                 <hr>
+                {# ============================== COMMENT'S MACRO ============================== #}
+                {# comment child depth 1 #}
+                {% macro childs_list(comments) %}
+                    {% for comment in comments %}
+                            {% include 'web/article/_comment_template.html.twig' %}
+                        {% if comment.childrens is not empty %}
+                            {{ _self.childs_childs_list(comment.childrens) }}
+                        {% endif %}
+                    {% endfor %}
+                {% endmacro %}
+
+                {# comment child depth 2 #}
+                {% macro childs_childs_list(comments) %}
+                    {% for comment in comments %}
+                            {% include 'web/article/_comment_template.html.twig' %}
+                    {% endfor %}
+                {% endmacro %}
+                {# ============================== COMMENT'S MACRO ============================== #}
+
                 {# listing all comments #}
                 {% for comment in comments %}
-                    {% include 'web/article/_comment_template.html.twig' %}
+                    {% if comment.parent is null %}
+                        {# comment parent depth 0 #}
+                        {% include 'web/article/_comment_template.html.twig' %}
+                        {% if comment.childrens is not empty %}
+                            {{ _self.childs_list(comment.childrens) }}
+                        {% endif %}
+                    {% endif %}
+
                 {% else %}
                     <div class="row">
                         <div class="col-sm-12">

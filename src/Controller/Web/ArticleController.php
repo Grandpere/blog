@@ -104,11 +104,13 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET"}, requirements={"slug"="[a-zA-Z0-9-]+"})
      */
-    public function show(Article $article = null)
+    public function show(string $slug, ArticleRepository $articleRepository)
     {
+        $article = $articleRepository->findOneBySlugWithTags($slug);
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }
+
         return $this->render('web/article/show.html.twig', [
             'article' => $article,
         ]);
@@ -117,8 +119,9 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{slug}/comments/{page}", name="comments", methods={"GET", "POST"}, requirements={"slug"="[a-zA-Z0-9-]+", "page"="\d+"})
      */
-    public function comments(Request $request, Article $article = null, CommentRepository $commentRepository, $page = 1)
+    public function comments(Request $request, string $slug, ArticleRepository $articleRepository, CommentRepository $commentRepository, $page = 1)
     {
+        $article = $articleRepository->findOneBySlugWithTags($slug);
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }
@@ -134,9 +137,9 @@ class ArticleController extends AbstractController
             if($request->request->has('parentId') && "null" !== $request->request->get('parentId')) {
                 $parentId = $request->request->get('parentId');
                 $parent = $commentRepository->find($parentId);
-                if($parent) {
+                if($parent && $parent->getDepth() < 2) { // max depth : 2, si la condition n'est pas respecté le commentaire ne sera pas ajouté en tant qu'enfant
                     $comment->setParent($parent);
-                    $comment->increaseDepth();
+                    $comment->setDepth($parent->getDepth())->increaseDepth();
                 }
             }
 

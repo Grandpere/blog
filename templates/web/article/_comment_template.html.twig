@@ -1,7 +1,7 @@
-<div class="comment row px-4 mb-3" id="comment-{{ comment.id }}">
-    <div class="comment-content-container col-sm-12">
-        <img class="comment-img rounded-circle" src="{{ gravatar.getGravatar(comment.authorEmail) }}" style="max-width: 30px">
-        <div class="d-inline-block pl-3 align-top">
+<div class="comment mb-3" id="comment-{{ comment.id }}">
+    <div class="comment-content-container d-flex align-items-start justify-content-start comment-size comment-size--{{ comment.depth }}">
+        <img class="comment-img rounded-circle" src="{{ gravatar.getGravatar(comment.authorEmail) }}">
+        <div>
             <p class="comment-author mb-1">
                 {% if comment.authorWebsite is not null %}
                 <a href="{{ comment.authorWebsite }}">{{ comment.authorName }}</a>
@@ -25,9 +25,11 @@
             <p class="comment-content">
                 {{ comment.content }}
             </p>
+            {% if comment.depth < 2 %} {# pas de réponse possible après depth = 1, depth sera donc de 2 max : 0 (parent), 1 (enfant), 2 (enfant d'un enfant) #}
             <p class="comment-reply">
                 <a class="btn btn-sm btn-outline-secondary reply" data-commentid="{{ comment.id }}" href="#comment-form">Reply</a>
             </p>
+            {% endif %}
         </div>
     </div>
 </div>
