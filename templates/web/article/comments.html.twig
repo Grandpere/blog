@@ -27,34 +27,18 @@
                 </div>
                 <hr>
                 {# ============================== COMMENT'S MACRO ============================== #}
-                {# comment child depth 1 #}
-                {% macro childs_list(comments) %}
-                    {% for comment in comments %}
-                            {% include 'web/article/_comment_template.html.twig' %}
-                        {% if comment.childrens is not empty %}
-                            {{ _self.childs_childs_list(comment.childrens) }}
-                        {% endif %}
-                    {% endfor %}
-                {% endmacro %}
-
-                {# comment child depth 2 #}
-                {% macro childs_childs_list(comments) %}
-                    {% for comment in comments %}
-                            {% include 'web/article/_comment_template.html.twig' %}
-                    {% endfor %}
+                {% macro isChildrensExists(comments) %}
+                    {% if comments.childrens is defined %}
+                        {% for childrens in comments.childrens %}
+                            {% include 'web/article/_comment_template.html.twig' with {'comment': childrens.comment} %}
+                            {{ _self.isChildrensExists(childrens) }}
+                        {% endfor %}
+                    {% endif %}
                 {% endmacro %}
                 {# ============================== COMMENT'S MACRO ============================== #}
-
-                {# listing all comments #}
-                {% for comment in comments %}
-                    {% if comment.parent is null %}
-                        {# comment parent depth 0 #}
-                        {% include 'web/article/_comment_template.html.twig' %}
-                        {% if comment.childrens is not empty %}
-                            {{ _self.childs_list(comment.childrens) }}
-                        {% endif %}
-                    {% endif %}
-
+                {% for commentArray in results %}
+                    {% include 'web/article/_comment_template.html.twig' with {'comment': commentArray.comment} %}
+                    {{ _self.isChildrensExists(commentArray) }}
                 {% else %}
                     <div class="row">
                         <div class="col-sm-12">
@@ -64,7 +48,7 @@
                         </div>
                     </div>
                 {% endfor %}
-                {% include '_pagination.html.twig' %}
+                {#{% include '_pagination.html.twig' %}#}
             </div>
         </div>
         <footer>

@@ -51,6 +51,8 @@ class CommentRepository extends ServiceEntityRepository
     }
     */
 
+    /*
+    // OLD METHOD WITH PAGINATION BUT TOO MANY REQUESTS FOR CHILD COMMENTS
     public function findAllByArticleOrderedByNewest($article, $page = 1, $maxResults = 10)
     {
         if(!is_numeric($page)) {
@@ -66,8 +68,11 @@ class CommentRepository extends ServiceEntityRepository
         }
 
         $query = $this->createQueryBuilder('c')
+            ->leftJoin('c.childrens', 'cc')
+            ->addSelect('cc')
             ->andWhere('c.article = :article')
             ->setParameter('article', $article)
+            ->andWhere('c.parent is null')
             ->orderBy('c.createdAt', 'DESC')
         ;
         $firstResults = ($page - 1) * $maxResults;
@@ -83,5 +88,22 @@ class CommentRepository extends ServiceEntityRepository
         }
 
         return $paginator;
+    }
+    */
+
+    public function findAllActiveByArticleOrderedByNewest($article)
+    {
+        return
+            $this->createQueryBuilder('cp')
+            ->leftJoin('cp.parent', 'cc')
+            ->addSelect('cc')
+            ->leftJoin('cc.parent', 'csc')
+            ->addSelect('csc')
+            ->andWhere('cp.article = :article')
+            ->setParameter('article', $article)
+            //->andWhere('cp.parent is null')
+            ->orderBy('cp.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

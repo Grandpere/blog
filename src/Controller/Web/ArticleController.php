@@ -154,9 +154,13 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('web_articles_comments', ['slug' => $article->getSlug(), 'page' => $page]);
         }
 
+        /*
+         // OLD METHOD WITH PAGINATION BUT TOO MANY REQUESTS FOR CHILD COMMENTS
         $maxCommentPerPage = $this->getParameter('max_comment_per_page');
 
         $comments = $commentRepository->findAllByArticleOrderedByNewest($article, $page, $maxCommentPerPage);
+        //$commentsCount = $commentRepository->countActiveComments($article);
+
         $pagination = array(
             'page' => $page,
             'route' => 'web_articles_comments',
@@ -167,8 +171,38 @@ class ArticleController extends AbstractController
         );
         return $this->render('web/article/comments.html.twig', [
             'article' => $article,
+            //'commentsCount' => $commentsCount,
             'comments' => $comments,
             'pagination' => $pagination,
+            'form' => $form->createView(),
+        ]);
+        */
+
+        $comments = $commentRepository->findAllActiveByArticleOrderedByNewest($article);
+        $results = [];
+        // limitation a une profondeur de 2 donc parent -> enfant -> petit-enfant
+        foreach ($comments as $comment) {
+            if(0 === $comment->getDepth()) {
+                // commentaire parent
+                $results[$comment->getId()]['comment'] = $comment;
+            }
+            elseif(1 === $comment->getDepth()) {
+                // commentaire enfant d'un commentaire parent
+                $commentParent = $comment->getParent();
+                $results[$commentParent->getId()]['childrens'][$comment->getId()]['comment'] = $comment;
+            }
+            elseif(2 === $comment->getDepth()) {
+                // commentaire enfant d'un commentaire déja enfant
+                $commentParent = $comment->getParent();
+                $commentElderParent = $commentParent->getParent();
+                $results[$commentElderParent->getId()]['childrens'][$commentParent->getId()]['childrens'][$comment->getId()]['comment'] = $comment;
+            }
+        }
+
+        return $this->render('web/article/comments.html.twig', [
+            'article' => $article,
+            'comments' => $comments,
+            'results' => $results,
             'form' => $form->createView(),
         ]);
     }
