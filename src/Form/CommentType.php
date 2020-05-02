@@ -20,21 +20,12 @@ class CommentType extends AbstractType
             ])
             ->add('authorName', null, [
                 'label' => 'Nom',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
             ])
             ->add('authorEmail', null, [
                 'label' => 'Adresse de messagerie',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
             ])
             ->add('authorWebsite', null, [
                 'label' => 'Site Web',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
             ])
         ;
     }
