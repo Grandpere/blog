@@ -13,20 +13,11 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
+            //->add('roles')
             ->add('password')
             ->add('firstname')
             ->add('lastname')
-            ->add('avatar')
             ->add('isActive')
-            ->add('lastLogin')
-            ->add('accountValidationToken')
-            ->add('validationTokenCreatedAt')
-            ->add('resetPasswordToken')
-            ->add('passwordTokenCreatedAt')
-            ->add('agreedTermsAt')
-            ->add('createdAt')
-            ->add('updatedAt')
         ;
     }
 
