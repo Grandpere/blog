@@ -15,8 +15,11 @@ class DelayTokenVerificator
         }
 
         $now = new \DateTime();
-
         $diff = $requestedDate->getTimestamp() - $now->getTimestamp();
+
+        if($diff > 0) {
+            return false;
+        }
 
         return abs($diff) <= self::VALIDITY ? true : false;
     }
