@@ -9,7 +9,7 @@ class Gravatar
     CONST IMG_URL = 'https://www.gravatar.com/avatar/';
     CONST IMG_SIZE = 200;
 
-    private function getEmailHash(string $email)
+    private function getEmailHash(string $email = null)
     {
         return md5(strtolower(trim($email)));
     }
@@ -19,7 +19,7 @@ class Gravatar
         return self::IMG_URL.$hash."?s=".self::IMG_SIZE;
     }
 
-    public function getGravatar(string $email)
+    public function getGravatar(string $email = null)
     {
         $hash = $this->getEmailHash($email);
 
