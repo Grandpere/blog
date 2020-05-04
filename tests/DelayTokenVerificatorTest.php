@@ -11,6 +11,11 @@ class DelayTokenVerificatorTest extends TestCase
     {
         $delayTokenVerificator = new DelayTokenVerificator();
 
+        // >>>NO DATETIME IN PARAMETER
+        $result = $delayTokenVerificator->isValidToken();
+        $this->assertEquals(false, $result);
+        // <<<NO DATETIME IN PARAMETER
+
         // >>>VALID TOKEN
         $now = new \DateTime('now');
         $result = $delayTokenVerificator->isValidToken($now);
@@ -47,6 +52,6 @@ class DelayTokenVerificatorTest extends TestCase
         $twoDaysAfter = (clone $now)->modify('+2 day');
         $result = $delayTokenVerificator->isValidToken($twoDaysAfter);
         $this->assertEquals(false, $result);
-        // <<<VALID TOKEN BUT IMPOSSIBLE SITUATION
+        // <<<IMPOSSIBLE SITUATION
     }
 }
