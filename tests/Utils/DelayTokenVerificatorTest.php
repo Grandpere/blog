@@ -72,12 +72,10 @@ class DelayTokenVerificatorTest extends TestCase
         $this->assertEquals(false, $result, 'a not existing token on the current date cannot be valid');
     }
 
-    /**
-     * @expectedException \TypeError
-     */
     public function testIsValidTokenWith()
     {
-        $result = $this->delayTokenVerificator->isValidToken('02/05/2020 17:00:00');
-        $this->assertEquals(false, $result);
+        $this->expectException('\TypeError');
+        $this->delayTokenVerificator->isValidToken('02/05/2020 17:00:00');
+
     }
 }
