@@ -2,22 +2,19 @@
 
 namespace App\Utils;
 
-use Twig\Environment as twig;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 
 class Mailer
 {
-    private $twig;
     private $mailer;
 
-    public function __construct(twig $twig, MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer)
     {
-        $this->twig = $twig;
         $this->mailer = $mailer;
     }
 
-    public function sendMessage($from, $to, $subject, $body, $context)
+    public function sendMessage($from, $to, $subject, $body, $context): TemplatedEmail
     {
         $email = (new TemplatedEmail())
             ->from($from)
@@ -27,6 +24,8 @@ class Mailer
             ->htmlTemplate($body)
             ->context($context)
         ;
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return $email;
     }
 }

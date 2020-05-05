@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Utils;
 
 use App\Utils\Gravatar;
 use PHPUnit\Framework\TestCase;
@@ -37,5 +37,10 @@ class GravatarTest extends TestCase
     {
         $result = $this->gravatar->getGravatar();
         $this->assertContains('d41d8cd98f00b204e9800998ecf8427e', $result);
+    }
+
+    public function testGetGravatarWithOptions()
+    {
+        $this->markTestIncomplete('TODO, improve service with passing option in parameter');
     }
 }

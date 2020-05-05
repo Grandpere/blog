@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Utils;
 
 use App\Utils\DelayTokenVerificator;
 use PHPUnit\Framework\TestCase;
