@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -49,9 +50,9 @@ class ArticleTest extends TestCase
     }
 
     /**
-     * @dataProvider getStringColumnNameAndInvalidData
      * @param $columnName
      * @param $columnData
+     * @dataProvider getStringColumnNameAndInvalidData
      */
     public function testSetStringColumnWithIncorrectType($columnName, $columnData)
     {
@@ -76,7 +77,7 @@ class ArticleTest extends TestCase
         ];
     }
 
-    public function testSetUpdatedAt()
+    public function testSetUpdatedAtWithCorrectType()
     {
         $article = new Article();
 
@@ -84,11 +85,17 @@ class ArticleTest extends TestCase
 
         $article->setUpdatedAt(new \DateTime('2020-05-05'));
         $this->assertEquals('2020-05-05', $article->getUpdatedAt()->format('Y-m-d'));
-
-        // TODO : incorrect type or data
     }
 
-    public function testSetIsActiveArticle()
+    public function testSetUpdatedAtWithIncorrectType()
+    {
+        $article = new Article();
+
+        $this->expectException('\TypeError');
+        $article->setUpdatedAt('2020-05-05');
+    }
+
+    public function testSetIsActiveWithCorrectType()
     {
         $article = new Article();
 
@@ -98,18 +105,26 @@ class ArticleTest extends TestCase
         $article->setIsActive(true);
         $this->assertIsBool(true);
         $this->assertEquals(true, $article->getIsActive());
-
-        // TODO : incorrect type or data
-    }
-
-    public function testImageFile()
-    {
-        $this->markTestIncomplete('TODO');
     }
 
     public function testSetAuthor()
     {
-        $this->markTestIncomplete('TODO');
+        $user = new User();
+        $user->setEmail('test@test.com');
+
+        $article = new Article();
+        $article->setAuthor($user);
+
+        $this->assertInstanceOf(User::class, $article->getAuthor());
+        $this->assertEquals('test@test.com', $article->getAuthor()->getEmail());
+    }
+
+    public function testSetAuthorWithIncorrectType()
+    {
+        $article = new Article();
+
+        $this->expectException('\TypeError');
+        $article->setAuthor('user');
     }
 
     public function testTags()
@@ -118,6 +133,11 @@ class ArticleTest extends TestCase
     }
 
     public function testComments()
+    {
+        $this->markTestIncomplete('TODO');
+    f}
+
+    public function testImageFile()
     {
         $this->markTestIncomplete('TODO');
     }
