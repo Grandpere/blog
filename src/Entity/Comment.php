@@ -12,12 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    /* TODO: permettre de répondre directement à un commentaire plutot qu'un article
-        Pour cela, il faut lier un commentaire à un autre par une relation, celle ci sera null par défaut
-        ex: comment1('parentComment' => null) et comment2('parentComment' => comment1)
-        //!\\ Comment faire pour minimiser les requêtes (obtenir les commentaires parents et les commentaires enfants)
-        et gérer l'affichage sous forme de conversation
-    */
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
