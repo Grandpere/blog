@@ -18,12 +18,12 @@ class ArticleTest extends TestCase
         $this->article = new Article();
     }
 
-    public function testArticleAfterConstructor()
+    public function testAfterConstructor()
     {
         $this->assertInstanceOf(ArrayCollection::class, $this->article->getTags());
         $this->assertEmpty($this->article->getTags());
         $this->assertInstanceOf(\DateTime::class, $this->article->getCreatedAt());
-        $this->assertIsBool(false);
+        $this->assertSame(false, $this->article->getIsActive());
         $this->assertInstanceOf(ArrayCollection::class, $this->article->getComments());
     }
 
@@ -96,11 +96,9 @@ class ArticleTest extends TestCase
 
     public function testSetIsActiveWithCorrectType()
     {
-        $this->assertIsBool(false);
         $this->assertEquals(false, $this->article->getIsActive());
 
         $this->article->setIsActive(true);
-        $this->assertIsBool(true);
         $this->assertEquals(true, $this->article->getIsActive());
     }
 
@@ -190,6 +188,6 @@ class ArticleTest extends TestCase
 
     public function testImageFile()
     {
-        $this->markTestIncomplete('TODO');
+        $this->markTestSkipped('imageFile are managed by VichUploaderBundle');
     }
 }
