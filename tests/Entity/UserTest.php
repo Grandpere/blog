@@ -112,7 +112,7 @@ class UserTest extends TestCase
             ['AgreedTermsAt'],
         ];
     }
-    
+
     public function testUserName()
     {
         $this->assertEquals($this->user->getEmail(), $this->user->getUsername());
