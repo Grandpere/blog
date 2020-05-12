@@ -35,17 +35,16 @@ class ArticleControllerTest extends WebTestCase
     {
         yield ['/article'];
         yield ['/articless'];
-        yield ['/tag'];
-        yield ['/tagss'];
+        yield ['/articles/FAKE-URL'];
     }
 
-    public function testHomepageWithUrlEndedByBackslashWithoutRedirection()
+    public function testHomepageWithFinalBackslashWithoutRedirection()
     {
         $this->client->request('GET', '/articles/');
         $this->assertEquals(Response::HTTP_MOVED_PERMANENTLY, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testHomepageWithUrlEndedByBackslashWithRedirection()
+    public function testHomepageWithFinalBackslashWithRedirection()
     {
         $this->client->followRedirects();
         $this->client->request('GET', '/articles/');
@@ -54,26 +53,54 @@ class ArticleControllerTest extends WebTestCase
 
     public function testHomepage()
     {
-        $this->client->request('GET', '/articles');
+        $crawler = $this->client->request('GET', '/articles');
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(0, $crawler->filter('article.post')->count());
+    }
+
+    public function testNewArticleWithAnonymousUser()
+    {
+        $this->client->followRedirects();
+        $this->client->request('GET', '/articles/new');
+
+        $this->assertContains('/login', $this->client->getInternalRequest()->getUri());
+        $this->assertContains('Log in!', $this->client->getResponse()->getContent()); // WARNING WITH TRANSLATION
+        $this->assertSelectorTextContains('html h1', 'Please sign in'); // WARNING WITH TRANSLATION
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @param $url
-     * @dataProvider getAuthenticationUrl
-     */
-    public function testAuthenticationWithUrl($url)
+    public function testNewArticleWithUser()
     {
         $this->client->followRedirects();
-        $this->client->request('GET', $url);
-
+        $crawler = $this->client->request('GET', '/articles/new');
         $this->assertContains('/login', $this->client->getInternalRequest()->getUri());
-        $this->assertContains('Log in!', $this->client->getResponse()->getContent());
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $loginForm = $crawler->selectButton('Sign in')
+            ->form([
+                'email' => 'lorenzo@admin.com', // TODO: submit incorrect email or password
+                'password' => 'lorenzo',
+        ]);
+        $crawler = $this->client->submit($loginForm);
+        $this->assertContains('/articles/new', $this->client->getInternalRequest()->getUri());
+
+        $form = [
+            'article[title]' => 'Article creation in functional test',
+            'article[excerpt]' => 'Article resume',
+            'article[content]' => 'Article content',
+            //'article[imageFile]' => null,
+            'article[tags]' => 'Functional test, Unit test',
+            'article[isActive]' => true,
+        ];
+        $crawler = $this->client->submitForm('Save', $form, 'POST');
+
+        $this->assertContains('/articles', $this->client->getInternalRequest()->getUri());
+        $this->assertContains('Article creation in functional test', $this->client->getResponse()->getContent());
+        dump($this->client);
     }
 
     public function getAuthenticationUrl()
     {
+        /*
         yield ['/admin/articles'];
         yield ['/admin/articles/new'];
         yield ['/admin/comments'];
@@ -83,6 +110,6 @@ class ArticleControllerTest extends WebTestCase
         yield ['/admin/users'];
         yield ['/admin/users/new'];
         yield ['/account'];
-        yield ['/articles/new'];
+        */
     }
 }
