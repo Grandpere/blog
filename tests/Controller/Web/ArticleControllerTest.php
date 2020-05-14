@@ -5,6 +5,7 @@ namespace App\Tests\Controller\Web;
 
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticleControllerTest extends WebTestCase
@@ -35,7 +36,7 @@ class ArticleControllerTest extends WebTestCase
     {
         yield ['/article'];
         yield ['/articless'];
-        yield ['/articles/FAKE-URL'];
+        yield ['/articles/FAKE-ARTICLE'];
     }
 
     public function testHomepageWithFinalBackslashWithoutRedirection()
@@ -58,10 +59,14 @@ class ArticleControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('article.post')->count());
     }
 
-    public function testNewArticleWithAnonymousUser()
+    /**
+     * @param $url
+     * @dataProvider getActionUrls
+     */
+    public function testNewOrEditWithAnonymousUser($url)
     {
         $this->client->followRedirects();
-        $this->client->request('GET', '/articles/new');
+        $this->client->request('GET', $url);
 
         $this->assertContains('/login', $this->client->getInternalRequest()->getUri());
         $this->assertContains('Log in!', $this->client->getResponse()->getContent()); // WARNING WITH TRANSLATION
@@ -69,29 +74,81 @@ class ArticleControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function getActionUrls()
+    {
+        yield ['/articles/new'];
+        yield ['/articles/article-creation-in-functional-test/edit'];
+    }
+
     /**
      * @param $email
      * @param $password
+     * @param $isUpdate
      * @dataProvider getCredentials
      */
-    public function testNewArticleWithUser($email, $password)
+    public function testNewOrEditWithUser($email, $password, $isUpdate)
     {
         $this->client->followRedirects();
         $crawler = $this->client->request('GET', '/articles/new');
         $this->assertContains('/login', $this->client->getInternalRequest()->getUri());
 
-        $loginForm = $crawler->selectButton('Sign in')
-            ->form([
-                'email' => $email,
-                'password' => $password,
-        ]);
-        $this->client->submit($loginForm);
+        $this->login($crawler, $email, $password);
+
         if(0 < strpos($this->client->getInternalRequest()->getUri(), '/login')) {
             $this->assertSelectorTextContains('.alert.alert-danger', 'Invalid credentials'); // WARNING WITH TRANSLATION
         }
         else {
             $this->assertContains('/articles/new', $this->client->getInternalRequest()->getUri());
 
+            $this->createOrUpdateArticle('create');
+
+            $this->assertContains('/articles', $this->client->getInternalRequest()->getUri());
+            $this->assertContains('Article creation in functional test', $this->client->getResponse()->getContent());
+
+            if(true === $isUpdate) {
+                $this->client->request('GET', '/articles/article-creation-in-functional-test/edit');
+                $this->assertContains('/articles/article-creation-in-functional-test/edit', $this->client->getInternalRequest()->getUri());
+
+                $this->createOrUpdateArticle('update');
+
+                $this->assertContains('/articles/article-edition-in-functional-test', $this->client->getInternalRequest()->getUri());
+                $this->assertContains('Article edition in functional test', $this->client->getResponse()->getContent());
+            }
+        }
+    }
+
+    public function getCredentials()
+    {
+        // email, password, isUpdate
+        yield ['lorenzo@admin.com', 'lorenzo', false];
+        yield ['lorenzo@admin.com', 'lorenzo', true];
+        yield ['lorenzo@admin.com', 'wrongpassword', false];
+    }
+
+    public function login(Crawler $crawler, string $email, string $password)
+    {
+        $loginForm = $crawler->selectButton('Sign in')
+            ->form([
+                'email' => $email,
+                'password' => $password,
+            ]);
+        $this->client->submit($loginForm);
+    }
+
+    public function createOrUpdateArticle(string $action)
+    {
+        if('update' === $action) {
+            $form = [
+                'article[title]' => 'Article edition in functional test',
+                'article[excerpt]' => 'Article resume edited',
+                'article[content]' => 'Article content edited',
+                //'article[imageFile]' => null,
+                'article[tags]' => 'Functional test, Unit test, refactoring',
+                'article[isActive]' => true,
+            ];
+            $button = 'Update';
+        }
+        else {
             $form = [
                 'article[title]' => 'Article creation in functional test',
                 'article[excerpt]' => 'Article resume',
@@ -100,17 +157,8 @@ class ArticleControllerTest extends WebTestCase
                 'article[tags]' => 'Functional test, Unit test',
                 'article[isActive]' => true,
             ];
-            $this->client->submitForm('Save', $form, 'POST');
-
-            $this->assertContains('/articles', $this->client->getInternalRequest()->getUri());
-            $this->assertContains('Article creation in functional test', $this->client->getResponse()->getContent());
+            $button = 'Save';
         }
-    }
-
-    public function getCredentials()
-    {
-        // email, password
-        yield ['lorenzo@admin.com', 'lorenzo'];
-        yield ['lorenzo@admin.com', 'wrongpassword'];
+        $this->client->submitForm($button, $form, 'POST');
     }
 }
