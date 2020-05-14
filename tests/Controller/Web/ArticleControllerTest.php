@@ -69,7 +69,12 @@ class ArticleControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testNewArticleWithUser()
+    /**
+     * @param $email
+     * @param $password
+     * @dataProvider getCredentials
+     */
+    public function testNewArticleWithUser($email, $password)
     {
         $this->client->followRedirects();
         $crawler = $this->client->request('GET', '/articles/new');
@@ -77,39 +82,35 @@ class ArticleControllerTest extends WebTestCase
 
         $loginForm = $crawler->selectButton('Sign in')
             ->form([
-                'email' => 'lorenzo@admin.com', // TODO: submit incorrect email or password
-                'password' => 'lorenzo',
+                'email' => $email,
+                'password' => $password,
         ]);
-        $crawler = $this->client->submit($loginForm);
-        $this->assertContains('/articles/new', $this->client->getInternalRequest()->getUri());
+        $this->client->submit($loginForm);
+        if(0 < strpos($this->client->getInternalRequest()->getUri(), '/login')) {
+            $this->assertSelectorTextContains('.alert.alert-danger', 'Invalid credentials'); // WARNING WITH TRANSLATION
+        }
+        else {
+            $this->assertContains('/articles/new', $this->client->getInternalRequest()->getUri());
 
-        $form = [
-            'article[title]' => 'Article creation in functional test',
-            'article[excerpt]' => 'Article resume',
-            'article[content]' => 'Article content',
-            //'article[imageFile]' => null,
-            'article[tags]' => 'Functional test, Unit test',
-            'article[isActive]' => true,
-        ];
-        $crawler = $this->client->submitForm('Save', $form, 'POST');
+            $form = [
+                'article[title]' => 'Article creation in functional test',
+                'article[excerpt]' => 'Article resume',
+                'article[content]' => 'Article content',
+                //'article[imageFile]' => null,
+                'article[tags]' => 'Functional test, Unit test',
+                'article[isActive]' => true,
+            ];
+            $this->client->submitForm('Save', $form, 'POST');
 
-        $this->assertContains('/articles', $this->client->getInternalRequest()->getUri());
-        $this->assertContains('Article creation in functional test', $this->client->getResponse()->getContent());
-        dump($this->client);
+            $this->assertContains('/articles', $this->client->getInternalRequest()->getUri());
+            $this->assertContains('Article creation in functional test', $this->client->getResponse()->getContent());
+        }
     }
 
-    public function getAuthenticationUrl()
+    public function getCredentials()
     {
-        /*
-        yield ['/admin/articles'];
-        yield ['/admin/articles/new'];
-        yield ['/admin/comments'];
-        yield ['/admin/comments/new'];
-        yield ['/admin/tags'];
-        yield ['/admin/tags/new'];
-        yield ['/admin/users'];
-        yield ['/admin/users/new'];
-        yield ['/account'];
-        */
+        // email, password
+        yield ['lorenzo@admin.com', 'lorenzo'];
+        yield ['lorenzo@admin.com', 'wrongpassword'];
     }
 }
