@@ -81,6 +81,39 @@ class ArticleControllerTest extends WebTestCase
     }
 
     /**
+     * @param $url
+     * @dataProvider getArticlesUrl
+     */
+    public function testShowUnknownArticle($url)
+    {
+        $this->client->request('GET', $url);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @param $url
+     * @dataProvider getArticlesUrl
+     */
+    public function testEditUnknownArticle($url)
+    {
+        $this->client->followRedirects();
+        $crawler = $this->client->request('GET', $url.'/edit');
+        $this->assertContains('/login', $this->client->getInternalRequest()->getUri());
+
+        $this->login($crawler, 'lorenzo@admin.com', 'lorenzo');
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+    }
+
+    public function getArticlesUrl()
+    {
+        yield ['/articles/UNKNOWN-ARTICLE-1'];
+        yield ['/articles/UNKNOWN-ARTICLE-2'];
+        yield ['/articles/UNKNOWN-ARTICLE-3'];
+    }
+
+    /**
      * @param $email
      * @param $password
      * @param $isUpdate
