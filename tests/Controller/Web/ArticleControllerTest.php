@@ -82,7 +82,7 @@ class ArticleControllerTest extends WebTestCase
 
     /**
      * @param $url
-     * @dataProvider getArticlesUrl
+     * @dataProvider getUnknownArticlesUrl
      */
     public function testShowUnknownArticle($url)
     {
@@ -92,7 +92,7 @@ class ArticleControllerTest extends WebTestCase
 
     /**
      * @param $url
-     * @dataProvider getArticlesUrl
+     * @dataProvider getUnknownArticlesUrl
      */
     public function testEditUnknownArticle($url)
     {
@@ -106,7 +106,7 @@ class ArticleControllerTest extends WebTestCase
 
     }
 
-    public function getArticlesUrl()
+    public function getUnknownArticlesUrl()
     {
         yield ['/articles/UNKNOWN-ARTICLE-1'];
         yield ['/articles/UNKNOWN-ARTICLE-2'];
@@ -156,6 +156,41 @@ class ArticleControllerTest extends WebTestCase
         yield ['lorenzo@admin.com', 'lorenzo', false];
         yield ['lorenzo@admin.com', 'lorenzo', true];
         yield ['lorenzo@admin.com', 'wrongpassword', false];
+    }
+
+    public function testGetCommentsAndNewComment()
+    {
+        $crawler = $this->client->request('GET', '/articles');
+        if($crawler->filter('article.post')->count() === 0) {
+            $this->assertTrue($crawler->filter('article.post')->count() === 0);
+        }
+        else {
+            $this->assertTrue($crawler->filter('article.post')->count() > 0);
+
+            $firstArticleNode = $crawler->filter('main.container')->children()->first();
+            $link = $firstArticleNode->filter('article.post ul.actions a.button')->link()->getUri();
+
+            $crawler = $this->client->request('GET', $link.'/comments');
+            $this->assertContains('/comments', $this->client->getInternalRequest()->getUri());
+
+            $countComment = $crawler->filter('.comment-container .comment')->count();
+            if(0 === $countComment) {
+                $this->assertEquals(0, $countComment);
+            }
+            else {
+                $this->assertGreaterThan(0, $countComment);
+            }
+
+            $form = [
+                'comment[content]' => 'Comment content',
+                'comment[authorName]' => 'Tester#01',
+                'comment[authorEmail]' => 'test01@mail.com',
+                'comment[authorWebsite]' => 'test01.test',
+            ];
+            $this->client->submitForm('Comment', $form, 'POST');
+            $newCountComment = $countComment++;
+            $this->assertEquals($newCountComment, $crawler->filter('.comment-container .comment')->count());
+        }
     }
 
     public function login(Crawler $crawler, string $email, string $password)
