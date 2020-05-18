@@ -61,6 +61,48 @@ class ArticleControllerTest extends WebTestCase
 
     /**
      * @param $url
+     * @dataProvider getUnknownArticlesUrl
+     */
+    public function testShowUnknownArticle($url)
+    {
+        $this->client->request('GET', $url);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @param $url
+     * @dataProvider getUnknownArticlesUrl
+     */
+    public function testGetCommentsUnknownArticle($url)
+    {
+        $this->client->request('GET', $url.'/comments');
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @param $url
+     * @dataProvider getUnknownArticlesUrl
+     */
+    public function testEditUnknownArticle($url)
+    {
+        $this->client->followRedirects();
+        $crawler = $this->client->request('GET', $url.'/edit');
+        $this->assertContains('/login', $this->client->getInternalRequest()->getUri());
+
+        $this->login($crawler, 'lorenzo@admin.com', 'lorenzo');
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function getUnknownArticlesUrl()
+    {
+        yield ['/articles/UNKNOWN-ARTICLE-1'];
+        yield ['/articles/UNKNOWN-ARTICLE-2'];
+        yield ['/articles/UNKNOWN-ARTICLE-3'];
+    }
+
+    /**
+     * @param $url
      * @dataProvider getActionUrls
      */
     public function testNewOrEditWithAnonymousUser($url)
@@ -78,39 +120,6 @@ class ArticleControllerTest extends WebTestCase
     {
         yield ['/articles/new'];
         yield ['/articles/article-creation-in-functional-test/edit'];
-    }
-
-    /**
-     * @param $url
-     * @dataProvider getUnknownArticlesUrl
-     */
-    public function testShowUnknownArticle($url)
-    {
-        $this->client->request('GET', $url);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @param $url
-     * @dataProvider getUnknownArticlesUrl
-     */
-    public function testEditUnknownArticle($url)
-    {
-        $this->client->followRedirects();
-        $crawler = $this->client->request('GET', $url.'/edit');
-        $this->assertContains('/login', $this->client->getInternalRequest()->getUri());
-
-        $this->login($crawler, 'lorenzo@admin.com', 'lorenzo');
-
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-
-    }
-
-    public function getUnknownArticlesUrl()
-    {
-        yield ['/articles/UNKNOWN-ARTICLE-1'];
-        yield ['/articles/UNKNOWN-ARTICLE-2'];
-        yield ['/articles/UNKNOWN-ARTICLE-3'];
     }
 
     /**
@@ -190,6 +199,7 @@ class ArticleControllerTest extends WebTestCase
             $this->client->submitForm('Comment', $form, 'POST');
             $newCountComment = $countComment++;
             $this->assertEquals($newCountComment, $crawler->filter('.comment-container .comment')->count());
+            // TODO : reply comments tests
         }
     }
 
