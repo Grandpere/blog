@@ -26,15 +26,10 @@
             <div class="published-at">
                 <span class="sr-only">Published on</span>
                 <time datetime="{{ article.createdAt|date }}">{{ article.createdAt|date("F d, Y", "Europe/Paris") }}</time>
+                <span class="author">by
+                    <a href="{{ path('web_account_index', {'id':article.author.id}) }}">{{ article.author.firstname }}</a>
+                </span>
             </div>
-            {#
-            <!-- with blog as medium with many author it's useful but with single author it's not usefull -->
-            <div class="author">
-                <a class="author" href="#"><span class="name">{{ article.author.firstname }}</span>
-                    <img src="#" alt="avatar de {{ article.author.firstname }}">
-                </a>
-            </div>
-            #}
         </div>
         <div id="top"></div>
     </header>

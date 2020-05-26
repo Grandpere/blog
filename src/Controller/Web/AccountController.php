@@ -21,16 +21,6 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class AccountController extends AbstractController
 {
     /**
-     * @Route("/account/", name="web_account_index")
-     */
-    public function show()
-    {
-        return $this->render('web/account/index.html.twig', [
-            'user' => $this->getUser(),
-        ]);
-    }
-
-    /**
      * @Route("/account/{id}/edit", name="web_account_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, User $user = null)
@@ -100,6 +90,19 @@ class AccountController extends AbstractController
             ]);
         }
         return $this->redirectToRoute('web_account_index');
+    }
+
+    /**
+     * @Route("/account/{id}", name="web_account_index", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function show(User $user = null)
+    {
+        if(null === $user) {
+            return $this->redirectToRoute('web_account_index', ['id' => $this->getUser()->getId()]);
+        }
+        return $this->render('web/account/index.html.twig', [
+            'user' => $user,
+        ]);
     }
 
     /**
