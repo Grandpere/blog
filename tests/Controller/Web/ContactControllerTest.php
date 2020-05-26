@@ -25,7 +25,6 @@ class ContactControllerTest extends WebTestCase
     {
         // TODO : tests env variable for prevent error 500
         $crawler = $this->client->request('GET', '/contact');
-        dump($this->client);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }
