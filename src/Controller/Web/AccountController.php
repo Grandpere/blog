@@ -42,7 +42,7 @@ class AccountController extends AbstractController
                     'Article Updated'
                 );
 
-                return $this->redirectToRoute('web_account_index');
+                return $this->redirectToRoute('web_account_index', ['id' => $user->getId()]);
             }
 
             return $this->render('web/account/edit.html.twig', [
@@ -50,7 +50,7 @@ class AccountController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
-        return $this->redirectToRoute('web_account_index');
+        return $this->redirectToRoute('web_account_index', ['id' => $user->getId()]);
     }
 
     /**
@@ -81,7 +81,7 @@ class AccountController extends AbstractController
                     'Password Updated'
                 );
 
-                return $this->redirectToRoute('web_account_index');
+                return $this->redirectToRoute('web_account_index', ['id' => $user->getId()]);
             }
 
             return $this->render('web/account/edit.html.twig', [
@@ -89,7 +89,7 @@ class AccountController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
-        return $this->redirectToRoute('web_account_index');
+        return $this->redirectToRoute('web_account_index', ['id' => $user->getId()]);
     }
 
     /**

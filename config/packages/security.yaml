@@ -45,7 +45,8 @@ security:
         - { path: ^/resend-token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/forgotten-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/reset-password/.+, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/account/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/account/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/.+/edit, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/articles/new, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/articles/.+/edit, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
