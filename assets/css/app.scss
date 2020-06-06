@@ -1,0 +1,14 @@
+@import "./helper/variables";
+
+@import "~bootstrap";
+@import '~@fortawesome/fontawesome-free/css/all.css';
+/*TODO: voir pour améliorer import fontawesome*/
+
+@import "reset";
+@import "./layout/header";
+@import "./layout/footer";
+
+@import "./components/article";
+@import "./components/pagination";
+@import "./components/profile";
+/*@import "./components/bootstrap_tag-input";*/

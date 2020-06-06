@@ -5,6 +5,11 @@
     {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('article_create-edit') }}
+{% endblock %}
+
 {% block body %}
     <div class="post">
         <h1>Create new Article</h1>
@@ -15,7 +20,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/article_tag-autocomplete.js') }}"></script>
+    {{ encore_entry_script_tags('article_create-edit') }}
 {% endblock %}
