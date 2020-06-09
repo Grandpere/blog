@@ -29,6 +29,12 @@
                 <span class="author">by
                     <a href="{{ path('web_account_index', {'id':article.author.id}) }}">{{ article.author.firstname }}</a>
                 </span>
+                {% if app.request.get('_route') == 'web_articles_show' %}
+                <p class="views my-1">
+                    <i class="fas fa-eye"></i>
+                    {{ article.views }} views
+                </p>
+                {% endif %}
             </div>
         </div>
         <div id="top"></div>

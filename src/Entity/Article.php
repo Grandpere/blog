@@ -113,12 +113,18 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $views;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->createdAt = new \Datetime();
         $this->isActive = false;
         $this->comments = new ArrayCollection();
+        $this->views = 0;
     }
 
     public function getId(): ?int
@@ -316,5 +322,22 @@ class Article
         }
 
         return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    public function incrementViews(): ?int
+    {
+        return $this->views += 1;
     }
 }

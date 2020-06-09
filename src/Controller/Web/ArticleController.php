@@ -112,6 +112,10 @@ class ArticleController extends AbstractController
             throw $this->createNotFoundException('Article introuvable');
         }
 
+        $article->incrementViews();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
         return $this->render('web/article/show.html.twig', [
             'article' => $article,
         ]);
