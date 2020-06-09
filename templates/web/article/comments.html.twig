@@ -61,6 +61,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/comment_reply-comment.js') }}"></script>
+    {{ encore_entry_script_tags('comment_reply-comment') }}
 {% endblock %}
 

@@ -1,0 +1,24 @@
+a {
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  color: $link-color;
+  text-decoration: none;
+}
+
+a:before {
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  border-bottom-color: transparent;
+  color: $link-hover-color !important;
+}
+
+a:hover:before {
+  color: $link-hover-color !important;
+}
+
+.form-group.required .control-label:after {
+  content: "*";
+  color: $error-color;
+}
+

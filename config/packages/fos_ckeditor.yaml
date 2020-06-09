@@ -6,6 +6,7 @@ twig:
 
 fos_ck_editor:
     input_sync: true
+    default_config: main_config
     configs:
         main_config:
             toolbar: "article_toolbar"
@@ -23,5 +24,8 @@ fos_ck_editor:
             insert: [ 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar' ]
             styles: [ 'Styles', 'Format', 'Font', 'FontSize' ]
             colors: [ 'TextColor', 'BGColor' ]
-    #filebrowserUploadRoute: "my_route"
-    #extraPlugins:           "wordcount"
+#    base_path: "build/ckeditor"
+#    js_path:   "build/ckeditor/ckeditor.js"
+#    jquery_path: "build/ckeditor/adapters/jquery.js"
+# TODO: toolbar with webpack encore aren't same than without webpackencore even if right config are loaded
+# TODO: https://stackoverflow.com/questions/62233602/missing-toolbars-items-with-ckeditor-in-webpack-encore

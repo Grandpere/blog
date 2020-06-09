@@ -1,0 +1,13 @@
+.page-link {
+  color: $link-color;
+}
+
+.page-item.active .page-link {
+  background-color: rgba(0, 0, 0, .3);
+  color: $background-white-color;
+  border-color: rgba(0, 0, 0, .3);
+}
+
+.page-item.active .page-link:hover {
+  color: $link-color;
+}

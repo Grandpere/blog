@@ -1,0 +1,56 @@
+#footer {
+  border-top: solid 1px rgba(160, 160, 160, 0.3);
+  padding: 1rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: $background-white-color;
+}
+
+#footer .copyright {
+  color: $copyright-color;
+  font-size: .9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#footer .copyright span {
+  line-height: 1.5;
+}
+
+ul.icons {
+  cursor: default;
+  list-style: none;
+  padding-left: 0;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+ul.icons li {
+  display: inline-block;
+  padding: 0 1em 0 0;
+}
+
+ul.icons li:last-child {
+  padding-right: 0;
+}
+
+ul.icons li > * {
+  border: 0;
+}
+
+ul.icons li > * .label {
+  display: none;
+}
+
+ul.icons li a:hover {
+  text-decoration: none;
+}
+
+span.heart {
+  color: $error-color;
+}
