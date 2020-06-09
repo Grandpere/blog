@@ -1,5 +1,5 @@
-import $ from 'jquery'; // works without jquery import because autoProvidejQuery() is enabled?
-import 'bootstrap';     // works without bootstrap import because autoProvidejQuery() is enabled?
+//import $ from 'jquery'; // works without jquery import because autoProvidejQuery() is enabled?
+//import 'bootstrap';     // works without bootstrap import because autoProvidejQuery() is enabled?
 import 'bootstrap-tagsinput';
 import Bloodhound from 'typeahead.js';
 

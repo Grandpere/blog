@@ -1,4 +1,4 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -25,7 +25,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('article_create-edit', './assets/js/article_tag-autocomplete.js')
-    //.addEntry('comment_reply-comment', './assets/js/comment_reply-comment.js')
+    .addEntry('comment_reply-comment', './assets/js/comment_reply-comment.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
@@ -55,6 +55,16 @@ Encore
         config.useBuiltIns = 'usage';
         config.corejs = 3;
     })
+
+/*    .copyFiles([
+        //{from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
+        {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /^(?!config).*\.(js|css)$/, includeSubdirectories: false},
+        {from: './assets/js/ckeditor', to: 'ckeditor/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'}
+    ])*/
 
     // enables Sass/SCSS support
     .enableSassLoader()
