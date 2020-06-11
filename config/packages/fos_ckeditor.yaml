@@ -10,6 +10,11 @@ fos_ck_editor:
     configs:
         main_config:
             toolbar: "article_toolbar"
+            extraPlugins: "wordcount"
+    plugins:
+        wordcount:
+            path: "build/ckeditor/plugins/wordcount/"
+            filename: "plugin.js"
     toolbars:
         configs:
             article_toolbar: [ "@document", "@clipboard", "@editing", "@tools", "/", "@basicstyles", "@paragraph", "@links", "@insert", "/", "@styles", "@colors" ]

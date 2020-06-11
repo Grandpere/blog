@@ -73,7 +73,9 @@ Encore
         {from: './public/bundles/fosckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './public/bundles/fosckeditor/lang', to: 'ckeditor/lang/[path][name].[ext]'},
         {from: './public/bundles/fosckeditor/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
-        {from: './public/bundles/fosckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]'}
+        {from: './public/bundles/fosckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]'},
+
+        {from: './assets/ckeditor/plugins/wordcount', to: 'ckeditor/plugins/wordcount/[path][name].[ext]'},
     ])
 
     // enables Sass/SCSS support
