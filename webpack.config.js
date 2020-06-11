@@ -26,8 +26,6 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('article_create-edit', './assets/js/article_tag-autocomplete.js')
     .addEntry('comment_reply-comment', './assets/js/comment_reply-comment.js')
-    //.addEntry('page1', './assets/js/page1.js')
-    //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -56,15 +54,27 @@ Encore
         config.corejs = 3;
     })
 
-/*    .copyFiles([
-        //{from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
-        {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /^(?!config).*\.(js|css)$/, includeSubdirectories: false},
-        {from: './assets/js/ckeditor', to: 'ckeditor/[path][name].[ext]'},
+    /*
+    // with ckeditor obtained by yarn ==> missing items in toolbar but config fully loaded in webpage
+    .copyFiles([
+        {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
+        //{from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /^(?!config).*\.(js|css)$/, includeSubdirectories: false},
+        //{from: './assets/js/ckeditor', to: 'ckeditor/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'}
-    ])*/
+    ])
+    */
+
+    // ugly correction of missing item in toolbar, install ckeditor with composer ckeditor:install and copyfiles this files in build ==> toolbar ok
+    .copyFiles([
+        {from: './public/bundles/fosckeditor/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
+        {from: './public/bundles/fosckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
+        {from: './public/bundles/fosckeditor/lang', to: 'ckeditor/lang/[path][name].[ext]'},
+        {from: './public/bundles/fosckeditor/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
+        {from: './public/bundles/fosckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]'}
+    ])
 
     // enables Sass/SCSS support
     .enableSassLoader()
