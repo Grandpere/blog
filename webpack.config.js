@@ -58,8 +58,6 @@ Encore
     // with ckeditor obtained by yarn ==> missing items in toolbar but config fully loaded in webpage
     .copyFiles([
         {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
-        //{from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /^(?!config).*\.(js|css)$/, includeSubdirectories: false},
-        //{from: './assets/js/ckeditor', to: 'ckeditor/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
