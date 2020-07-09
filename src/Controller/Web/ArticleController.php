@@ -4,10 +4,13 @@ namespace App\Controller\Web;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Like;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use App\Repository\LikeRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -112,6 +115,7 @@ class ArticleController extends AbstractController
             throw $this->createNotFoundException('Article introuvable');
         }
 
+        // voir pour restriction car si l'on regarde l'article 3 fois le compteur augmentera de 3 donc compteur faussé
         $article->incrementViews();
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
@@ -119,6 +123,44 @@ class ArticleController extends AbstractController
         return $this->render('web/article/show.html.twig', [
             'article' => $article,
         ]);
+    }
+
+    /**
+     * @Route("/{slug}/like", name="like", methods={"GET", "POST"}, requirements={"slug"="[a-zA-Z0-9-]+"})
+     */
+    public function like(Article $article = null, Request $request, LikeRepository $likeRepository)
+    {
+        if(!$article) {
+            return new JsonResponse(['code' => 404, 'message' => 'Article Not Found'], 404);
+        }
+
+        $user = $this->getUser();
+        if(!$user) {
+            return new JsonResponse(['code' => 403, 'message' => 'Unauthorized'], 403);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($this->isCsrfTokenValid('article-like'.$article->getId(), $request->request->get('_token'))) {
+            if($article->isLikedByUser($user)) {
+                $like = $likeRepository->findOneBy(['user' => $user, 'article' => $article]);
+                $entityManager->remove($like);
+                $entityManager->flush();
+
+                return new JsonResponse(['code' => 200, 'message' => 'Unliked article', 'likes' => $likeRepository->count(['article' => $article])], 200);
+            }
+
+            $like = new Like();
+            $like->setUser($user);
+            $like->setArticle($article);
+
+            $entityManager->persist($like);
+            $entityManager->flush();
+
+            return new JsonResponse(['code' => 200, 'message' => 'Liked article', 'likes' => $likeRepository->count(['article' => $article])], 200);
+        }
+
+        return new JsonResponse(['code' => 400, 'message' => 'Invalid Csrf Token'], 400);
     }
 
     /**

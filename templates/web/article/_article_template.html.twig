@@ -67,9 +67,6 @@
             <p>{{ article.excerpt }}</p>
         {% elseif app.request.get('_route') == 'web_articles_show' %}
             <p>{{ article.content|raw }}</p>
-            <div class="post-back-top d-flex justify-content-center">
-                <a href="#top"><i class="pr-2 fas fa-angle-double-up"></i>Début de l'article</a>
-            </div>
         {% endif %}
     </div>
     <footer>
@@ -79,8 +76,25 @@
                 <a href="{{ path('web_articles_show', {'slug': article.slug}) }}" class="button"><i class="pr-1 fas fa-angle-right"></i>Continue Reading</a>
             </li>
             {% elseif app.request.get('_route') == 'web_articles_show' %}
+            <li class="post-back-top d-flex justify-content-center">
+                <a href="#top"><i class="pr-2 fas fa-angle-double-up"></i><span class="d-none d-sm-inline-block">Début de l'article</span></a>
+            </li>
+            <li class="likes">
+                <form id="js-form-like" method="post" action="{{ path('web_articles_like', {'slug':article.slug}) }}">
+                    <input id="js-csrf" type="hidden" name="_token" value="{{ csrf_token('article-like' ~ article.id) }}">
+                    <button class="button js-like">
+                        {% if app.user and article.isLikedByUser(app.user) %}
+                            <i class="fas fa-thumbs-up"></i>
+                        {% else %}
+                            <i class="far fa-thumbs-up"></i>
+                        {% endif %}
+                        <span class="js-likes">{{  article.likes | length }}</span>
+                        <span class="d-none d-sm-inline-block js-label">Likes</span>
+                    </button>
+                </form>
+            </li>
             <li class="comments">
-                <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}" class="button"><i class="pr-2 fa fa-comment"></i>{{ article.comments|length }} comments</a>
+                <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}" class="button"><i class="pr-2 fa fa-comment"></i><span>{{ article.comments|length }}</span><span class="d-none d-sm-inline-block">comments</span></a>
             </li>
             {% endif %}
         </ul>

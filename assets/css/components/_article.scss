@@ -67,8 +67,7 @@
 
 /* >>>Post Footer */
 .post-back-top {
-  margin-bottom: 1rem;
-  scroll-behavior: smooth;
+  flex: 1;
 }
 
 ul.actions {
@@ -77,6 +76,12 @@ ul.actions {
   margin: 0;
   display: flex;
   justify-content: flex-end;
+}
+
+ul.actions li {
+  line-height: 1;
+  padding: 2px;
+  margin: 2px;
 }
 
 /* >>>Post comments */

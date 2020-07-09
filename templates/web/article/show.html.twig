@@ -8,3 +8,8 @@
 {% block body %}
     {% include 'web/article/_article_template.html.twig' %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('article_like') }}
+{% endblock %}

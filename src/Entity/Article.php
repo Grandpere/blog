@@ -118,6 +118,11 @@ class Article
      */
     private $views;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="article", orphanRemoval=true)
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -125,6 +130,7 @@ class Article
         $this->isActive = false;
         $this->comments = new ArrayCollection();
         $this->views = 0;
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -339,5 +345,50 @@ class Article
     public function incrementViews(): ?int
     {
         return $this->views += 1;
+    }
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getArticle() === $this) {
+                $like->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * return true if user like this Article
+     * @param User $user
+     * @return bool
+     */
+    public function isLikedByUser(User $user): bool
+    {
+        /** @var Like $like */
+        foreach ($this->likes as $like) {
+            if($user === $like->getUser()) return true;
+        }
+        return false;
     }
 }

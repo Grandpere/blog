@@ -1,3 +1,22 @@
+body {
+  scroll-behavior: smooth;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  padding: 0;
+}
+
+button:hover {
+  color: $link-hover-color !important;
+}
+
+button:active {
+  padding: 1px;
+}
+
 a {
   transition: color 0.2s ease, border-bottom-color 0.2s ease;
   color: $link-color;

@@ -26,6 +26,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('article_create-edit', './assets/js/article_tag-autocomplete.js')
     .addEntry('comment_reply-comment', './assets/js/comment_reply-comment.js')
+    .addEntry('article_like', './assets/js/article_like.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
