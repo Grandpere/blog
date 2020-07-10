@@ -174,7 +174,28 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/like", name="like", methods={"GET", "POST"}, requirements={"slug"="[a-zA-Z0-9-]+"})
+     * @Route("/{slug}/report", name="report", methods={"POST"}, requirements={"slug"="[a-zA-Z0-9-]+"})
+     */
+    public function report(Article $article = null, Request $request)
+    {
+        if(!$article) {
+            return new JsonResponse(['code' => 404, 'message' => 'Article Not Found'], 404);
+        }
+
+        if ($this->isCsrfTokenValid('article-report'.$article->getId(), $request->request->get('_token'))) {
+            if(!$article->isReport()) {
+                $article->report();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+            }
+            return new JsonResponse(['code' => 200, 'message' => 'Article reported'], 200);
+        }
+
+        return new JsonResponse(['code' => 400, 'message' => 'Invalid Csrf Token'], 400);
+    }
+
+    /**
+     * @Route("/{slug}/like", name="like", methods={"POST"}, requirements={"slug"="[a-zA-Z0-9-]+"})
      */
     public function like(Article $article = null, Request $request, LikeRepository $likeRepository)
     {

@@ -63,7 +63,7 @@ class Article
      *
      * @Vich\UploadableField(mapping="article_cover", fileNameProperty="coverImage")
      * @Assert\File(
-     * maxSize = "1024k",
+     * maxSize = "2048k",
      * mimeTypes={ "image/gif", "image/jpeg", "image/png", "image/svg+xml" },
      * mimeTypesMessage = "Please valid image format : gif, png, jpeg, svg"
      * )
@@ -123,6 +123,16 @@ class Article
      */
     private $views;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isReported;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isModerate;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -131,6 +141,8 @@ class Article
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->views = new ArrayCollection();
+        $this->isReported = false;
+        $this->isModerate = false;
     }
 
     public function getId(): ?int
@@ -419,5 +431,39 @@ class Article
         }
 
         return $this;
+    }
+
+    /**
+     * return report status of article
+     * @return bool|null
+     */
+    public function isReport(): ?bool
+    {
+        return $this->isReported;
+    }
+
+    /**
+     * report or unreport an article
+     */
+    public function report()
+    {
+        $this->isReported = !$this->isReported;
+    }
+
+    /**
+     * return moderate status of article
+     * @return bool|null
+     */
+    public function isModerate(): ?bool
+    {
+        return $this->isModerate;
+    }
+
+    /**
+     * moderate or unmoderate an article
+     */
+    public function moderate()
+    {
+        $this->isModerate = !$this->isModerate;
     }
 }

@@ -25,7 +25,10 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY')  and app.user is same as (article.author) %}
                         <a href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit article</a>
                         {% else %}
-                        <a href="#">Report article</a>
+                        <form id="js-form-report" method="post" action="{{ path('web_articles_report', {'slug':article.slug}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('article-report' ~ article.id) }}">
+                            <button><span>Report article</span></button>
+                        </form>
                         {% endif %}
                     </div>
                 </div>
@@ -94,7 +97,7 @@
             </li>
             <li class="likes">
                 <form id="js-form-like" method="post" action="{{ path('web_articles_like', {'slug':article.slug}) }}">
-                    <input id="js-csrf" type="hidden" name="_token" value="{{ csrf_token('article-like' ~ article.id) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('article-like' ~ article.id) }}">
                     <button class="button js-like">
                         {% if app.user and article.isLikedByUser(app.user) %}
                             <i class="fas fa-thumbs-up"></i>
