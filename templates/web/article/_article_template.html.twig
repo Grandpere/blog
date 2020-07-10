@@ -3,21 +3,34 @@
         {% include 'web/article/_breadcrumb.html.twig' %}
     {% endif %}
     <header class="mb-2">
+        {% if app.request.get('_route') != 'web_articles_show' %}
         <div class="tags">
             {% for tag in article.tags %}
                 <span class="mb-2 mb-md-0 badge badge-secondary"><a class="text-white" href="{{ path('web_tags_show', {'slug':tag.slug}) }}">{{ tag.title }}</a></span>
             {% endfor %}
         </div>
+        {% endif %}
         <div class="title d-flex justify-content-between">
             {% if app.request.get('_route') == 'web_articles_show' %}
                 <div class="row mx-0 w-100">
                     <h1 class="w-100">{{ article.title }}</h1>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY')  and app.user is same as (article.author) %}
-                        <div class="actions mb-2">
-                            <a class="btn btn-info" href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit</a>
-                        </div>
-                    {% endif %}
                 </div>
+
+                <div class="social-share">
+                    <!-- TODO: social share with open graphs meta -->
+                </div>
+                <div class="dropdown" style="float:right;">
+                    <button class="dropbtn"><i class="fas fa-ellipsis-h"></i></button>
+                    <div class="dropdown-content">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY')  and app.user is same as (article.author) %}
+                        <a href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit article</a>
+                        <a href="#">Deactivate article</a>
+                        {% else %}
+                        <a href="#">Report article</a>
+                        {% endif %}
+                    </div>
+                </div>
+
             {% else %}
             <h2><a href="{{ path('web_articles_show', {'slug':article.slug}) }}">{{ article.title }}</a></h2>
             {% endif %}
@@ -32,7 +45,8 @@
                 {% if app.request.get('_route') == 'web_articles_show' %}
                 <p class="views my-1">
                     <i class="fas fa-eye"></i>
-                    {{ article.views }} views
+                    <span>{{ article.views }}</span>
+                    <span class="d-none d-sm-inline-block">views</span>
                 </p>
                 {% endif %}
             </div>
@@ -94,7 +108,11 @@
                 </form>
             </li>
             <li class="comments">
-                <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}" class="button"><i class="pr-2 fa fa-comment"></i><span>{{ article.comments|length }}</span><span class="d-none d-sm-inline-block">comments</span></a>
+                <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}" class="button">
+                    <i class="fa fa-comment"></i>
+                    <span>{{ article.comments|length }}</span>
+                    <span class="d-none d-sm-inline-block">comments</span>
+                </a>
             </li>
             {% endif %}
         </ul>

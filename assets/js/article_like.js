@@ -18,11 +18,10 @@ function handleOnSubmitLike(evt) {
             dataType: 'json'
         }
     ).done(function(response) {
-        console.info(response);
-        console.log($icon.attr('class'));
         $icon.hasClass(LIKE_ICON) ? $icon.removeClass(LIKE_ICON).addClass(UNLIKE_ICON) : $icon.removeClass(UNLIKE_ICON).addClass(LIKE_ICON);
         likeCount.text(response.likes);
     }).fail(function(response) {
-        console.error(response.responseText);
+        console.error(response);
+        console.log("Oops, unexpected error !");
     });
 }
