@@ -24,7 +24,6 @@
                     <div class="dropdown-content">
                         {% if is_granted('IS_AUTHENTICATED_FULLY')  and app.user is same as (article.author) %}
                         <a href="{{ path('web_articles_edit', {'slug':article.slug}) }}">Edit article</a>
-                        <a href="#">Deactivate article</a>
                         {% else %}
                         <a href="#">Report article</a>
                         {% endif %}

@@ -127,7 +127,7 @@ class ArticleController extends AbstractController
             'article' => $article
         ];
         $user = $this->getUser();
-        $anonymousAlreadyViewed = $viewRepository->findOneBy(['clientIp' => $clientIp, 'userAgent' => $userAgent]);
+        $anonymousAlreadyViewed = $viewRepository->findOneBy(['clientIp' => $clientIp, 'userAgent' => $userAgent, 'article' => $article]);
 
         if(!$user && !$anonymousAlreadyViewed) { // anonymous user : never viewed as anonymous
             $this->createObjectView($defaultOptions);
@@ -149,7 +149,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    public function createObjectView(array $options, $user = null) {
+    private function createObjectView(array $options, $user = null) {
         if(!array_key_exists('clientIp', $options)) {
             throw new \InvalidArgumentException('Missing array key clientIp');
         }
@@ -171,8 +171,6 @@ class ArticleController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($view);
         $entityManager->flush();
-
-        return $view;
     }
 
     /**
