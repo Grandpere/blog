@@ -112,12 +112,18 @@ class User implements UserInterface
      */
     private $likes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=View::class, mappedBy="userLogged")
+     */
+    private $views;
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->isActive = false;
         $this->likes = new ArrayCollection();
+        $this->views = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -410,6 +416,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($like->getUser() === $this) {
                 $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|View[]
+     */
+    public function getViews(): Collection
+    {
+        return $this->views;
+    }
+
+    public function addView(View $view): self
+    {
+        if (!$this->views->contains($view)) {
+            $this->views[] = $view;
+            $view->setUserLogged($this);
+        }
+
+        return $this;
+    }
+
+    public function removeView(View $view): self
+    {
+        if ($this->views->contains($view)) {
+            $this->views->removeElement($view);
+            // set the owning side to null (unless already changed)
+            if ($view->getUserLogged() === $this) {
+                $view->setUserLogged(null);
             }
         }
 

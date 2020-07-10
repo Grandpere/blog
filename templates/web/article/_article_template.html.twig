@@ -45,7 +45,7 @@
                 {% if app.request.get('_route') == 'web_articles_show' %}
                 <p class="views my-1">
                     <i class="fas fa-eye"></i>
-                    <span>{{ article.views }}</span>
+                    <span>{{ article.views | length }}</span>
                     <span class="d-none d-sm-inline-block">views</span>
                 </p>
                 {% endif %}

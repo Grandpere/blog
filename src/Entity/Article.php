@@ -114,14 +114,14 @@ class Article
     private $comments;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $views;
-
-    /**
      * @ORM\OneToMany(targetEntity=Like::class, mappedBy="article", orphanRemoval=true)
      */
     private $likes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=View::class, mappedBy="article", orphanRemoval=true)
+     */
+    private $views;
 
     public function __construct()
     {
@@ -129,8 +129,8 @@ class Article
         $this->createdAt = new \Datetime();
         $this->isActive = false;
         $this->comments = new ArrayCollection();
-        $this->views = 0;
         $this->likes = new ArrayCollection();
+        $this->views = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -330,23 +330,6 @@ class Article
         return $this;
     }
 
-    public function getViews(): ?int
-    {
-        return $this->views;
-    }
-
-    public function setViews(int $views): self
-    {
-        $this->views = $views;
-
-        return $this;
-    }
-
-    public function incrementViews(): ?int
-    {
-        return $this->views += 1;
-    }
-
     /**
      * @return Collection|Like[]
      */
@@ -379,7 +362,7 @@ class Article
     }
 
     /**
-     * return true if user like this Article
+     * return true if user liked this Article
      * @param User $user
      * @return bool
      */
@@ -390,5 +373,51 @@ class Article
             if($user === $like->getUser()) return true;
         }
         return false;
+    }
+
+    /**
+     * return true if user viewed this Article
+     * @param User $user
+     * @return bool
+     */
+    public function isViewedByUser(User $user): bool
+    {
+        /** @var View $view */
+        foreach ($this->views as $view) {
+            if($user === $view->getUserLogged()) return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * @return Collection|View[]
+     */
+    public function getViews(): Collection
+    {
+        return $this->views;
+    }
+
+    public function addView(View $view): self
+    {
+        if (!$this->views->contains($view)) {
+            $this->views[] = $view;
+            $view->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeView(View $view): self
+    {
+        if ($this->views->contains($view)) {
+            $this->views->removeElement($view);
+            // set the owning side to null (unless already changed)
+            if ($view->getArticle() === $this) {
+                $view->setArticle(null);
+            }
+        }
+
+        return $this;
     }
 }

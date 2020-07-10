@@ -5,11 +5,14 @@ namespace App\Controller\Web;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Like;
+use App\Entity\View;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\LikeRepository;
+use App\Repository\ViewRepository;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -108,21 +111,68 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET"}, requirements={"slug"="[a-zA-Z0-9-]+"})
      */
-    public function show(string $slug, ArticleRepository $articleRepository)
+    public function show(string $slug, ArticleRepository $articleRepository, Request $request, ViewRepository $viewRepository)
     {
         $article = $articleRepository->findOneBySlugWithTags($slug);
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }
 
-        // voir pour restriction car si l'on regarde l'article 3 fois le compteur augmentera de 3 donc compteur faussé
-        $article->incrementViews();
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();
+        //$clientIp = $request->getClientIps();
+        $clientIp = $request->server->get('REMOTE_ADDR');
+        $userAgent = $request->headers->get('User-Agent');
+        $defaultOptions = [
+            'clientIp' => $clientIp,
+            'userAgent' => $userAgent,
+            'article' => $article
+        ];
+        $user = $this->getUser();
+        $anonymousAlreadyViewed = $viewRepository->findOneBy(['clientIp' => $clientIp, 'userAgent' => $userAgent]);
+
+        if(!$user && !$anonymousAlreadyViewed) { // anonymous user : never viewed as anonymous
+            $this->createObjectView($defaultOptions);
+        }
+        elseif($user) { // logged user
+            if(!$anonymousAlreadyViewed) { // never viewed as anonymous
+                $this->createObjectView($defaultOptions, $user);
+            }
+            else { // viewed as anonymous
+                $anonymousAlreadyViewed->setUserLogged($user);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+            }
+
+        }
 
         return $this->render('web/article/show.html.twig', [
             'article' => $article,
         ]);
+    }
+
+    public function createObjectView(array $options, $user = null) {
+        if(!array_key_exists('clientIp', $options)) {
+            throw new \InvalidArgumentException('Missing array key clientIp');
+        }
+        if(!array_key_exists('userAgent', $options)) {
+            throw new \InvalidArgumentException('Missing array key userAgent');
+        }
+        if(!array_key_exists('article', $options)) {
+            throw new \InvalidArgumentException('Missing array key article');
+        }
+        $view = new View();
+        $view->setClientIp($options['clientIp']);
+        $view->setUserAgent($options['userAgent']);
+        $view->setArticle($options['article']);
+
+        if($user) {
+            $view->setUserLogged($user);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($view);
+        $entityManager->flush();
+
+        return $view;
     }
 
     /**
