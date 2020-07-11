@@ -66,9 +66,10 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         $query = $this->createQueryBuilder('a')
+            ->andWhere('a.isActive = true')
             ->innerJoin('a.author', 'u')
             ->addSelect('u')
-            ->leftJoin('a.tags', 't') // leftJoin instead innerJoin because articles.tags maybe null
+            ->leftJoin('a.tags', 't')
             ->addSelect('t')
             ->orderBy('a.createdAt', 'DESC')
         ;
@@ -106,6 +107,7 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         $query = $this->createQueryBuilder('a')
+            ->andWhere('a.isActive = true')
             ->innerJoin('a.tags', 't')
             ->addSelect('t')
             ->andWhere('t.id = :tag')
@@ -131,6 +133,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findOneBySlugWithTags($slug): ?Article
     {
         return $this->createQueryBuilder('a')
+            ->andWhere('a.isActive = true')
             ->innerJoin('a.author', 'u')
             ->addSelect('u')
             ->leftJoin('a.tags', 't')
