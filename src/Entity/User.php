@@ -117,6 +117,36 @@ class User implements UserInterface
      */
     private $views;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url
+     */
+    private $website;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url
+     */
+    private $linkedin;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url
+     */
+    private $twitter;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url
+     */
+    private $github;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url
+     */
+    private $stackOverflow;
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
@@ -226,6 +256,11 @@ class User implements UserInterface
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return sprintf('%s %s', $this->getFirstname(), $this->getLastname());
     }
 
     public function getAvatar(): ?string
@@ -449,6 +484,66 @@ class User implements UserInterface
                 $view->setUserLogged(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): self
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    public function getLinkedin(): ?string
+    {
+        return $this->linkedin;
+    }
+
+    public function setLinkedin(?string $linkedin): self
+    {
+        $this->linkedin = $linkedin;
+
+        return $this;
+    }
+
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    public function setTwitter(?string $twitter): self
+    {
+        $this->twitter = $twitter;
+
+        return $this;
+    }
+
+    public function getGithub(): ?string
+    {
+        return $this->github;
+    }
+
+    public function setGithub(?string $github): self
+    {
+        $this->github = $github;
+
+        return $this;
+    }
+
+    public function getStackOverflow(): ?string
+    {
+        return $this->stackOverflow;
+    }
+
+    public function setStackOverflow(?string $stackOverflow): self
+    {
+        $this->stackOverflow = $stackOverflow;
 
         return $this;
     }

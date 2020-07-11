@@ -15,6 +15,11 @@ class UserUpdateType extends AbstractType
             ->add('email')
             ->add('firstname')
             ->add('lastname')
+            ->add('website')
+            ->add('linkedin')
+            ->add('twitter')
+            ->add('github')
+            ->add('stackOverflow')
         ;
     }
 

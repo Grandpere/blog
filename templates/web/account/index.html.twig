@@ -1,17 +1,35 @@
 {% extends 'web/account/account-base.html.twig' %}
 
 {% block title %}
-    Your profile!
+    {% if user.fullName is not null %}
+       {{ user.fullName }}
+    {% else %}
+        {{ user.email }}
+    {% endif %}
+    profile's !
     {{ parent() }}
 {% endblock %}
 
 {% block account_title %}
-    Your profile
+    {% if user.firstname is null and user.lastname is null %}
+        {{ user.email }}
+    {% else %}
+        {{ user.fullName }}
+    {% endif %}
+    profile's
 {% endblock %}
 
 {% block account_content %}
+    <div class="account-image mb-2" style="position: absolute; top: 0; right: 1rem;">
+        <img src="{{ user.avatar }}">
+    </div>
     <p>Username : <span>{{ user.username }}</span></p>
     <p>Email : <span>{{ user.email }}</span></p>
     <p>Firstname : <span>{{ user.firstname }}</span></p>
     <p>Lastname : <span>{{ user.lastname }}</span></p>
+    <p>Website : <span>{{ user.website }}</span></p>
+    <p>Linkedin : <span>{{ user.linkedin }}</span></p>
+    <p>Twitter : <span>{{ user.twitter }}</span></p>
+    <p>Github : <span>{{ user.github }}</span></p>
+    <p>StackOverflow : <span>{{ user.stackOverflow }}</span></p>
 {% endblock %}

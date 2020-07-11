@@ -11,8 +11,84 @@
 
 {% block account_content %}
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <fieldset>
+    <legend>General information</legend>
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="fas fa-at"></i></span>
+            </div>
+            {{ form_widget(form.email) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.firstname) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="far fa-id-card"></i></span>
+            </div>
+            {{ form_widget(form.firstname) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.lastname) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="far fa-id-card"></i></span>
+            </div>
+            {{ form_widget(form.lastname) }}
+        </div>
+    </div>
+    </fieldset>
+    <fieldset>
+    <legend>Social media</legend>
+    <div class="form-group">
+        {{ form_label(form.website) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="fas fa-globe-europe"></i></span>
+            </div>
+            {{ form_widget(form.website) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.linkedin) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="fab fa-linkedin-in"></i></span>
+            </div>
+            {{ form_widget(form.linkedin) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.twitter) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="fab fa-twitter"></i></span>
+            </div>
+            {{ form_widget(form.twitter) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.github) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="fab fa-github"></i></span>
+            </div>
+            {{ form_widget(form.github) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.stackOverflow) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrependName"><i class="fab fa-stack-overflow"></i></span>
+            </div>
+            {{ form_widget(form.stackOverflow) }}
+        </div>
+    </div>
+    </fieldset>
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-    <a class="btn" href="{{ path('web_account_index') }}" class="button">Cancel</a>
     {{ form_end(form) }}
 {% endblock %}

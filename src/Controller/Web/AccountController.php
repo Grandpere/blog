@@ -84,7 +84,7 @@ class AccountController extends AbstractController
                 return $this->redirectToRoute('web_account_index', ['id' => $user->getId()]);
             }
 
-            return $this->render('web/account/edit.html.twig', [
+            return $this->render('web/account/edit-password.html.twig', [
                 'user' => $user,
                 'form' => $form->createView(),
             ]);
@@ -97,9 +97,10 @@ class AccountController extends AbstractController
      */
     public function show(User $user = null)
     {
-        if(null === $user) {
-            return $this->redirectToRoute('web_account_index', ['id' => $this->getUser()->getId()]);
+        if(!$user || in_array('ROLE_ADMIN', $user->getRoles())) {
+            throw $this->createNotFoundException('User introuvable');
         }
+
         return $this->render('web/account/index.html.twig', [
             'user' => $user,
         ]);
