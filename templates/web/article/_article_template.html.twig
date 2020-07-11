@@ -3,7 +3,7 @@
         {% include 'web/article/_breadcrumb.html.twig' %}
     {% endif %}
     <header class="mb-2">
-        {% if app.request.get('_route') != 'web_articles_show' %}
+        {% if app.request.get('_route') == 'web_articles_index' %}
         <div class="tags">
             {% for tag in article.tags %}
                 <span class="mb-2 mb-md-0 badge badge-secondary"><a class="text-white" href="{{ path('web_tags_show', {'slug':tag.slug}) }}">{{ tag.title }}</a></span>
