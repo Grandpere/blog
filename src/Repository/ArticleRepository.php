@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use http\Exception\InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -52,10 +51,10 @@ class ArticleRepository extends ServiceEntityRepository
     }
     */
 
-    public function findAllOrderedByNewest($page = 1, $maxResults = 10)
+    public function findAllActiveOrderedByNewest($page = 1, $maxResults = 10)
     {
         if(!is_numeric($page)) {
-            throw new InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
+            throw new \InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
         }
 
         if($page < 1) {
@@ -63,7 +62,7 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         if(!is_numeric($maxResults)) {
-            throw new InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
+            throw new \InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
         }
 
         $query = $this->createQueryBuilder('a')
@@ -93,10 +92,10 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
 
-    public function findAllByTagOrderedByNewest($tag, $page = 1, $maxResults = 10)
+    public function findAllActiveByTagOrderedByNewest($tag, $page = 1, $maxResults = 10)
     {
         if(!is_numeric($page)) {
-            throw new InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
+            throw new \InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
         }
 
         if($page < 1) {
@@ -104,7 +103,7 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         if(!is_numeric($maxResults)) {
-            throw new InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
+            throw new \InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
         }
 
         $query = $this->createQueryBuilder('a')
@@ -131,8 +130,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $paginator;
     }
 
-
-    public function findOneBySlug($slug): ?Article
+    public function findOneActiveBySlug($slug): ?Article
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.slug = :slug')

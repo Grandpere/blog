@@ -1,15 +1,40 @@
-.account-image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+.image-container {
+  border: 1px dashed rgba(160, 160, 160, 0.4);
+  margin: 1rem auto;
+  position: relative;
+  padding: 2rem;
 }
 
-.account-image img {
+.account-image {
   max-width: 100%;
   height: auto;
   border-radius: 50%;
 }
+
+.content-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content-overlay .content {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content-overlay .content a {
+  text-decoration: none;
+  padding: .5rem;
+  margin: .5rem;
+}
+
+.content-overlay a:hover {
+  background-color: rgba(0, 0, 0, .1);
+  transition: all 300ms ease 0s;
+}
+
 
 form fieldset {
   margin: 0 auto 1rem;

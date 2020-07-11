@@ -6,7 +6,6 @@ use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use http\Exception\InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -56,7 +55,7 @@ class CommentRepository extends ServiceEntityRepository
     public function findAllByArticleOrderedByNewest($article, $page = 1, $maxResults = 10)
     {
         if(!is_numeric($page)) {
-            throw new InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
+            throw new \InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
         }
 
         if($page < 1) {
@@ -64,7 +63,7 @@ class CommentRepository extends ServiceEntityRepository
         }
 
         if(!is_numeric($maxResults)) {
-            throw new InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
+            throw new \InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
         }
 
         $query = $this->createQueryBuilder('c')

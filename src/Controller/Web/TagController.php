@@ -23,7 +23,7 @@ class TagController extends AbstractController
 
         $maxArticlePerPage = $this->getParameter('max_article_per_page');
 
-        $articles = $articleRepository->findAllByTagOrderedByNewest($tag, $page, $maxArticlePerPage);
+        $articles = $articleRepository->findAllActiveByTagOrderedByNewest($tag, $page, $maxArticlePerPage);
         $pagination = array(
             'page' => $page,
             'route' => 'web_tags_show',

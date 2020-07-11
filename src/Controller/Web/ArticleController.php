@@ -30,7 +30,7 @@ class ArticleController extends AbstractController
     {
         $maxArticlePerPage = $this->getParameter('max_article_per_page');
 
-        $articles = $articleRepository->findAllOrderedByNewest($page, $maxArticlePerPage);
+        $articles = $articleRepository->findAllActiveOrderedByNewest($page, $maxArticlePerPage);
         $pagination = array(
             'page' => $page,
             'route' => 'web_articles_index',
@@ -113,7 +113,7 @@ class ArticleController extends AbstractController
      */
     public function show(string $slug, ArticleRepository $articleRepository, Request $request, ViewRepository $viewRepository)
     {
-        $article = $articleRepository->findOneBySlug($slug);
+        $article = $articleRepository->findOneActiveBySlug($slug);
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }
@@ -237,7 +237,7 @@ class ArticleController extends AbstractController
      */
     public function comments(Request $request, string $slug, ArticleRepository $articleRepository, CommentRepository $commentRepository, $page = 1)
     {
-        $article = $articleRepository->findOneBySlug($slug);
+        $article = $articleRepository->findOneActiveBySlug($slug);
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }
