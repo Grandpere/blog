@@ -18,13 +18,14 @@ function handleOnSubmitReport(evt) {
     ).done(function(response) {
         const toast = $('#toast-container > #toasts .toast');
         toast.addClass('toast-success');
+        toast.find('.toast-header strong').html('<i class="fas fa-check-circle text-success"></i> <span>Success</span>');
         toast.find('.toast-body').text(response.message);
         toast.toast('show');
     }).fail(function(response) {
-        console.error(response);
         const toast = $('#toast-container > #toasts .toast');
         toast.addClass('toast-error');
-        toast.find('.toast-body').text("Oops, unexpected error !");
+        toast.find('.toast-header strong').html('<i class="fas fa-exclamation-circle text-danger"></i> <span>An Error occured</span>');
+        response.hasOwnProperty('responseJSON') ? toast.find('.toast-body').text(response.responseJSON.message) : toast.find('.toast-body').text('Oops, an error occured');
         toast.toast('show');
     });
 }

@@ -13,17 +13,23 @@
 }
 
 #toasts .toast {
-  min-width: 150px;
+  min-width: 175px;
+}
+
+.toast-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.toast-body {
+  background-color: rgba(255, 255, 255, .85);
 }
 
 .toast-success {
   background-color: $toast-success;
-  color: #fff;
 }
 
 .toast-error {
   background-color: $toast-error;
-  color: #fff;
 }
 
 .post {
