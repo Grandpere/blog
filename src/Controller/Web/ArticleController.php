@@ -113,7 +113,7 @@ class ArticleController extends AbstractController
      */
     public function show(string $slug, ArticleRepository $articleRepository, Request $request, ViewRepository $viewRepository)
     {
-        $article = $articleRepository->findOneBySlugWithTags($slug);
+        $article = $articleRepository->findOneBySlug($slug);
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }
@@ -237,7 +237,7 @@ class ArticleController extends AbstractController
      */
     public function comments(Request $request, string $slug, ArticleRepository $articleRepository, CommentRepository $commentRepository, $page = 1)
     {
-        $article = $articleRepository->findOneBySlugWithTags($slug);
+        $article = $articleRepository->findOneBySlug($slug);
         if(!$article) {
             throw $this->createNotFoundException('Article introuvable');
         }

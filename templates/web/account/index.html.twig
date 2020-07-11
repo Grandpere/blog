@@ -20,16 +20,49 @@
 {% endblock %}
 
 {% block account_content %}
-    <div class="account-image mb-2" style="position: absolute; top: 0; right: 1rem;">
-        <img src="{{ user.avatar }}">
+    <div>
+        <h3>General</h3>
+        <div class="account-image mb-2" style="position: absolute; top: 0; right: 1rem;">
+            <img src="{{ user.avatar }}">
+        </div>
+        <p>Username : <span>{{ user.username }}</span></p>
+        <p>Email : <span>{{ user.email }}</span></p>
+        <p>Firstname : <span>{{ user.firstname }}</span></p>
+        <p>Lastname : <span>{{ user.lastname }}</span></p>
+        <p>Website : <span>{{ user.website }}</span></p>
+        <p>Linkedin : <span>{{ user.linkedin }}</span></p>
+        <p>Twitter : <span>{{ user.twitter }}</span></p>
+        <p>Github : <span>{{ user.github }}</span></p>
+        <p>StackOverflow : <span>{{ user.stackOverflow }}</span></p>
     </div>
-    <p>Username : <span>{{ user.username }}</span></p>
-    <p>Email : <span>{{ user.email }}</span></p>
-    <p>Firstname : <span>{{ user.firstname }}</span></p>
-    <p>Lastname : <span>{{ user.lastname }}</span></p>
-    <p>Website : <span>{{ user.website }}</span></p>
-    <p>Linkedin : <span>{{ user.linkedin }}</span></p>
-    <p>Twitter : <span>{{ user.twitter }}</span></p>
-    <p>Github : <span>{{ user.github }}</span></p>
-    <p>StackOverflow : <span>{{ user.stackOverflow }}</span></p>
+    <div>
+        <h3>Articles</h3>
+        <ul>
+        {% for article in user.articles %}
+           <li><a href="{{ path('web_articles_show', {'slug':article.slug}) }}">{{ article.title }}</a></li>
+        {% else %}
+            <p>No content</p>
+        {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h3>Likes</h3>
+        <ul>
+            {% for like in user.likes %}
+                <li><a href="{{ path('web_articles_show', {'slug':like.article.slug}) }}">{{ like.article.title }}</a></li>
+            {% else %}
+                <p>No content</p>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h3>Views</h3>
+        <ul>
+            {% for view in user.views %}
+                <li><a href="{{ path('web_articles_show', {'slug':view.article.slug}) }}">{{ view.article.title }}</a></li>
+            {% else %}
+                <p>No content</p>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

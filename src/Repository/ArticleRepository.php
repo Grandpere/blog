@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -130,17 +131,47 @@ class ArticleRepository extends ServiceEntityRepository
         return $paginator;
     }
 
-    public function findOneBySlugWithTags($slug): ?Article
+
+    public function findOneBySlug($slug): ?Article
     {
         return $this->createQueryBuilder('a')
+            ->andWhere('a.slug = :slug')
+            ->setParameter('slug', $slug)
             ->andWhere('a.isActive = true')
             ->innerJoin('a.author', 'u')
             ->addSelect('u')
             ->leftJoin('a.tags', 't')
             ->addSelect('t')
-            ->andWhere('a.slug = :slug')
-            ->setParameter('slug', $slug)
+            ->leftJoin('a.views', 'v')
+            ->addSelect('v')
+            ->leftJoin('a.likes', 'l')
+            ->addSelect('l')
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('c')
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /*
+    public static function createIsActiveCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isActive', true))
+            ;
+    }
+
+    public static function createIsNotActiveCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isActive', false))
+            ;
+    }
+
+    public static function createIsNotModerateCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isModerate', false))
+            ;
+    }
+    */
 }
