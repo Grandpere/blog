@@ -91,12 +91,6 @@ class Article
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"article_read", "article_readOne"})
-     */
-    private $isActive;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles", cascade={"persist"})
      * @Groups({"article_read", "article_readOne"})
      */
@@ -125,6 +119,12 @@ class Article
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"article_read", "article_readOne"})
+     */
+    private $isActive;
+
+    /**
+     * @ORM\Column(type="boolean")
      */
     private $isReported;
 
@@ -136,11 +136,11 @@ class Article
     public function __construct()
     {
         $this->tags = new ArrayCollection();
-        $this->createdAt = new \Datetime();
-        $this->isActive = false;
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->views = new ArrayCollection();
+        $this->createdAt = new \Datetime();
+        $this->isActive = false;
         $this->isReported = false;
         $this->isModerate = false;
     }
@@ -257,18 +257,6 @@ class Article
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getIsActive(): ?bool
-    {
-        return $this->isActive;
-    }
-
-    public function setIsActive(bool $isActive): self
-    {
-        $this->isActive = $isActive;
 
         return $this;
     }
@@ -433,6 +421,43 @@ class Article
         return $this;
     }
 
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+
+    public function getIsReported(): ?bool
+    {
+        return $this->isReported;
+    }
+
+    public function setIsReported(bool $isReported): self
+    {
+        $this->isReported = $isReported;
+
+        return $this;
+    }
+
+    public function getIsModerate(): ?bool
+    {
+        return $this->isModerate;
+    }
+
+    public function setIsModerate(bool $isModerate): self
+    {
+        $this->isModerate = $isModerate;
+
+        return $this;
+    }
+
     /**
      * return report status of article
      * @return bool|null
@@ -445,7 +470,7 @@ class Article
     /**
      * report or unreport an article
      */
-    public function report()
+    public function report($test = null)
     {
         $this->isReported = !$this->isReported;
     }
@@ -462,7 +487,7 @@ class Article
     /**
      * moderate or unmoderate an article
      */
-    public function moderate()
+    public function moderate($test = null)
     {
         $this->isModerate = !$this->isModerate;
     }

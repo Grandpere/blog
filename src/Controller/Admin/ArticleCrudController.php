@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleCrudController extends AbstractCrudController
 {
@@ -29,13 +30,14 @@ class ArticleCrudController extends AbstractCrudController
             SlugField::new('slug')->setTargetFieldName('title')->hideOnForm(),
             TextEditorField::new('content'),
             TextareaField::new('excerpt'),
-            ImageField::new('coverImage'),
+            ImageField::new('coverImage')->setLabel('Cover')->setBasePath('/uploads/articles/covers')->hideOnForm(),
+            ImageField::new('imageFile')->setFormType(VichImageType::class)->setLabel('Cover')->hideOnIndex(),
             DateTimeField::new('createdAt')->hideOnForm(),
             DateTimeField::new('updatedAt')->hideOnForm(),
-            BooleanField::new('isactive', 'Active'),
-            BooleanField::new('report'),
-            BooleanField::new('moderate'),
-            AssociationField::new('author')->hideOnForm()
+            BooleanField::new('isActive', 'Active'),
+            BooleanField::new('isReported', 'Reported'),
+            BooleanField::new('isModerate', 'Moderated'),
+            AssociationField::new('author')
         ];
     }
 }
