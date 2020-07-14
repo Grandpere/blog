@@ -38,7 +38,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        $fields = [
             IdField::new('id')->hideOnForm(),
             EmailField::new('email'),
             ArrayField::new('roles'),
@@ -53,9 +53,18 @@ class UserCrudController extends AbstractCrudController
             UrlField::new('stackoverflow')->hideOnIndex(),
             BooleanField::new('isActive', 'Active'),
             DateTimeField::new('lastLogin')->hideOnForm(),
-            AssociationField::new('articles')->hideOnForm()->hideOnIndex(),
-            DateTimeField::new('agreedTermsAt', 'Agreed terms')->onlyWhenCreating(),
+            AssociationField::new('articles')->hideOnForm(),
+            TextField::new('accountValidationToken')->onlyOnDetail(),
+            DateTimeField::new('validationTokenCreatedAt')->onlyOnDetail(),
+            TextField::new('resetPasswordToken')->onlyOnDetail(),
+            DateTimeField::new('passwordTokenCreatedAt')->onlyOnDetail(),
         ];
+
+        if(Crud::PAGE_EDIT !== $pageName) {
+            $fields[] = DateTimeField::new('agreedTermsAt', 'Agreed terms');
+        }
+
+        return $fields;
     }
 
     public function configureActions(Actions $actions): Actions

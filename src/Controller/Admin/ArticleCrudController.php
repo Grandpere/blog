@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -25,19 +28,29 @@ class ArticleCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
+            IdField::new('id')->hideOnForm()->hideOnDetail(),
             TextField::new('title'),
-            SlugField::new('slug')->setTargetFieldName('title')->hideOnForm(),
+            SlugField::new('slug')->setTargetFieldName('title')->hideOnIndex()->hideOnForm(),
             TextEditorField::new('content'),
-            TextareaField::new('excerpt'),
+            TextareaField::new('excerpt')->hideOnIndex(),
             ImageField::new('coverImage')->setLabel('Cover')->setBasePath('/uploads/articles/covers')->hideOnForm(),
-            ImageField::new('imageFile')->setFormType(VichImageType::class)->setLabel('Cover')->hideOnIndex(),
+            ImageField::new('imageFile')->setFormType(VichImageType::class)->setLabel('Cover')->hideOnIndex()->hideOnDetail(),
             DateTimeField::new('createdAt')->hideOnForm(),
             DateTimeField::new('updatedAt')->hideOnForm(),
             BooleanField::new('isActive', 'Active'),
             BooleanField::new('isReported', 'Reported'),
             BooleanField::new('isModerate', 'Moderated'),
-            AssociationField::new('author')->hideOnIndex()
+            AssociationField::new('author')->hideOnIndex(),
+            AssociationField::new('views')->hideOnForm(),
+            AssociationField::new('likes')->hideOnForm(),
+            AssociationField::new('comments')->hideOnForm()
         ];
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return parent::configureActions($actions)
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ;
     }
 }

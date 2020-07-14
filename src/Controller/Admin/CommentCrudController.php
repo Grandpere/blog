@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Comment;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -30,13 +31,13 @@ class CommentCrudController extends AbstractCrudController
             DateTimeField::new('createdAt'),
             DateTimeField::new('updatedAt'),
             BooleanField::new('isActive', 'Active'),
-            AssociationField::new('article'),
-            TextField::new('authorName'),
-            EmailField::new('authorEmail'),
-            UrlField::new('authorWebsite'),
-            IntegerField::new('depth')->hideOnIndex(),
-            AssociationField::new('parent')->hideOnIndex(),
-            AssociationField::new('childrens')->hideOnIndex()
+            AssociationField::new('article')->hideOnIndex(),
+            TextField::new('authorName')->hideOnIndex(),
+            EmailField::new('authorEmail')->hideOnIndex(),
+            UrlField::new('authorWebsite')->hideOnIndex(),
+            IntegerField::new('depth'),
+            AssociationField::new('parent'),
+            AssociationField::new('childrens')
         ];
     }
 
@@ -44,6 +45,7 @@ class CommentCrudController extends AbstractCrudController
     {
         return parent::configureActions($actions)
             ->disable(Action::NEW)
-            ;
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        ;
     }
 }
