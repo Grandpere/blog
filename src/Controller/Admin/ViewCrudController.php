@@ -25,8 +25,8 @@ class ViewCrudController extends AbstractCrudController
             DateTimeField::new('viewedAt'),
             TextField::new('clientIp'),
             TextField::new('userAgent'),
-            AssociationField::new('article')->hideOnForm(),
-            AssociationField::new('userLogged')->hideOnForm()
+            AssociationField::new('article'),
+            AssociationField::new('userLogged')
         ];
     }
 

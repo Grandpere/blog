@@ -23,8 +23,8 @@ class LikeCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             DateTimeField::new('likedAt'),
-            AssociationField::new('article')->hideOnForm(),
-            AssociationField::new('user')->hideOnForm(),
+            AssociationField::new('article'),
+            AssociationField::new('user'),
         ];
     }
 
