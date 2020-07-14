@@ -29,7 +29,6 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'mapped' => false,
                 'first_options' => [
                     'label' => 'Password'
                 ],
@@ -38,17 +37,6 @@ class RegistrationFormType extends AbstractType
                 ],
                 'invalid_message' => 'Les deux mots de passe doivent être identiques',
                 'required' => true,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
             ])
         ;
     }

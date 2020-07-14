@@ -39,7 +39,7 @@ class AccountController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    'Article Updated'
+                    'User Updated'
                 );
 
                 return $this->redirectToRoute('web_account_index', ['id' => $user->getId()]);
