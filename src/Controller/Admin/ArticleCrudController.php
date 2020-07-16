@@ -40,7 +40,7 @@ class ArticleCrudController extends AbstractCrudController
             BooleanField::new('isActive', 'Active'),
             BooleanField::new('isReported', 'Reported'),
             BooleanField::new('isModerate', 'Moderated'),
-            AssociationField::new('author')->hideOnIndex(),
+            AssociationField::new('author')->hideOnIndex()->autocomplete(),
             AssociationField::new('views')->hideOnForm(),
             AssociationField::new('likes')->hideOnForm(),
             AssociationField::new('comments')->hideOnForm()
