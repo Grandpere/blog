@@ -6,6 +6,7 @@ use App\Entity\Article;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -51,6 +52,19 @@ class ArticleCrudController extends AbstractCrudController
     {
         return parent::configureActions($actions)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return parent::configureFilters($filters)
+            ->add('isActive')
+            ->add('isReported')
+            ->add('isModerate')
+            ->add('coverImage')
+            ->add('createdAt')
+            ->add('updatedAt')
+            ->add('author')
             ;
     }
 }
