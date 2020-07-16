@@ -39,7 +39,7 @@ class AccountController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    'Article Updated'
+                    'User Updated'
                 );
 
                 return $this->redirectToRoute('web_account_index', ['id' => $user->getId()]);
@@ -97,7 +97,10 @@ class AccountController extends AbstractController
      */
     public function show(User $user = null)
     {
-        if(!$user || in_array('ROLE_ADMIN', $user->getRoles())) {
+        if(!$user) {
+            throw $this->createNotFoundException('User introuvable');
+        }
+        if(in_array('ROLE_ADMIN', $user->getRoles()) && $this->getUser() != $user) {
             throw $this->createNotFoundException('User introuvable');
         }
 

@@ -48,6 +48,16 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min = 6,
+     *     max = 4096,
+     *     minMessage = "Your password should be at least {{ limit }} characters",
+     * )
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
@@ -217,6 +227,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPlainPassword(): string
+    {
+        return (string) $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
@@ -231,7 +253,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getFirstname(): ?string
@@ -546,5 +568,10 @@ class User implements UserInterface
         $this->stackOverflow = $stackOverflow;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->email;
     }
 }
