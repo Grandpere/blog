@@ -457,38 +457,4 @@ class Article
 
         return $this;
     }
-
-    /**
-     * return report status of article
-     * @return bool|null
-     */
-    public function isReport(): ?bool
-    {
-        return $this->isReported;
-    }
-
-    /**
-     * report or unreport an article
-     */
-    public function report($test = null)
-    {
-        $this->isReported = !$this->isReported;
-    }
-
-    /**
-     * return moderate status of article
-     * @return bool|null
-     */
-    public function isModerate(): ?bool
-    {
-        return $this->isModerate;
-    }
-
-    /**
-     * moderate or unmoderate an article
-     */
-    public function moderate($test = null)
-    {
-        $this->isModerate = !$this->isModerate;
-    }
 }

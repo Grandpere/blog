@@ -184,7 +184,7 @@ class ArticleController extends AbstractController
 
         if ($this->isCsrfTokenValid('article-report'.$article->getId(), $request->request->get('_token'))) {
             if(!$article->getIsReported()) {
-                $article->SetIsReported();
+                $article->SetIsReported(true);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
             }
