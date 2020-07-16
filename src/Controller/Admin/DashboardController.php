@@ -37,22 +37,23 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linktoDashboard('Dashboard home', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'icon class', EntityClass::class);
 
-        yield MenuItem::subMenu('Blog')->setSubItems([
+        yield MenuItem::subMenu('Blog', 'far fa-newspaper')->setSubItems([
             MenuItem::linkToCrud('Articles','fas fa-newspaper', Article::class),
             MenuItem::linkToCrud('Tags','fas fa-tag', Tag::class),
             MenuItem::linkToCrud('Comments','fas fa-comment', Comment::class),
         ]);
 
-        yield MenuItem::subMenu('Statistics')->setSubItems([
+        yield MenuItem::subMenu('Statistics', 'fas fa-info-circle')->setSubItems([
             MenuItem::linkToCrud('Likes','fas fa-thumbs-up', Like::class),
             MenuItem::linkToCrud('Views','fas fa-eye', View::class),
         ]);
 
-        yield MenuItem::section('Users');
-        yield MenuItem::linkToCrud('Users','fas fa-user', User::class);
+        yield MenuItem::subMenu('Users', 'fas fa-users')->setSubItems([
+            MenuItem::linkToCrud('Users','fas fa-user', User::class),
+        ]);
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
