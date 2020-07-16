@@ -32,6 +32,8 @@ class CommentCrudController extends AbstractCrudController
             DateTimeField::new('createdAt'),
             DateTimeField::new('updatedAt'),
             BooleanField::new('isActive', 'Active'),
+            BooleanField::new('isReported', 'Reported'),
+            BooleanField::new('isModerate', 'Moderate'),
             AssociationField::new('article')->hideOnIndex(),
             TextField::new('authorName')->hideOnIndex(),
             EmailField::new('authorEmail')->hideOnIndex(),
@@ -54,6 +56,8 @@ class CommentCrudController extends AbstractCrudController
     {
         return parent::configureFilters($filters)
             ->add('isActive')
+            ->add('isReported')
+            ->add('isModerate')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('authorName')
