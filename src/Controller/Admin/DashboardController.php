@@ -40,11 +40,18 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'icon class', EntityClass::class);
 
-        yield MenuItem::linkToCrud('Articles','fas fa-newspaper', Article::class);
-        yield MenuItem::linkToCrud('Tags','fas fa-tag', Tag::class);
-        yield MenuItem::linkToCrud('Comments','fas fa-comment', Comment::class);
-        yield MenuItem::linkToCrud('Likes','fas fa-thumbs-up', Like::class);
-        yield MenuItem::linkToCrud('Views','fas fa-eye', View::class);
+        yield MenuItem::subMenu('Blog')->setSubItems([
+            MenuItem::linkToCrud('Articles','fas fa-newspaper', Article::class),
+            MenuItem::linkToCrud('Tags','fas fa-tag', Tag::class),
+            MenuItem::linkToCrud('Comments','fas fa-comment', Comment::class),
+        ]);
+
+        yield MenuItem::subMenu('Statistics')->setSubItems([
+            MenuItem::linkToCrud('Likes','fas fa-thumbs-up', Like::class),
+            MenuItem::linkToCrud('Views','fas fa-eye', View::class),
+        ]);
+
+        yield MenuItem::section('Users');
         yield MenuItem::linkToCrud('Users','fas fa-user', User::class);
     }
 
