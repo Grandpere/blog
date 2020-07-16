@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -456,5 +457,12 @@ class Article
         $this->isModerate = $isModerate;
 
         return $this;
+    }
+
+
+    public function getActiveAndNotModerateComments(): Collection
+    {
+        $criteria = ArticleRepository::createActiveAndNotModerateCriteria();
+        return $this->comments->matching($criteria);
     }
 }

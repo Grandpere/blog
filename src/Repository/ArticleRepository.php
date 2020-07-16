@@ -150,6 +150,14 @@ class ArticleRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public static function createActiveAndNotModerateCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isActive', true))
+            ->andWhere(Criteria::expr()->eq('isModerate', false))
+            ;
+    }
+
     /*
     public static function createIsActiveCriteria(): Criteria
     {

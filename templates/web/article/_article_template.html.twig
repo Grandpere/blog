@@ -112,7 +112,7 @@
             <li class="comments">
                 <a href="{{ path('web_articles_comments', {'slug': article.slug}) }}" class="button">
                     <i class="fa fa-comment"></i>
-                    <span>{{ article.comments|length }}</span>
+                    <span>{{ article.getActiveAndNotModerateComments|length }}</span>
                     <span class="d-none d-sm-inline-block">comments</span>
                 </a>
             </li>

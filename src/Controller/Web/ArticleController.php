@@ -195,6 +195,29 @@ class ArticleController extends AbstractController
     }
 
     /**
+     * @Route("/comments/{commentId}/report", name="comments_report", methods={"POST"}, requirements={"slug"="[a-zA-Z0-9-]+", "commentId"="\d+"})
+     */
+    public function reportComment($commentId, CommentRepository $commentRepository, Request $request)
+    {
+        $comment = $commentRepository->find($commentId);
+        if(!$comment) {
+            return new JsonResponse(['code' => 404, 'message' => 'Comment Not Found'], 404);
+        }
+
+        if ($this->isCsrfTokenValid('comment-report'.$comment->getId(), $request->request->get('_token'))) {
+            if(!$comment->getIsReported()) {
+                $comment->SetIsReported(true);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+            }
+            return new JsonResponse(['code' => 200, 'message' => 'Comment reported'], 200);
+        }
+
+        return new JsonResponse(['code' => 400, 'message' => 'Invalid Csrf Token'], 400);
+    }
+
+    /**
      * @Route("/{slug}/like", name="like", methods={"POST"}, requirements={"slug"="[a-zA-Z0-9-]+"})
      */
     public function like(Article $article = null, Request $request, LikeRepository $likeRepository)
@@ -270,31 +293,7 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('web_articles_comments', ['slug' => $article->getSlug(), 'page' => $page]);
         }
 
-        /*
-         // OLD METHOD WITH PAGINATION BUT TOO MANY REQUESTS FOR CHILD COMMENTS
-        $maxCommentPerPage = $this->getParameter('max_comment_per_page');
-
-        $comments = $commentRepository->findAllByArticleOrderedByNewest($article, $page, $maxCommentPerPage);
-        //$commentsCount = $commentRepository->countActiveComments($article);
-
-        $pagination = array(
-            'page' => $page,
-            'route' => 'web_articles_comments',
-            'pages_count' => max(ceil(count($comments) / $maxCommentPerPage), 1),
-            'route_params' => array(
-                'slug' => $article->getSlug(),
-            )
-        );
-        return $this->render('web/article/comments.html.twig', [
-            'article' => $article,
-            //'commentsCount' => $commentsCount,
-            'comments' => $comments,
-            'pagination' => $pagination,
-            'form' => $form->createView(),
-        ]);
-        */
-
-        $comments = $commentRepository->findAllActiveByArticleOrderedByNewest($article);
+        $comments = $article->getActiveAndNotModerateComments();
         $results = [];
         // limitation a une profondeur de 2 donc parent -> enfant -> petit-enfant
         foreach ($comments as $comment) {
@@ -317,7 +316,6 @@ class ArticleController extends AbstractController
 
         return $this->render('web/article/comments.html.twig', [
             'article' => $article,
-            'comments' => $comments,
             'results' => $results,
             'form' => $form->createView(),
         ]);

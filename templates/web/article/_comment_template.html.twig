@@ -29,7 +29,7 @@
         <div class="dropdown" style="float:right;">
             <button class="dropbtn"><i class="fas fa-ellipsis-h"></i></button>
             <div class="dropdown-content">
-                <form id="js-form-report" method="post" action="{{ path('web_articles_report', {'slug':article.slug}) }}">
+                <form id="js-form-report" method="post" action="{{ path('web_articles_comments_report', {'commentId': comment.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('comment-report' ~ comment.id) }}">
                     <button><span>Report comment</span></button>
                 </form>
