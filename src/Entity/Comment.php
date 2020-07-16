@@ -42,11 +42,6 @@ class Comment
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isActive;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -93,12 +88,30 @@ class Comment
      */
     private $childrens;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isReported;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isModerate;
+
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
-        $this->isActive = true;
         $this->depth = 0;
         $this->childrens = new ArrayCollection();
+        $this->isActive = true;
+        $this->isReported = false;
+        $this->isModerate = false;
     }
 
     public function getId(): ?int
@@ -138,18 +151,6 @@ class Comment
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getIsActive(): ?bool
-    {
-        return $this->isActive;
-    }
-
-    public function setIsActive(bool $isActive): self
-    {
-        $this->isActive = $isActive;
 
         return $this;
     }
@@ -263,6 +264,42 @@ class Comment
                 $children->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getIsReported(): ?bool
+    {
+        return $this->isReported;
+    }
+
+    public function setIsReported(bool $isReported): self
+    {
+        $this->isReported = $isReported;
+
+        return $this;
+    }
+
+    public function getIsModerate(): ?bool
+    {
+        return $this->isModerate;
+    }
+
+    public function setIsModerate(bool $isModerate): self
+    {
+        $this->isModerate = $isModerate;
 
         return $this;
     }
