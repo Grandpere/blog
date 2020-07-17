@@ -8,7 +8,7 @@ use App\Entity\Comment;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class EasyAdminSubscriber implements EventSubscriberInterface
+class EasyAdminCommentUpdateSubscriber implements EventSubscriberInterface
 {
 
     public static function getSubscribedEvents()
@@ -27,8 +27,15 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
         if($entity->getIsModerate()) {
             $childrens = $entity->getChildrens();
+            // deactivate childs
             foreach ($childrens as $children) {
                 $children->setIsActive(false);
+
+                $childs = $children->getChildrens();
+                // deactivate child's childs
+                foreach ($childs as $child) {
+                    $child->setIsActive(false);
+                }
             }
         }
     }
