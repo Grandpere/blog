@@ -31,7 +31,7 @@ class TagCrudController extends AbstractCrudController
             DateTimeField::new('createdAt')->hideOnForm(),
             DateTimeField::new('updatedAt')->hideOnForm(),
             BooleanField::new('isActive', 'Active'),
-            AssociationField::new('articles')->hideOnForm()
+            AssociationField::new('articles')->hideOnForm()->hideOnIndex()
         ];
     }
 

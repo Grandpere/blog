@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\View;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -26,8 +27,8 @@ class ViewCrudController extends AbstractCrudController
             DateTimeField::new('viewedAt'),
             TextField::new('clientIp'),
             TextField::new('userAgent'),
-            AssociationField::new('article'),
-            AssociationField::new('userLogged')
+            AssociationField::new('article')->hideOnIndex(),
+            AssociationField::new('userLogged')->hideOnIndex()
         ];
     }
 
@@ -35,6 +36,7 @@ class ViewCrudController extends AbstractCrudController
     {
         return parent::configureActions($actions)
             ->disable(Action::NEW, Action::EDIT, Action::DELETE)
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ;
     }
 

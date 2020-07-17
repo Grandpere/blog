@@ -39,8 +39,8 @@ class CommentCrudController extends AbstractCrudController
             EmailField::new('authorEmail')->hideOnIndex(),
             UrlField::new('authorWebsite')->hideOnIndex(),
             IntegerField::new('depth'),
-            AssociationField::new('parent'),
-            AssociationField::new('childrens')
+            AssociationField::new('parent')->hideOnIndex(),
+            AssociationField::new('childrens')->hideOnIndex()
         ];
     }
 
