@@ -66,4 +66,12 @@ class CommentCrudController extends AbstractCrudController
             ->add('depth')
             ;
     }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['createdAt'=>'DESC'])
+            ;
+    }
 }

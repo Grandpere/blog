@@ -50,4 +50,12 @@ class TagCrudController extends AbstractCrudController
             ->add('updatedAt')
             ;
     }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['createdAt'=>'DESC'])
+            ;
+    }
 }

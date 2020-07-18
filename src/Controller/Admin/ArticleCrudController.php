@@ -67,4 +67,12 @@ class ArticleCrudController extends AbstractCrudController
             ->add('author')
             ;
     }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['createdAt'=>'DESC'])
+            ;
+    }
 }

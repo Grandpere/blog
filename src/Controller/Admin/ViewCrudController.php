@@ -49,4 +49,12 @@ class ViewCrudController extends AbstractCrudController
             ->add('userLogged')
             ;
     }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['viewedAt'=>'DESC'])
+            ;
+    }
 }
