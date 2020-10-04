@@ -42,9 +42,9 @@ class ArticleCrudController extends AbstractCrudController
             BooleanField::new('isReported', 'Reported'),
             BooleanField::new('isModerate', 'Moderated'),
             AssociationField::new('author')->hideOnIndex()->autocomplete(),
-            AssociationField::new('views')->hideOnForm(),
-            AssociationField::new('likes')->hideOnForm(),
-            AssociationField::new('comments')->hideOnForm()
+            AssociationField::new('views')->hideOnForm()->hideOnIndex(),
+            AssociationField::new('likes')->hideOnForm()->hideOnIndex(),
+            AssociationField::new('comments')->hideOnForm()->hideOnIndex()
         ];
     }
 
@@ -65,6 +65,14 @@ class ArticleCrudController extends AbstractCrudController
             ->add('createdAt')
             ->add('updatedAt')
             ->add('author')
+            ;
+    }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['createdAt'=>'DESC'])
             ;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -458,37 +459,10 @@ class Article
         return $this;
     }
 
-    /**
-     * return report status of article
-     * @return bool|null
-     */
-    public function isReport(): ?bool
-    {
-        return $this->isReported;
-    }
 
-    /**
-     * report or unreport an article
-     */
-    public function report($test = null)
+    public function getActiveAndNotModerateComments(): Collection
     {
-        $this->isReported = !$this->isReported;
-    }
-
-    /**
-     * return moderate status of article
-     * @return bool|null
-     */
-    public function isModerate(): ?bool
-    {
-        return $this->isModerate;
-    }
-
-    /**
-     * moderate or unmoderate an article
-     */
-    public function moderate($test = null)
-    {
-        $this->isModerate = !$this->isModerate;
+        $criteria = ArticleRepository::createActiveAndNotModerateCriteria();
+        return $this->comments->matching($criteria);
     }
 }

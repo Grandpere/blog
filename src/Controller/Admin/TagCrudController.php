@@ -31,7 +31,7 @@ class TagCrudController extends AbstractCrudController
             DateTimeField::new('createdAt')->hideOnForm(),
             DateTimeField::new('updatedAt')->hideOnForm(),
             BooleanField::new('isActive', 'Active'),
-            AssociationField::new('articles')->hideOnForm()
+            AssociationField::new('articles')->hideOnForm()->hideOnIndex()
         ];
     }
 
@@ -48,6 +48,14 @@ class TagCrudController extends AbstractCrudController
             ->add('isActive')
             ->add('createdAt')
             ->add('updatedAt')
+            ;
+    }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['createdAt'=>'DESC'])
             ;
     }
 }

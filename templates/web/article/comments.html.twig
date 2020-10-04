@@ -13,7 +13,7 @@
         </header>
         <div class="comment-container row">
             <div class="col-sm-12">
-                <h3><i class="pr-2 fa fa-comment"></i>{{ comments|length }} Comments</h3>
+                <h3><i class="pr-2 fa fa-comment"></i>{{ article.getActiveAndNotModerateComments|length }} Comments</h3>
                 <hr>
                 {# form submit comments #}
                 <div class="comment-form row">
@@ -37,8 +37,10 @@
                 {% endmacro %}
                 {# ============================== COMMENT'S MACRO ============================== #}
                 {% for commentArray in results %}
-                    {% include 'web/article/_comment_template.html.twig' with {'comment': commentArray.comment} %}
-                    {{ _self.isChildrensExists(commentArray) }}
+                    {% if commentArray.comment is defined %}
+                        {% include 'web/article/_comment_template.html.twig' with {'comment': commentArray.comment} %}
+                        {{ _self.isChildrensExists(commentArray) }}
+                    {% endif %}
                 {% else %}
                     <div class="row">
                         <div class="col-sm-12">
@@ -48,7 +50,6 @@
                         </div>
                     </div>
                 {% endfor %}
-                {#{% include '_pagination.html.twig' %}#}
             </div>
         </div>
         <footer>
@@ -62,5 +63,6 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('comment_reply-comment') }}
+    {{ encore_entry_script_tags('article_report') }}
 {% endblock %}
 

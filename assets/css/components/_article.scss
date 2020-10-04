@@ -192,7 +192,17 @@ ul.actions a:hover {
   margin-left:  calc(30px + 10px + 30px + 10px);
 }
 
+.comment-reply-container {
+  display: flex;
+  align-items: start;
+  justify-items: start;
+}
+
 .comment-img {
   width: 30px;
   margin-right: 10px;
+}
+
+.comment-container-content {
+  flex: 1;
 }

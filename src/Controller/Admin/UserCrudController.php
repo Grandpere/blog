@@ -54,7 +54,7 @@ class UserCrudController extends AbstractCrudController
             UrlField::new('stackoverflow')->hideOnIndex(),
             BooleanField::new('isActive', 'Active'),
             DateTimeField::new('lastLogin')->hideOnForm(),
-            AssociationField::new('articles')->hideOnForm(),
+            AssociationField::new('articles')->hideOnForm()->hideOnIndex(),
             TextField::new('accountValidationToken')->onlyOnDetail(),
             DateTimeField::new('validationTokenCreatedAt')->onlyOnDetail(),
             TextField::new('resetPasswordToken')->onlyOnDetail(),

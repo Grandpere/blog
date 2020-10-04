@@ -32,13 +32,15 @@ class CommentCrudController extends AbstractCrudController
             DateTimeField::new('createdAt'),
             DateTimeField::new('updatedAt'),
             BooleanField::new('isActive', 'Active'),
+            BooleanField::new('isReported', 'Reported'),
+            BooleanField::new('isModerate', 'Moderate'),
             AssociationField::new('article')->hideOnIndex(),
             TextField::new('authorName')->hideOnIndex(),
             EmailField::new('authorEmail')->hideOnIndex(),
             UrlField::new('authorWebsite')->hideOnIndex(),
             IntegerField::new('depth'),
-            AssociationField::new('parent'),
-            AssociationField::new('childrens')
+            AssociationField::new('parent')->hideOnIndex(),
+            AssociationField::new('childrens')->hideOnIndex()
         ];
     }
 
@@ -54,12 +56,22 @@ class CommentCrudController extends AbstractCrudController
     {
         return parent::configureFilters($filters)
             ->add('isActive')
+            ->add('isReported')
+            ->add('isModerate')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('authorName')
             ->add('authorEmail')
             ->add('authorWebsite')
             ->add('depth')
+            ;
+    }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['createdAt'=>'DESC'])
             ;
     }
 }

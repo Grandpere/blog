@@ -24,8 +24,8 @@ class LikeCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             DateTimeField::new('likedAt'),
-            AssociationField::new('article'),
-            AssociationField::new('user'),
+            AssociationField::new('article')->hideOnIndex(),
+            AssociationField::new('user')->hideOnIndex(),
         ];
     }
 
@@ -33,6 +33,7 @@ class LikeCrudController extends AbstractCrudController
     {
         return parent::configureActions($actions)
             ->disable(Action::NEW, Action::EDIT, Action::DELETE)
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
         ;
     }
 
@@ -41,6 +42,14 @@ class LikeCrudController extends AbstractCrudController
         return parent::configureFilters($filters)
             ->add('likedAt')
             ->add('user')
+            ;
+    }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['likedAt'=>'DESC'])
             ;
     }
 }

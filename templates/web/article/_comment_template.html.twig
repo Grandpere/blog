@@ -1,7 +1,7 @@
 <div class="comment mb-3" id="comment-{{ comment.id }}">
-    <div class="comment-content-container d-flex align-items-start justify-content-start comment-size comment-size--{{ comment.depth }}">
+    <div class="comment-reply-container comment-size comment-size--{{ comment.depth }}">
         <img class="comment-img rounded-circle" src="{{ gravatar.getGravatar(comment.authorEmail) }}">
-        <div>
+        <div class="comment-container-content">
             <p class="comment-author mb-1">
                 {% if comment.authorWebsite is not null %}
                 <a href="{{ comment.authorWebsite }}">{{ comment.authorName }}</a>
@@ -16,11 +16,6 @@
                     </a>
                 </small>
             </p>
-            {#
-            {% if comment.isDeleted %}
-                <span class="fa fa-close"></span> deleted
-            {% endif %}
-            #}
             <br>
             <p class="comment-content">
                 {{ comment.content }}
@@ -30,6 +25,15 @@
                 <a class="btn btn-sm btn-outline-secondary reply" data-commentid="{{ comment.id }}" href="#comment-form">Reply</a>
             </p>
             {% endif %}
+        </div>
+        <div class="dropdown" style="float:right;">
+            <button class="dropbtn"><i class="fas fa-ellipsis-h"></i></button>
+            <div class="dropdown-content">
+                <form id="js-form-report" method="post" action="{{ path('web_articles_comments_report', {'commentId': comment.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('comment-report' ~ comment.id) }}">
+                    <button><span>Report comment</span></button>
+                </form>
+            </div>
         </div>
     </div>
     <hr>

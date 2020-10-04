@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -49,60 +50,4 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    /*
-    // OLD METHOD WITH PAGINATION BUT TOO MANY REQUESTS FOR CHILD COMMENTS
-    public function findAllByArticleOrderedByNewest($article, $page = 1, $maxResults = 10)
-    {
-        if(!is_numeric($page)) {
-            throw new \InvalidArgumentException('$page argument are incorrect (value : '.$page. ').');
-        }
-
-        if($page < 1) {
-            throw new NotFoundHttpException('This page doesn\'t exist');
-        }
-
-        if(!is_numeric($maxResults)) {
-            throw new \InvalidArgumentException('$maxResults argument are incorrect (value : '.$maxResults. ').');
-        }
-
-        $query = $this->createQueryBuilder('c')
-            ->leftJoin('c.childrens', 'cc')
-            ->addSelect('cc')
-            ->andWhere('c.article = :article')
-            ->setParameter('article', $article)
-            ->andWhere('c.parent is null')
-            ->orderBy('c.createdAt', 'DESC')
-        ;
-        $firstResults = ($page - 1) * $maxResults;
-        $query
-            ->setFirstResult($firstResults)
-            ->setMaxResults($maxResults)
-        ;
-
-        $paginator = new Paginator($query);
-
-        if (($paginator->count() <= $firstResults) && $page != 1) {
-            throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
-        }
-
-        return $paginator;
-    }
-    */
-
-    public function findAllActiveByArticleOrderedByNewest($article)
-    {
-        return
-            $this->createQueryBuilder('cp')
-            ->leftJoin('cp.parent', 'cc')
-            ->addSelect('cc')
-            ->leftJoin('cc.parent', 'csc')
-            ->addSelect('csc')
-            ->andWhere('cp.article = :article')
-            ->setParameter('article', $article)
-            //->andWhere('cp.parent is null')
-            ->orderBy('cp.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
 }
