@@ -1,14 +1,13 @@
 {
     "devDependencies": {
+        "@adactive/bootstrap-tagsinput": "^0.8.2",
         "@fortawesome/fontawesome-free": "^5.13.0",
         "@symfony/webpack-encore": "^0.33.0",
-        "bootstrap": "^4.5.0",
-        "bootstrap-tagsinput": "^0.7.1",
+        "bootstrap": "^4.5.3",
         "ckeditor4": "^4.14.0",
-        "core-js": "^3.0.0",
+        "core-js": "^3.8.0",
         "jquery": "^3.5.1",
         "node-sass": "^4.14.1",
-        "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^8.0.0",
         "typeahead.js": "^0.11.1",
@@ -21,5 +20,8 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.6.0"
     }
 }
