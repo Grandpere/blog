@@ -3,7 +3,7 @@
         "@adactive/bootstrap-tagsinput": "^0.8.2",
         "@fortawesome/fontawesome-free": "^5.15.1",
         "@symfony/webpack-encore": "1.1.2",
-        "bootstrap": "^4.5.3",
+        "bootstrap": "4.6.0",
         "ckeditor4": "^4.15.1",
         "core-js": "^3.8.1",
         "jquery": "^3.5.1",
