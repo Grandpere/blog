@@ -4,7 +4,7 @@
         "@fortawesome/fontawesome-free": "^5.15.1",
         "@symfony/webpack-encore": "1.1.2",
         "bootstrap": "4.6.0",
-        "ckeditor4": "^4.15.1",
+        "ckeditor4": "^4.16.1",
         "core-js": "3.10.0",
         "jquery": "^3.5.1",
         "node-sass": "^5.0.0",
